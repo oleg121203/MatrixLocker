@@ -213,8 +213,8 @@ class GeneralSettingsViewController: NSViewController {
     
     private func updateAutomaticLockUI() {
         let isEnabled = automaticLockSwitch?.state == .on
-        timeoutSlider?.isEnabled = isEnabled ?? false
-        passwordProtectionSwitch?.isEnabled = isEnabled ?? false
+        timeoutSlider?.isEnabled = isEnabled
+        passwordProtectionSwitch?.isEnabled = isEnabled
         
         // Also update password protection UI
         updatePasswordProtectionUI()
@@ -223,7 +223,7 @@ class GeneralSettingsViewController: NSViewController {
     private func updatePasswordProtectionUI() {
         let automaticLockEnabled = automaticLockSwitch?.state == .on
         let passwordProtectionEnabled = passwordProtectionSwitch?.state == .on
-        let isEnabled = (automaticLockEnabled ?? false) && (passwordProtectionEnabled ?? false)
+        let isEnabled = (automaticLockEnabled) && (passwordProtectionEnabled)
         
         passwordField?.isEnabled = isEnabled
         failedAttemptsStepper?.isEnabled = isEnabled

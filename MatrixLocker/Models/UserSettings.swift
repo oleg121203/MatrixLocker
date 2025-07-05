@@ -17,6 +17,7 @@ class UserSettings {
         static let matrixAnimationSpeed = "matrixAnimationSpeed"
         static let matrixDensity = "matrixDensity"
         static let enableSoundEffects = "enableSoundEffects"
+        static let matrixSoundEffects = "matrixSoundEffects"
         static let showTimeRemaining = "showTimeRemaining"
         static let enableKeyboardShortcuts = "enableKeyboardShortcuts"
         static let hideFromDock = "hideFromDock"
@@ -36,6 +37,7 @@ class UserSettings {
             Keys.matrixAnimationSpeed: 1.0, // Default: normal speed
             Keys.matrixDensity: 0.7, // Default: 70% density
             Keys.enableSoundEffects: true, // Default: sound effects enabled
+            Keys.matrixSoundEffects: true,
             Keys.showTimeRemaining: true, // Default: show time remaining
             Keys.enableKeyboardShortcuts: true, // Default: keyboard shortcuts enabled
             Keys.hideFromDock: false, // Default: show in dock
@@ -144,7 +146,7 @@ class UserSettings {
     }
     
     // MARK: - UI/UX Settings
-    var enableSoundEffects: Bool {
+    var matrixSoundEffects: Bool {
         get {
             return defaults.bool(forKey: Keys.enableSoundEffects)
         }
@@ -204,6 +206,26 @@ class UserSettings {
         // In a real app, you would hash this password
         // For now, we'll store it as-is (NOT recommended for production)
         lockPassword = password.isEmpty ? nil : password
+    }
+    
+    func checkPassword(_ input: String) -> Bool {
+        guard enablePasswordProtection, let savedPassword = lockPassword else {
+            return true // Success if password protection is off
+        }
+        return input == savedPassword
+    }
+
+    func recordFailedAttempt() {
+        failedAttempts += 1
+        lastFailedAttempt = Date()
+        
+        if failedAttempts >= maxFailedAttempts {
+            lockoutEndTime = Date().addingTimeInterval(lockoutDuration)
+        }
+    }
+
+    func remainingAttempts() -> Int {
+        return max(0, maxFailedAttempts - failedAttempts)
     }
     
     func validatePassword(_ inputPassword: String) -> Bool {
