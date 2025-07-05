@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24093.8" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24093.8"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -15,63 +15,6 @@
                         <subviews>
                             <visualEffectView blendingMode="behindWindow" material="sidebar" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sidebar-view">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="600"/>
-                                <view key="contentView" id="sidebar-content">
-                                    <rect key="frame" x="0.0" y="0.0" width="200" height="600"/>
-                                    <subviews>
-                                        <button verticalHuggingPriority="750" tag="0" translatesAutoresizingMaskIntoConstraints="NO" id="general-btn">
-                                            <rect key="frame" x="20" y="520" width="160" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="height-constraint-1"/>
-                                            </constraints>
-                                            <buttonCell key="cell" type="push" title="General" bezelStyle="push" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="general-cell">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="general-action"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="xcode-btn">
-                                            <rect key="frame" x="20" y="480" width="160" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="height-constraint-2"/>
-                                            </constraints>
-                                            <buttonCell key="cell" type="push" title="Xcode" bezelStyle="push" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xcode-cell">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="xcode-action"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="about-btn">
-                                            <rect key="frame" x="20" y="440" width="160" height="32"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="height-constraint-3"/>
-                                            </constraints>
-                                            <buttonCell key="cell" type="push" title="About" bezelStyle="push" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="about-cell">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="about-action"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="general-btn" firstAttribute="leading" secondItem="sidebar-content" secondAttribute="leading" constant="20" id="general-leading"/>
-                                        <constraint firstAttribute="trailing" secondItem="general-btn" secondAttribute="trailing" constant="20" id="general-trailing"/>
-                                        <constraint firstAttribute="bottom" secondItem="general-btn" secondAttribute="bottom" constant="48" id="general-bottom"/>
-                                        
-                                        <constraint firstItem="xcode-btn" firstAttribute="leading" secondItem="sidebar-content" secondAttribute="leading" constant="20" id="xcode-leading"/>
-                                        <constraint firstAttribute="trailing" secondItem="xcode-btn" secondAttribute="trailing" constant="20" id="xcode-trailing"/>
-                                        <constraint firstItem="general-btn" firstAttribute="top" secondItem="xcode-btn" secondAttribute="bottom" constant="8" id="xcode-spacing"/>
-                                        
-                                        <constraint firstItem="about-btn" firstAttribute="leading" secondItem="sidebar-content" secondAttribute="leading" constant="20" id="about-leading"/>
-                                        <constraint firstAttribute="trailing" secondItem="about-btn" secondAttribute="trailing" constant="20" id="about-trailing"/>
-                                        <constraint firstItem="xcode-btn" firstAttribute="top" secondItem="about-btn" secondAttribute="bottom" constant="8" id="about-spacing"/>
-                                    </constraints>
-                                </view>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="sidebar-width"/>
                                 </constraints>
@@ -84,20 +27,16 @@
                             </containerView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="sidebar-view" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="sidebar-leading"/>
-                            <constraint firstItem="sidebar-view" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="sidebar-top"/>
-                            <constraint firstAttribute="bottom" secondItem="sidebar-view" secondAttribute="bottom" id="sidebar-bottom"/>
-                            
+                            <constraint firstAttribute="bottom" secondItem="container-view" secondAttribute="bottom" id="container-bottom"/>
                             <constraint firstItem="container-view" firstAttribute="leading" secondItem="sidebar-view" secondAttribute="trailing" id="container-leading"/>
                             <constraint firstItem="container-view" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="container-top"/>
                             <constraint firstAttribute="trailing" secondItem="container-view" secondAttribute="trailing" id="container-trailing"/>
-                            <constraint firstAttribute="bottom" secondItem="container-view" secondAttribute="bottom" id="container-bottom"/>
+                            <constraint firstAttribute="bottom" secondItem="sidebar-view" secondAttribute="bottom" id="sidebar-bottom"/>
+                            <constraint firstItem="sidebar-view" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="sidebar-leading"/>
+                            <constraint firstItem="sidebar-view" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="sidebar-top"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="generalButton" destination="general-btn" id="general-outlet"/>
-                        <outlet property="xcodeButton" destination="xcode-btn" id="xcode-outlet"/>
-                        <outlet property="aboutButton" destination="about-btn" id="about-outlet"/>
                         <outlet property="containerView" destination="container-view" id="container-outlet"/>
                     </connections>
                 </viewController>
@@ -105,11 +44,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        
         <!--Tab View Controller-->
         <scene sceneID="tab-scene">
             <objects>
-                <tabViewController tabStyle="tabless" id="tab-controller" sceneMemberID="viewController">
+                <tabViewController id="tab-controller" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="General" identifier="general" id="general-tab"/>
                         <tabViewItem label="Xcode" identifier="xcode" id="xcode-tab"/>
@@ -125,7 +63,6 @@
             </objects>
             <point key="canvasLocation" x="500" y="250"/>
         </scene>
-        
         <!--General Settings View Controller-->
         <scene sceneID="general-scene">
             <objects>
@@ -135,31 +72,23 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-title">
-                                <rect key="frame" x="50" y="500" width="200" height="17"/>
+                                <rect key="frame" x="48" y="501" width="116" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Inactivity Timeout:" id="timeout-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-slider">
-                                <rect key="frame" x="50" y="460" width="400" height="19"/>
-                                <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="300" doubleValue="60" tickMarkPosition="below" sliderType="linear" id="timeout-slider-cell"/>
-                                <connections>
-                                    <action selector="sliderDidChange:" target="general-vc" id="slider-action"/>
-                                </connections>
-                            </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-label">
-                                <rect key="frame" x="460" y="462" width="80" height="17"/>
+                                <rect key="frame" x="458" y="461" width="75" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="60 seconds" id="timeout-label-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="color-title">
-                                <rect key="frame" x="50" y="400" width="200" height="17"/>
+                                <rect key="frame" x="48" y="399" width="146" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Matrix Character Color:" id="color-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -167,15 +96,14 @@
                                 </textFieldCell>
                             </textField>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="color-well">
-                                <rect key="frame" x="50" y="360" width="44" height="23"/>
+                                <rect key="frame" x="50" y="350" width="30" height="32"/>
                                 <color key="color" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="colorDidChange:" target="general-vc" id="color-action"/>
                                 </connections>
                             </colorWell>
-                            
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="launch-title">
-                                <rect key="frame" x="50" y="300" width="200" height="17"/>
+                                <rect key="frame" x="48" y="291" width="104" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Launch at Login:" id="launch-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -183,49 +111,48 @@
                                 </textFieldCell>
                             </textField>
                             <switch translatesAutoresizingMaskIntoConstraints="NO" id="launch-switch">
-                                <rect key="frame" x="50" y="260" width="51" height="25"/>
+                                <rect key="frame" x="50" y="252" width="54" height="24"/>
                                 <connections>
                                     <action selector="launchAtLoginDidChange:" target="general-vc" id="launch-action"/>
                                 </connections>
                             </switch>
+                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-slider">
+                                <rect key="frame" x="62" y="458" width="400" height="22"/>
+                                <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="300" doubleValue="60" tickMarkPosition="below" sliderType="linear" id="timeout-slider-cell"/>
+                                <connections>
+                                    <action selector="sliderDidChange:" target="general-vc" id="slider-action"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="timeout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-title-leading"/>
-                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="83" id="timeout-title-top"/>
-                            
+                            <constraint firstItem="color-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-title-leading"/>
+                            <constraint firstItem="color-title" firstAttribute="top" secondItem="timeout-slider" secondAttribute="bottom" constant="43" id="color-title-top"/>
+                            <constraint firstItem="color-well" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-well-leading"/>
+                            <constraint firstItem="color-well" firstAttribute="top" secondItem="color-title" secondAttribute="bottom" constant="17" id="color-well-top"/>
+                            <constraint firstItem="launch-switch" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-switch-leading"/>
+                            <constraint firstItem="launch-switch" firstAttribute="top" secondItem="launch-title" secondAttribute="bottom" constant="15" id="launch-switch-top"/>
+                            <constraint firstItem="launch-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-title-leading"/>
+                            <constraint firstItem="launch-title" firstAttribute="top" secondItem="color-well" secondAttribute="bottom" constant="43" id="launch-title-top"/>
+                            <constraint firstItem="timeout-label" firstAttribute="centerY" secondItem="timeout-slider" secondAttribute="centerY" id="timeout-label-center"/>
+                            <constraint firstItem="timeout-label" firstAttribute="leading" secondItem="timeout-slider" secondAttribute="trailing" constant="10" id="timeout-label-leading"/>
                             <constraint firstItem="timeout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-slider-leading"/>
                             <constraint firstItem="timeout-slider" firstAttribute="top" secondItem="timeout-title" secondAttribute="bottom" constant="21" id="timeout-slider-top"/>
                             <constraint firstItem="timeout-slider" firstAttribute="width" constant="400" id="timeout-slider-width"/>
-                            
-                            <constraint firstItem="timeout-label" firstAttribute="leading" secondItem="timeout-slider" secondAttribute="trailing" constant="10" id="timeout-label-leading"/>
-                            <constraint firstItem="timeout-label" firstAttribute="centerY" secondItem="timeout-slider" secondAttribute="centerY" id="timeout-label-center"/>
-                            
-                            <constraint firstItem="color-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-title-leading"/>
-                            <constraint firstItem="color-title" firstAttribute="top" secondItem="timeout-slider" secondAttribute="bottom" constant="43" id="color-title-top"/>
-                            
-                            <constraint firstItem="color-well" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-well-leading"/>
-                            <constraint firstItem="color-well" firstAttribute="top" secondItem="color-title" secondAttribute="bottom" constant="17" id="color-well-top"/>
-                            
-                            <constraint firstItem="launch-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-title-leading"/>
-                            <constraint firstItem="launch-title" firstAttribute="top" secondItem="color-well" secondAttribute="bottom" constant="43" id="launch-title-top"/>
-                            
-                            <constraint firstItem="launch-switch" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-switch-leading"/>
-                            <constraint firstItem="launch-switch" firstAttribute="top" secondItem="launch-title" secondAttribute="bottom" constant="15" id="launch-switch-top"/>
+                            <constraint firstItem="timeout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-title-leading"/>
+                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="83" id="timeout-title-top"/>
                         </constraints>
                     </view>
-                    <tabViewItem key="tabViewItem" label="General" identifier="general" id="general-tab-item"/>
                     <connections>
-                        <outlet property="timeoutLabel" destination="timeout-label" id="timeout-label-outlet"/>
-                        <outlet property="timeoutSlider" destination="timeout-slider" id="timeout-slider-outlet"/>
                         <outlet property="characterColorWell" destination="color-well" id="color-well-outlet"/>
                         <outlet property="launchAtLoginSwitch" destination="launch-switch" id="launch-switch-outlet"/>
+                        <outlet property="timeoutLabel" destination="timeout-label" id="timeout-label-outlet"/>
+                        <outlet property="timeoutSlider" destination="timeout-slider" id="timeout-slider-outlet"/>
                     </connections>
                 </viewController>
                 <customObject id="general-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="800" y="100"/>
         </scene>
-        
         <!--Xcode Settings View Controller-->
         <scene sceneID="xcode-scene">
             <objects>
@@ -234,23 +161,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="bezel" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="script-scroll">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" translatesAutoresizingMaskIntoConstraints="NO" id="script-scroll">
                                 <rect key="frame" x="20" y="60" width="560" height="480"/>
                                 <clipView key="contentView" id="script-clip">
                                     <rect key="frame" x="1" y="1" width="558" height="478"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="script-text">
+                                        <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" textCompletion="NO" id="script-text">
                                             <rect key="frame" x="0.0" y="0.0" width="558" height="478"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="558" height="478"/>
-                                            <size key="maxSize" width="558" height="10000000"/>
+                                            <size key="maxSize" width="560" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="script-h-scroller">
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="script-h-scroller">
                                     <rect key="frame" x="1" y="463" width="558" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -261,30 +188,28 @@
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="copy-button">
                                 <rect key="frame" x="20" y="20" width="100" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="copy-button-width"/>
-                                    <constraint firstAttribute="height" constant="32" id="copy-button-height"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Copy Script" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="copy-button-cell">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="copy-button-height"/>
+                                    <constraint firstAttribute="width" constant="100" id="copy-button-width"/>
+                                </constraints>
                                 <connections>
                                     <action selector="copyScriptButtonTapped:" target="xcode-vc" id="copy-button-action"/>
                                 </connections>
                             </button>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="copy-button" secondAttribute="bottom" constant="20" id="copy-button-bottom"/>
+                            <constraint firstItem="copy-button" firstAttribute="leading" secondItem="xcode-view" secondAttribute="leading" constant="20" id="copy-button-leading"/>
+                            <constraint firstItem="copy-button" firstAttribute="top" secondItem="script-scroll" secondAttribute="bottom" constant="8" id="script-scroll-bottom"/>
                             <constraint firstItem="script-scroll" firstAttribute="leading" secondItem="xcode-view" secondAttribute="leading" constant="20" id="script-scroll-leading"/>
                             <constraint firstItem="script-scroll" firstAttribute="top" secondItem="xcode-view" secondAttribute="top" constant="60" id="script-scroll-top"/>
                             <constraint firstAttribute="trailing" secondItem="script-scroll" secondAttribute="trailing" constant="20" id="script-scroll-trailing"/>
-                            <constraint firstItem="copy-button" firstAttribute="top" secondItem="script-scroll" secondAttribute="bottom" constant="8" id="script-scroll-bottom"/>
-                            
-                            <constraint firstItem="copy-button" firstAttribute="leading" secondItem="xcode-view" secondAttribute="leading" constant="20" id="copy-button-leading"/>
-                            <constraint firstAttribute="bottom" secondItem="copy-button" secondAttribute="bottom" constant="20" id="copy-button-bottom"/>
                         </constraints>
                     </view>
-                    <tabViewItem key="tabViewItem" label="Xcode" identifier="xcode" id="xcode-tab-item"/>
                     <connections>
                         <outlet property="scriptTextView" destination="script-text" id="script-text-outlet"/>
                     </connections>
@@ -293,7 +218,6 @@
             </objects>
             <point key="canvasLocation" x="800" y="250"/>
         </scene>
-        
         <!--About View Controller-->
         <scene sceneID="about-scene">
             <objects>
@@ -303,7 +227,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="app-title">
-                                <rect key="frame" x="250" y="350" width="100" height="24"/>
+                                <rect key="frame" x="236" y="238" width="128" height="24"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MatrixLocker" id="app-title-cell">
                                     <font key="font" metaFont="systemBold" size="20"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -311,7 +235,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="version-label">
-                                <rect key="frame" x="250" y="310" width="100" height="17"/>
+                                <rect key="frame" x="239" y="199" width="123" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version 1.0 (Build 1)" id="version-label-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -319,7 +243,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="description-label">
-                                <rect key="frame" x="150" y="250" width="300" height="34"/>
+                                <rect key="frame" x="62" y="157" width="476" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="A secure screen locker with Matrix-style animation and customizable settings." id="description-label-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -330,15 +254,12 @@
                         <constraints>
                             <constraint firstItem="app-title" firstAttribute="centerX" secondItem="about-view" secondAttribute="centerX" id="app-title-center-x"/>
                             <constraint firstItem="app-title" firstAttribute="centerY" secondItem="about-view" secondAttribute="centerY" constant="50" id="app-title-center-y"/>
-                            
-                            <constraint firstItem="version-label" firstAttribute="centerX" secondItem="about-view" secondAttribute="centerX" id="version-label-center-x"/>
-                            <constraint firstItem="version-label" firstAttribute="top" secondItem="app-title" secondAttribute="bottom" constant="23" id="version-label-top"/>
-                            
                             <constraint firstItem="description-label" firstAttribute="centerX" secondItem="about-view" secondAttribute="centerX" id="description-label-center-x"/>
                             <constraint firstItem="description-label" firstAttribute="top" secondItem="version-label" secondAttribute="bottom" constant="26" id="description-label-top"/>
+                            <constraint firstItem="version-label" firstAttribute="centerX" secondItem="about-view" secondAttribute="centerX" id="version-label-center-x"/>
+                            <constraint firstItem="version-label" firstAttribute="top" secondItem="app-title" secondAttribute="bottom" constant="23" id="version-label-top"/>
                         </constraints>
                     </view>
-                    <tabViewItem key="tabViewItem" label="About" identifier="about" id="about-tab-item"/>
                     <connections>
                         <outlet property="versionLabel" destination="version-label" id="version-label-outlet"/>
                     </connections>
@@ -347,7 +268,6 @@
             </objects>
             <point key="canvasLocation" x="800" y="400"/>
         </scene>
-        
         <!--Lock Screen View Controller-->
         <scene sceneID="lock-scene">
             <objects>
@@ -361,7 +281,6 @@
             </objects>
             <point key="canvasLocation" x="75" y="550"/>
         </scene>
-        
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -423,7 +342,6 @@
             </objects>
             <point key="canvasLocation" x="75" y="-50"/>
         </scene>
-        
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>

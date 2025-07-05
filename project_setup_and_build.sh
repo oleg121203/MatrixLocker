@@ -44,39 +44,33 @@ else
   fi
 fi
 
-# 4. Вибір симулятора
-default_simulator="iPhone 15"
-available_simulator=$(xcrun simctl list devices available | grep "$default_simulator" | head -n 1 | awk -F '[()]' '{print $2}')
-if [ -z "$available_simulator" ]; then
-  echo "\033[0;33m$default_simulator не знайдено, обирається довільний запущений симулятор...\033[0m"
-  available_simulator=$(xcrun simctl list devices available | grep -m1 Booted | awk -F '[()]' '{print $2}')
-fi
-
-if [ -z "$available_simulator" ]; then
-  available_simulator=$(xcrun simctl list devices available | head -n 1 | awk -F '[()]' '{print $2}')
-fi
-
-if [ -z "$available_simulator" ]; then
-  echo "\033[0;31mНе знайдено жодного доступного симулятора!\033[0m"
-  exit 1
-fi
-
-# 5. Збірка
-if [[ "$PROJECT_FILE" == *.xcworkspace ]]; then
-  xcodebuild -workspace "$PROJECT_FILE" -scheme "$SCHEME" -destination "id=$available_simulator" build
+# --- Визначення підтримки macOS у схемі (проста перевірка) ---
+echo "\nПеревірка підтримки macOS у схемі..."
+sdk_list=$(xcodebuild -scheme "$SCHEME" -showdestinations 2>/dev/null | grep "platform=" || true)
+if echo "$sdk_list" | grep -q "platform=macOS"; then
+  echo "Схема '$SCHEME' підтримує macOS."
 else
-  xcodebuild -project "$PROJECT_FILE" -scheme "$SCHEME" -destination "id=$available_simulator" build
+  echo "\033[0;33mСхема '$SCHEME' не має підтримки macOS, спробуємо збирати з destination platform=macOS.\033[0m"
 fi
 
-# 6. Запуск додатку
+# --- Усе про симулятори iOS/iPadOS видаляємо або коментуємо ---
+
+# --- Збірка macOS-додатку ---
+echo "\n--- Збірка macOS-додатку ---"
+if [[ "$PROJECT_FILE" == *.xcworkspace ]]; then
+  xcodebuild -workspace "$PROJECT_FILE" -scheme "$SCHEME" -configuration Debug -destination 'platform=macOS' build
+else
+  xcodebuild -project "$PROJECT_FILE" -scheme "$SCHEME" -configuration Debug -destination 'platform=macOS' build
+fi
+
+# --- Запуск macOS-додатку ---
 APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -type d -name "*.app" | sort -r | head -n 1)
 if [ -z "$APP_PATH" ]; then
   echo "\033[0;31mНе вдалося знайти зібраний .app!\033[0m"
   exit 1
 fi
 
-echo "\n--- ЗАПУСК ДОДАТКА У СИМУЛЯТОРІ ---"
-xcrun simctl install "$available_simulator" "$APP_PATH"
-xcrun simctl launch "$available_simulator" $(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PATH/Info.plist")
+echo "\n--- Запуск macOS-додатку ---"
+open "$APP_PATH"
 
 echo "\033[0;32m\nГотово!\033[0m"
