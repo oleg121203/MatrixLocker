@@ -174,7 +174,7 @@ class LockScreenViewController: NSViewController {
         switch result {
         case .success:
             delegate?.didUnlockScreen()
-        case .failed(let _):
+        case .failed:
             messageLabel.stringValue = result.errorMessage
             messageLabel.textColor = .systemRed
             passwordField.stringValue = ""
