@@ -2,28 +2,44 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch MatrixLocker",
+            "name": "Debug MatrixLocker",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/dev/Library/Developer/Xcode/DerivedData/MatrixLocker-ereerxmolnmqeudsgocqfdzkemqk/Build/Products/Debug/MatrixLocker.app/Contents/MacOS/MatrixLocker",
+            "program": "${workspaceFolder}/DerivedData/Build/Products/Debug/MatrixLocker.app/Contents/MacOS/MatrixLocker",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "Build MatrixLocker"
+            "preLaunchTask": "Build MatrixLocker",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
         },
         {
-            "name": "Just Run MatrixLocker",
+            "name": "Run MatrixLocker (No Debug)",
             "type": "node",
             "request": "launch",
             "program": "/usr/bin/open",
             "args": [
-                "/Users/dev/Library/Developer/Xcode/DerivedData/MatrixLocker-ereerxmolnmqeudsgocqfdzkemqk/Build/Products/Debug/MatrixLocker.app"
+                "-n",
+                "${workspaceFolder}/../Library/Developer/Xcode/DerivedData/MatrixLocker-ereerxmolnmqeudsgocqfdzkemqk/Build/Products/Debug/MatrixLocker.app"
             ],
             "console": "integratedTerminal",
             "preLaunchTask": "Build MatrixLocker"
+        },
+        {
+            "name": "Quick Run (Shell)",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/build_and_run.sh",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
