@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,9 +17,9 @@
 		1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7897 /* LockScreenView.swift */; };
 		1A2B3C4D5E6F7898A /* ActivityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7898 /* ActivityMonitor.swift */; };
 		1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */; };
-		E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
 		1A2B3C4D5E6F789AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789A /* Main.storyboard */; };
 		1A2B3C4D5E6F789BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789B /* Assets.xcassets */; };
+		E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,20 +34,18 @@
 		1A2B3C4D5E6F7897 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7898 /* ActivityMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityMonitor.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
-		E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789A /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789D /* MatrixLocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MatrixLocker.entitlements; sourceTree = "<group>"; };
+		E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A2B3C4D5E6F7885 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -135,8 +133,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = MatrixLocker;
 			productName = MatrixLocker;
 			productReference = 1A2B3C4D5E6F7888 /* MatrixLocker.app */;
@@ -150,7 +146,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					1A2B3C4D5E6F7887 = {
 						CreatedOnToolsVersion = 15.0;
@@ -158,7 +154,6 @@
 				};
 			};
 			buildConfigurationList = 1A2B3C4D5E6F7883 /* Build configuration list for PBXProject "MatrixLocker" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -166,6 +161,7 @@
 				Base,
 			);
 			mainGroup = 1A2B3C4D5E6F7881;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 1A2B3C4D5E6F7880 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -178,19 +174,16 @@
 /* Begin PBXResourcesBuildPhase section */
 		1A2B3C4D5E6F7886 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				1A2B3C4D5E6F789BA /* Assets.xcassets in Resources */,
 				1A2B3C4D5E6F789AA /* Main.storyboard in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A2B3C4D5E6F7884 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				1A2B3C4D5E6F7890A /* AppDelegate.swift in Sources */,
 				1A2B3C4D5E6F7891A /* SettingsViewController.swift in Sources */,
@@ -204,12 +197,11 @@
 				1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */,
 				E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1A2B3C4D5E6F789F /* Debug */ = {
+		1A2B3C4D5E6F789F /* Debug configuration for PBXProject "MatrixLocker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -243,6 +235,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -267,12 +260,13 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		1A2B3C4D5E6F78A0 /* Release */ = {
+		1A2B3C4D5E6F78A0 /* Release configuration for PBXProject "MatrixLocker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -306,6 +300,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -323,19 +318,24 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
-		1A2B3C4D5E6F78A1 /* Debug */ = {
+		1A2B3C4D5E6F78A1 /* Debug configuration for PBXNativeTarget "MatrixLocker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = MatrixLocker/MatrixLocker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MatrixLocker/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -353,15 +353,19 @@
 			};
 			name = Debug;
 		};
-		1A2B3C4D5E6F78A2 /* Release */ = {
+		1A2B3C4D5E6F78A2 /* Release configuration for PBXNativeTarget "MatrixLocker" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				AUTOMATION_APPLE_EVENTS = YES;
 				CODE_SIGN_ENTITLEMENTS = MatrixLocker/MatrixLocker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MatrixLocker/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -385,19 +389,17 @@
 		1A2B3C4D5E6F7883 /* Build configuration list for PBXProject "MatrixLocker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1A2B3C4D5E6F789F /* Debug */,
-				1A2B3C4D5E6F78A0 /* Release */,
+				1A2B3C4D5E6F789F /* Debug configuration for PBXProject "MatrixLocker" */,
+				1A2B3C4D5E6F78A0 /* Release configuration for PBXProject "MatrixLocker" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		1A2B3C4D5E6F789E /* Build configuration list for PBXNativeTarget "MatrixLocker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1A2B3C4D5E6F78A1 /* Debug */,
-				1A2B3C4D5E6F78A2 /* Release */,
+				1A2B3C4D5E6F78A1 /* Debug configuration for PBXNativeTarget "MatrixLocker" */,
+				1A2B3C4D5E6F78A2 /* Release configuration for PBXNativeTarget "MatrixLocker" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

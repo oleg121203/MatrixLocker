@@ -1,4 +1,5 @@
 import Cocoa
+import Foundation
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -9,6 +10,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var settingsWindowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        setupSignalHandlers()
+
         // Setup system tray
         setupSystemTray()
         
@@ -249,6 +252,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func quitApp() {
         NSApp.terminate(self)
     }
+
+    private func setupSignalHandlers() {
+        signal(SIGTERM) { signal in
+            print("Received SIGTERM, terminating application gracefully.")
+            DispatchQueue.main.async {
+                NSApp.terminate(nil)
+            }
+        }
+    }
 }
 
 // Implement the delegate protocol to handle the unlock event
@@ -261,5 +273,3 @@ extension AppDelegate: LockScreenDelegate {
         activityMonitor?.startMonitoring()
     }
 }
-
-
