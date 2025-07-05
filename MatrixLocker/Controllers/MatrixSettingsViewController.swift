@@ -19,9 +19,15 @@ class MatrixSettingsViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         loadSettings()
+        updateUI()
         setupPresets()
+    }
+    
+    private func updateUI() {
+        // Ensure sliders are always enabled
+        animationSpeedSlider?.isEnabled = true
+        densitySlider?.isEnabled = true
     }
     
     private func setupUI() {

@@ -216,6 +216,12 @@ class GeneralSettingsViewController: NSViewController {
         timeoutSlider?.isEnabled = isEnabled
         passwordProtectionSwitch?.isEnabled = isEnabled
         
+        // Ensure all controls are enabled regardless of the switch state for now
+        timeoutSlider?.isEnabled = true
+        passwordProtectionSwitch?.isEnabled = true
+        failedAttemptsStepper?.isEnabled = true
+        lockoutDurationStepper?.isEnabled = true
+
         // Also update password protection UI
         updatePasswordProtectionUI()
     }
