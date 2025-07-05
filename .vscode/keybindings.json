@@ -12,7 +12,7 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "F10",
+        "key": "cmd+shift+b",
         "command": "workbench.action.tasks.runTask", 
         "args": "Build and Run MatrixLocker",
         "when": "editorTextFocus"
