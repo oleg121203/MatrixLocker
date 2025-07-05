@@ -4,4 +4,10 @@
    <FileRef
       location = "self:MatrixLocker.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:prebuild.sh">
+   </FileRef>
+   <FileRef
+      location = "group:add_prebuild_phase.sh">
+   </FileRef>
 </Workspace>
