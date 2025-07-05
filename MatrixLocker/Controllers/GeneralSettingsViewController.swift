@@ -24,6 +24,21 @@ class GeneralSettingsViewController: NSViewController {
     private func loadSettings() {
         let settings = UserSettings.shared
         
+        // Ensure all outlets are connected before proceeding
+        guard let timeoutSlider = timeoutSlider,
+              let timeoutLabel = timeoutLabel,
+              let characterColorWell = characterColorWell,
+              let launchAtLoginSwitch = launchAtLoginSwitch,
+              let automaticLockSwitch = automaticLockSwitch,
+              let passwordProtectionSwitch = passwordProtectionSwitch,
+              let passwordField = passwordField,
+              let failedAttemptsStepper = failedAttemptsStepper,
+              let failedAttemptsLabel = failedAttemptsLabel,
+              let lockoutSlider = lockoutSlider else {
+            print("❌ Error: One or more IBOutlets are not connected in GeneralSettingsViewController")
+            return
+        }
+        
         // Inactivity Timeout
         let timeout = settings.inactivityTimeout
         timeoutSlider.doubleValue = timeout
@@ -53,6 +68,11 @@ class GeneralSettingsViewController: NSViewController {
     }
 
     @IBAction func sliderDidChange(_ sender: NSSlider) {
+        guard let timeoutLabel = timeoutLabel else {
+            print("❌ Error: timeoutLabel outlet not connected")
+            return
+        }
+        
         let newTimeout = sender.doubleValue
         timeoutLabel.stringValue = "\(Int(newTimeout)) seconds"
         UserSettings.shared.inactivityTimeout = newTimeout
@@ -101,6 +121,11 @@ class GeneralSettingsViewController: NSViewController {
     }
     
     @IBAction func failedAttemptsDidChange(_ sender: NSStepper) {
+        guard let failedAttemptsLabel = failedAttemptsLabel else {
+            print("❌ Error: failedAttemptsLabel outlet not connected")
+            return
+        }
+        
         let attempts = Int(sender.doubleValue)
         UserSettings.shared.maxFailedAttempts = attempts
         failedAttemptsLabel.stringValue = "\(attempts)"
@@ -121,6 +146,13 @@ class GeneralSettingsViewController: NSViewController {
     // MARK: - Helper Methods
     
     private func updateAutomaticLockUI() {
+        guard let automaticLockSwitch = automaticLockSwitch,
+              let timeoutSlider = timeoutSlider,
+              let passwordProtectionSwitch = passwordProtectionSwitch else {
+            print("❌ Error: Required outlets not connected in updateAutomaticLockUI")
+            return
+        }
+        
         let isEnabled = automaticLockSwitch.state == .on
         timeoutSlider.isEnabled = isEnabled
         passwordProtectionSwitch.isEnabled = isEnabled
@@ -130,6 +162,15 @@ class GeneralSettingsViewController: NSViewController {
     }
     
     private func updatePasswordProtectionUI() {
+        guard let automaticLockSwitch = automaticLockSwitch,
+              let passwordProtectionSwitch = passwordProtectionSwitch,
+              let passwordField = passwordField,
+              let failedAttemptsStepper = failedAttemptsStepper,
+              let lockoutSlider = lockoutSlider else {
+            print("❌ Error: Required outlets not connected in updatePasswordProtectionUI")
+            return
+        }
+        
         let automaticLockEnabled = automaticLockSwitch.state == .on
         let passwordProtectionEnabled = passwordProtectionSwitch.state == .on
         let isEnabled = automaticLockEnabled && passwordProtectionEnabled
@@ -140,6 +181,11 @@ class GeneralSettingsViewController: NSViewController {
     }
     
     private func updateLockoutLabel(duration: TimeInterval) {
+        guard let lockoutLabel = lockoutLabel else {
+            print("❌ Error: lockoutLabel outlet not connected")
+            return
+        }
+        
         let minutes = Int(duration / 60)
         if minutes < 60 {
             lockoutLabel.stringValue = "\(minutes) minutes"
