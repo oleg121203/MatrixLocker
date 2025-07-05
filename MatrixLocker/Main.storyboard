@@ -103,7 +103,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-title">
-                                <rect key="frame" x="48" y="501" width="116" height="16"/>
+                                <rect key="frame" x="48" y="561" width="116" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Inactivity Timeout:" id="timeout-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -111,15 +111,22 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-label">
-                                <rect key="frame" x="458" y="461" width="75" height="16"/>
+                                <rect key="frame" x="458" y="521" width="75" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="60 seconds" id="timeout-label-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-slider">
+                                <rect key="frame" x="50" y="518" width="400" height="22"/>
+                                <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="300" doubleValue="60" tickMarkPosition="below" sliderType="linear" id="timeout-slider-cell"/>
+                                <connections>
+                                    <action selector="sliderDidChange:" target="general-vc" id="slider-action"/>
+                                </connections>
+                            </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="color-title">
-                                <rect key="frame" x="48" y="399" width="146" height="16"/>
+                                <rect key="frame" x="48" y="459" width="146" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Matrix Character Color:" id="color-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -127,14 +134,14 @@
                                 </textFieldCell>
                             </textField>
                             <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="color-well">
-                                <rect key="frame" x="50" y="350" width="30" height="32"/>
+                                <rect key="frame" x="50" y="410" width="30" height="32"/>
                                 <color key="color" name="systemGreenColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="colorDidChange:" target="general-vc" id="color-action"/>
                                 </connections>
                             </colorWell>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="launch-title">
-                                <rect key="frame" x="48" y="291" width="104" height="16"/>
+                                <rect key="frame" x="48" y="351" width="104" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Launch at Login:" id="launch-title-cell">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -142,40 +149,153 @@
                                 </textFieldCell>
                             </textField>
                             <switch translatesAutoresizingMaskIntoConstraints="NO" id="launch-switch">
-                                <rect key="frame" x="50" y="252" width="54" height="24"/>
+                                <rect key="frame" x="50" y="312" width="54" height="24"/>
                                 <connections>
                                     <action selector="launchAtLoginDidChange:" target="general-vc" id="launch-action"/>
                                 </connections>
                             </switch>
-                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="timeout-slider">
-                                <rect key="frame" x="62" y="458" width="400" height="22"/>
-                                <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="300" doubleValue="60" tickMarkPosition="below" sliderType="linear" id="timeout-slider-cell"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="security-section-title">
+                                <rect key="frame" x="48" y="271" width="146" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Security Settings" id="security-section-title-cell">
+                                    <font key="font" metaFont="systemBold" size="14"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-title">
+                                <rect key="frame" x="48" y="232" width="140" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password Protection:" id="password-protection-title-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <switch misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-switch">
+                                <rect key="frame" x="50" y="193" width="54" height="24"/>
                                 <connections>
-                                    <action selector="sliderDidChange:" target="general-vc" id="slider-action"/>
+                                    <action selector="passwordProtectionDidChange:" target="general-vc" id="password-protection-action"/>
+                                </connections>
+                            </switch>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-title">
+                                <rect key="frame" x="48" y="154" width="80" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Set Password:" id="password-title-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <secureTextField misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-field">
+                                <rect key="frame" x="50" y="115" width="200" height="22"/>
+                                <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="password-field-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <allowedInputSourceLocales>
+                                        <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                    </allowedInputSourceLocales>
+                                </secureTextFieldCell>
+                                <connections>
+                                    <action selector="passwordDidChange:" target="general-vc" id="password-action"/>
+                                </connections>
+                            </secureTextField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-title">
+                                <rect key="frame" x="300" y="154" width="140" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Failed Attempts:" id="failed-attempts-title-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <stepper misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-stepper">
+                                <rect key="frame" x="302" y="115" width="19" height="28"/>
+                                <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="10" doubleValue="3" id="failed-attempts-stepper-cell"/>
+                                <connections>
+                                    <action selector="failedAttemptsDidChange:" target="general-vc" id="failed-attempts-action"/>
+                                </connections>
+                            </stepper>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-label">
+                                <rect key="frame" x="330" y="119" width="20" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="3" id="failed-attempts-label-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-title">
+                                <rect key="frame" x="48" y="76" width="120" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lockout Duration:" id="lockout-title-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-slider">
+                                <rect key="frame" x="62" y="37" width="200" height="22"/>
+                                <sliderCell key="cell" state="on" alignment="left" minValue="60" maxValue="1800" doubleValue="300" tickMarkPosition="below" sliderType="linear" id="lockout-slider-cell"/>
+                                <connections>
+                                    <action selector="lockoutDurationDidChange:" target="general-vc" id="lockout-action"/>
                                 </connections>
                             </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-label">
+                                <rect key="frame" x="270" y="41" width="80" height="16"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 minutes" id="lockout-label-cell">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="color-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-title-leading"/>
                             <constraint firstItem="color-title" firstAttribute="top" secondItem="timeout-slider" secondAttribute="bottom" constant="43" id="color-title-top"/>
                             <constraint firstItem="color-well" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-well-leading"/>
                             <constraint firstItem="color-well" firstAttribute="top" secondItem="color-title" secondAttribute="bottom" constant="17" id="color-well-top"/>
+                            <constraint firstItem="failed-attempts-label" firstAttribute="centerY" secondItem="failed-attempts-stepper" secondAttribute="centerY" id="failed-attempts-label-center"/>
+                            <constraint firstItem="failed-attempts-label" firstAttribute="leading" secondItem="failed-attempts-stepper" secondAttribute="trailing" constant="10" id="failed-attempts-label-leading"/>
+                            <constraint firstItem="failed-attempts-stepper" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="302" id="failed-attempts-stepper-leading"/>
+                            <constraint firstItem="failed-attempts-stepper" firstAttribute="top" secondItem="failed-attempts-title" secondAttribute="bottom" constant="17" id="failed-attempts-stepper-top"/>
+                            <constraint firstItem="failed-attempts-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="300" id="failed-attempts-title-leading"/>
+                            <constraint firstItem="failed-attempts-title" firstAttribute="top" secondItem="password-protection-switch" secondAttribute="bottom" constant="23" id="failed-attempts-title-top"/>
                             <constraint firstItem="launch-switch" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-switch-leading"/>
                             <constraint firstItem="launch-switch" firstAttribute="top" secondItem="launch-title" secondAttribute="bottom" constant="15" id="launch-switch-top"/>
                             <constraint firstItem="launch-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="launch-title-leading"/>
                             <constraint firstItem="launch-title" firstAttribute="top" secondItem="color-well" secondAttribute="bottom" constant="43" id="launch-title-top"/>
+                            <constraint firstItem="lockout-label" firstAttribute="centerY" secondItem="lockout-slider" secondAttribute="centerY" id="lockout-label-center"/>
+                            <constraint firstItem="lockout-label" firstAttribute="leading" secondItem="lockout-slider" secondAttribute="trailing" constant="10" id="lockout-label-leading"/>
+                            <constraint firstItem="lockout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="lockout-slider-leading"/>
+                            <constraint firstItem="lockout-slider" firstAttribute="top" secondItem="lockout-title" secondAttribute="bottom" constant="17" id="lockout-slider-top"/>
+                            <constraint firstItem="lockout-slider" firstAttribute="width" constant="200" id="lockout-slider-width"/>
+                            <constraint firstItem="lockout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="lockout-title-leading"/>
+                            <constraint firstItem="lockout-title" firstAttribute="top" secondItem="password-field" secondAttribute="bottom" constant="23" id="lockout-title-top"/>
+                            <constraint firstItem="password-field" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="password-field-leading"/>
+                            <constraint firstItem="password-field" firstAttribute="top" secondItem="password-title" secondAttribute="bottom" constant="17" id="password-field-top"/>
+                            <constraint firstItem="password-field" firstAttribute="width" constant="200" id="password-field-width"/>
+                            <constraint firstItem="password-protection-switch" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="password-protection-switch-leading"/>
+                            <constraint firstItem="password-protection-switch" firstAttribute="top" secondItem="password-protection-title" secondAttribute="bottom" constant="15" id="password-protection-switch-top"/>
+                            <constraint firstItem="password-protection-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="password-protection-title-leading"/>
+                            <constraint firstItem="password-protection-title" firstAttribute="top" secondItem="security-section-title" secondAttribute="bottom" constant="23" id="password-protection-title-top"/>
+                            <constraint firstItem="password-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="password-title-leading"/>
+                            <constraint firstItem="password-title" firstAttribute="top" secondItem="password-protection-switch" secondAttribute="bottom" constant="23" id="password-title-top"/>
+                            <constraint firstItem="security-section-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="security-section-title-leading"/>
+                            <constraint firstItem="security-section-title" firstAttribute="top" secondItem="launch-switch" secondAttribute="bottom" constant="25" id="security-section-title-top"/>
                             <constraint firstItem="timeout-label" firstAttribute="centerY" secondItem="timeout-slider" secondAttribute="centerY" id="timeout-label-center"/>
                             <constraint firstItem="timeout-label" firstAttribute="leading" secondItem="timeout-slider" secondAttribute="trailing" constant="10" id="timeout-label-leading"/>
                             <constraint firstItem="timeout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-slider-leading"/>
                             <constraint firstItem="timeout-slider" firstAttribute="top" secondItem="timeout-title" secondAttribute="bottom" constant="21" id="timeout-slider-top"/>
                             <constraint firstItem="timeout-slider" firstAttribute="width" constant="400" id="timeout-slider-width"/>
                             <constraint firstItem="timeout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-title-leading"/>
-                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="83" id="timeout-title-top"/>
+                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="23" id="timeout-title-top"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="characterColorWell" destination="color-well" id="color-well-outlet"/>
+                        <outlet property="failedAttemptsLabel" destination="failed-attempts-label" id="failed-attempts-label-outlet"/>
+                        <outlet property="failedAttemptsStepper" destination="failed-attempts-stepper" id="failed-attempts-stepper-outlet"/>
                         <outlet property="launchAtLoginSwitch" destination="launch-switch" id="launch-switch-outlet"/>
+                        <outlet property="lockoutLabel" destination="lockout-label" id="lockout-label-outlet"/>
+                        <outlet property="lockoutSlider" destination="lockout-slider" id="lockout-slider-outlet"/>
+                        <outlet property="passwordField" destination="password-field" id="password-field-outlet"/>
+                        <outlet property="passwordProtectionSwitch" destination="password-protection-switch" id="password-protection-switch-outlet"/>
                         <outlet property="timeoutLabel" destination="timeout-label" id="timeout-label-outlet"/>
                         <outlet property="timeoutSlider" destination="timeout-slider" id="timeout-slider-outlet"/>
                     </connections>
