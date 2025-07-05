@@ -27,6 +27,10 @@ class GeneralSettingsViewController: NSViewController {
     @IBOutlet weak var hideFromDockSwitch: NSSwitch!
     @IBOutlet weak var startMinimizedSwitch: NSSwitch!
 
+    private var startButton: NSButton!
+    private var stopButton: NSButton!
+    private var activateNowButton: NSButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSettings()
@@ -37,6 +41,38 @@ class GeneralSettingsViewController: NSViewController {
         // Set up modern styling for the settings view
         view.wantsLayer = true
         view.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
+
+        // Create control buttons
+        startButton = NSButton(title: "Start Monitoring", target: self, action: #selector(startMonitoringClicked))
+        stopButton = NSButton(title: "Stop Monitoring", target: self, action: #selector(stopMonitoringClicked))
+        activateNowButton = NSButton(title: "Activate Now (10s)", target: self, action: #selector(activateNowClicked))
+
+        let stackView = NSStackView(views: [startButton, stopButton, activateNowButton])
+        stackView.orientation = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            stackView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+
+    @objc private func startMonitoringClicked() {
+        NotificationCenter.default.post(name: Notification.Name("startMonitoring"), object: nil)
+    }
+
+    @objc private func stopMonitoringClicked() {
+        NotificationCenter.default.post(name: Notification.Name("stopMonitoring"), object: nil)
+    }
+
+    @objc private func activateNowClicked() {
+        NotificationCenter.default.post(name: Notification.Name("activateNow"), object: nil)
     }
 
     private func loadSettings() {
@@ -215,12 +251,7 @@ class GeneralSettingsViewController: NSViewController {
         let isEnabled = automaticLockSwitch?.state == .on
         timeoutSlider?.isEnabled = isEnabled
         passwordProtectionSwitch?.isEnabled = isEnabled
-        
-        // Ensure all controls are enabled regardless of the switch state for now
-        timeoutSlider?.isEnabled = true
-        passwordProtectionSwitch?.isEnabled = true
-        failedAttemptsStepper?.isEnabled = true
-        lockoutDurationStepper?.isEnabled = true
+
 
         // Also update password protection UI
         updatePasswordProtectionUI()

@@ -4,7 +4,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     var lockScreenWindowController: NSWindowController?
-    let activityMonitor = ActivityMonitor()
+    private var activityMonitor: ActivityMonitor?
     var statusItem: NSStatusItem?
     var settingsWindowController: NSWindowController?
 
@@ -12,24 +12,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Setup system tray
         setupSystemTray()
         
+        // Initialize the new activity monitor
+        activityMonitor = ActivityMonitor()
+
+        // Post a notification to start monitoring if enabled in settings
+        if UserSettings.shared.enableAutomaticLock {
+            NotificationCenter.default.post(name: .startMonitoring, object: nil)
+        }
+        
         // Configure the observer for user inactivity
         NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: .userDidBecomeInactive, object: nil)
         
         // Configure observer for settings changes
         NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: .settingsDidChange, object: nil)
         
-        // Start monitoring user activity with the saved interval (only if automatic lock is enabled)
-        if UserSettings.shared.enableAutomaticLock {
-            activityMonitor.startMonitoring(inactivityInterval: UserSettings.shared.inactivityTimeout)
-            print("MatrixLocker launched. Activity monitoring started with \(UserSettings.shared.inactivityTimeout) seconds limit.")
-        } else {
-            print("MatrixLocker launched. Activity monitoring disabled (automatic lock is off).")
-        }
+
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Clean up when the app closes
-        activityMonitor.stopMonitoring()
+        activityMonitor?.stopMonitoring()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -77,7 +79,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func settingsDidChange() {
         print("Settings changed, updating activity monitor")
-        activityMonitor.updateFromSettings()
+        // The new ActivityMonitor listens for settings changes automatically
         updateStatusItemIcon()
     }
     

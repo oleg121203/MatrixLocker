@@ -1,84 +1,107 @@
 import Cocoa
 
 class ActivityMonitor {
-    private var monitor: Any?
-    private var timer: Timer?
-    private var sessionStartDate: Date = Date()
-    private var activityTimeLimit: TimeInterval = 60.0
+    private enum State {
+        case stopped
+        case monitoring
+        case readyToLock
+    }
 
-    func startMonitoring(inactivityInterval: TimeInterval) {
-        self.activityTimeLimit = inactivityInterval
-        sessionStartDate = Date()
+    private var state: State = .stopped
+    private var activityMonitor: Any?
+    private var inactivityTimer: Timer?
+
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: .startMonitoring, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: .stopMonitoring, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(activateNow), name: .activateNow, object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        stopMonitoring()
+    }
+
+    @objc func startMonitoring() {
+        guard state == .stopped else { return }
+        print("Activity Monitor: Started")
+        state = .monitoring
+        resetInactivityTimer()
+    }
+
+    @objc func stopMonitoring() {
+        guard state != .stopped else { return }
+        print("Activity Monitor: Stopped")
+        state = .stopped
+        inactivityTimer?.invalidate()
+        inactivityTimer = nil
+        if let monitor = activityMonitor {
+            NSEvent.removeMonitor(monitor)
+            activityMonitor = nil
+        }
+    }
+
+    @objc func activateNow() {
+        print("Activity Monitor: Activating now")
+        stopMonitoring() // Stop any current monitoring
+        state = .monitoring
+        // Start a 10-second timer, then move to readyToLock state
+        inactivityTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [weak self] _ in
+            self?.inactivityTimerDidFire()
+        }
+    }
+
+    private func resetInactivityTimer() {
+        inactivityTimer?.invalidate()
+        let timeout = UserSettings.shared.inactivityTimeout
+        inactivityTimer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] _ in
+            self?.inactivityTimerDidFire()
+        }
+        startListeningForActivity()
+    }
+
+    private func inactivityTimerDidFire() {
+        print("Activity Monitor: Inactivity timeout reached. Ready to lock.")
+        state = .readyToLock
+        // Stop listening for activity that resets the timer
+        if let monitor = activityMonitor {
+            NSEvent.removeMonitor(monitor)
+            activityMonitor = nil
+        }
+        // Start listening for the next activity to trigger the lock
+        startListeningForLockTrigger()
+    }
+
+    private func startListeningForActivity() {
+        if activityMonitor != nil { return } // Already listening
         let eventMask: NSEvent.EventTypeMask = [.mouseMoved, .leftMouseDown, .rightMouseDown, .otherMouseDown, .keyDown, .scrollWheel]
-        monitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
-            self?.onUserActivity()
+        activityMonitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
+            self?.handleActivity()
         }
-        setupTimer()
     }
 
-    func stopMonitoring() {
-        if let monitor = monitor { NSEvent.removeMonitor(monitor); self.monitor = nil }
-        timer?.invalidate(); timer = nil
+    private func startListeningForLockTrigger() {
+        if activityMonitor != nil { return } // Already listening
+        let eventMask: NSEvent.EventTypeMask = [.mouseMoved, .leftMouseDown, .rightMouseDown, .otherMouseDown, .keyDown, .scrollWheel]
+        activityMonitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
+            self?.triggerLock()
+        }
     }
 
-    func update(newInterval: TimeInterval) {
-        self.activityTimeLimit = newInterval
-        sessionStartDate = Date() // Reset session when settings change
-        setupTimer()
-    }
-    
-    // MARK: - New method to update settings dynamically
-    func updateFromSettings() {
-        let settings = UserSettings.shared
-        
-        // Update the activity time limit
-        let newInterval = settings.inactivityTimeout
-        if newInterval != activityTimeLimit {
-            update(newInterval: newInterval)
-            print("ActivityMonitor: Updated activity time limit to \(newInterval) seconds")
+    private func handleActivity() {
+        if state == .monitoring {
+            print("Activity detected, resetting timer.")
+            resetInactivityTimer()
         }
-        
-        // Check if automatic lock is disabled
-        if !settings.enableAutomaticLock {
+    }
+
+    private func triggerLock() {
+        if state == .readyToLock {
+            print("Activity detected in ready state. Locking screen.")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .userDidBecomeInactive, object: nil)
+            }
             stopMonitoring()
-            print("ActivityMonitor: Automatic lock disabled, stopping monitoring")
-            return
-        }
-        
-        // If monitoring was stopped and automatic lock is now enabled, restart it
-        if monitor == nil && settings.enableAutomaticLock {
-            startMonitoring(inactivityInterval: newInterval)
-            print("ActivityMonitor: Automatic lock enabled, starting monitoring")
-        }
-    }
-
-    @objc func resetTimer() {
-        sessionStartDate = Date()
-        setupTimer()
-    }
-    
-    private func onUserActivity() {
-        // Just continue monitoring - we track total session time, not reset it
-        // The timer will check if session exceeded the limit
-    }
-
-    private func setupTimer() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(checkActivityTime), userInfo: nil, repeats: true)
-    }
-
-    @objc private func checkActivityTime() {
-        // Check if automatic lock is still enabled before triggering lock screen
-        guard UserSettings.shared.enableAutomaticLock else {
-            stopMonitoring()
-            return
-        }
-        
-        let sessionDuration = Date().timeIntervalSince(sessionStartDate)
-        if sessionDuration >= activityTimeLimit {
-            timer?.invalidate()
-            print("ActivityMonitor: User has been active for \(activityTimeLimit) seconds, triggering lock screen")
-            NotificationCenter.default.post(name: .userDidBecomeInactive, object: nil)
         }
     }
 }
