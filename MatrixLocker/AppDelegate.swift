@@ -5,8 +5,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var lockScreenWindowController: NSWindowController?
     let activityMonitor = ActivityMonitor()
+    var statusItem: NSStatusItem?
+    var settingsWindowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Setup system tray
+        setupSystemTray()
+        
         // Configure the observer for user inactivity
         NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: .userDidBecomeInactive, object: nil)
         
@@ -73,6 +78,174 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func settingsDidChange() {
         print("Settings changed, updating activity monitor")
         activityMonitor.updateFromSettings()
+        updateStatusItemIcon()
+    }
+    
+    // MARK: - System Tray Setup
+    private func setupSystemTray() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        
+        if let button = statusItem?.button {
+            // Create Matrix-style icon
+            let image = createMatrixIcon()
+            image.size = NSSize(width: 18, height: 18)
+            image.isTemplate = true
+            button.image = image
+            button.toolTip = "MatrixLocker - Screen Lock Manager"
+        }
+        
+        setupStatusMenu()
+        updateStatusItemIcon()
+    }
+    
+    private func createMatrixIcon() -> NSImage {
+        let size = NSSize(width: 18, height: 18)
+        let image = NSImage(size: size)
+        
+        image.lockFocus()
+        
+        // Draw matrix-style grid
+        let context = NSGraphicsContext.current?.cgContext
+        context?.setStrokeColor(NSColor.controlAccentColor.cgColor)
+        context?.setLineWidth(1.0)
+        
+        // Draw vertical lines
+        for i in 0...3 {
+            let x = CGFloat(i) * 4.5
+            context?.move(to: CGPoint(x: x, y: 2))
+            context?.addLine(to: CGPoint(x: x, y: 16))
+        }
+        
+        // Draw horizontal lines
+        for i in 0...3 {
+            let y = CGFloat(i) * 3.5 + 2
+            context?.move(to: CGPoint(x: 0, y: y))
+            context?.addLine(to: CGPoint(x: 16, y: y))
+        }
+        
+        context?.strokePath()
+        
+        // Add some "digital" dots
+        context?.setFillColor(NSColor.controlAccentColor.cgColor)
+        for _ in 0...5 {
+            let x = CGFloat.random(in: 2...14)
+            let y = CGFloat.random(in: 4...14)
+            context?.fillEllipse(in: CGRect(x: x, y: y, width: 1, height: 1))
+        }
+        
+        image.unlockFocus()
+        return image
+    }
+    
+    private func setupStatusMenu() {
+        let menu = NSMenu()
+        
+        // Status indicator
+        let statusMenuItem = NSMenuItem()
+        updateStatusMenuItem(statusMenuItem)
+        menu.addItem(statusMenuItem)
+        menu.addItem(NSMenuItem.separator())
+        
+        // Quick actions
+        let lockNowItem = NSMenuItem(title: "Lock Screen Now", action: #selector(lockScreenNow), keyEquivalent: "l")
+        lockNowItem.target = self
+        menu.addItem(lockNowItem)
+        
+        let toggleMonitoringItem = NSMenuItem()
+        toggleMonitoringItem.target = self
+        toggleMonitoringItem.action = #selector(toggleMonitoring)
+        updateToggleMenuItem(toggleMonitoringItem)
+        menu.addItem(toggleMonitoringItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // Settings
+        let settingsItem = NSMenuItem(title: "Settings...", action: #selector(showSettings), keyEquivalent: "s")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // About and Quit
+        let aboutItem = NSMenuItem(title: "About MatrixLocker", action: #selector(showAbout), keyEquivalent: "")
+        aboutItem.target = self
+        menu.addItem(aboutItem)
+        
+        let quitItem = NSMenuItem(title: "Quit MatrixLocker", action: #selector(quitApp), keyEquivalent: "q")
+        quitItem.target = self
+        menu.addItem(quitItem)
+        
+        statusItem?.menu = menu
+    }
+    
+    private func updateStatusMenuItem(_ item: NSMenuItem) {
+        let isEnabled = UserSettings.shared.enableAutomaticLock
+        let timeout = UserSettings.shared.inactivityTimeout
+        
+        if isEnabled {
+            item.title = "Status: Active (Limit: \(Int(timeout))s)"
+        } else {
+            item.title = "Status: Disabled"
+        }
+    }
+    
+    private func updateToggleMenuItem(_ item: NSMenuItem) {
+        let isEnabled = UserSettings.shared.enableAutomaticLock
+        item.title = isEnabled ? "Disable Activity Monitoring" : "Enable Activity Monitoring"
+    }
+    
+    private func updateStatusItemIcon() {
+        guard let button = statusItem?.button else { return }
+        
+        let isEnabled = UserSettings.shared.enableAutomaticLock
+        button.image?.isTemplate = true
+        
+        if isEnabled {
+            button.contentTintColor = UserSettings.shared.matrixCharacterColor
+        } else {
+            button.contentTintColor = NSColor.tertiaryLabelColor
+        }
+    }
+    
+    // MARK: - Menu Actions
+    @objc private func lockScreenNow() {
+        showLockScreen()
+    }
+    
+    @objc private func toggleMonitoring() {
+        UserSettings.shared.enableAutomaticLock.toggle()
+        settingsDidChange()
+        setupStatusMenu() // Refresh menu
+    }
+    
+    @objc private func showSettings() {
+        // Open settings window
+        if settingsWindowController == nil {
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
+            if let settingsVC = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? SettingsViewController {
+                let window = NSWindow(contentViewController: settingsVC)
+                window.title = "MatrixLocker Settings"
+                window.styleMask = [.titled, .closable, .miniaturizable]
+                window.level = .floating
+                settingsWindowController = NSWindowController(window: window)
+            }
+        }
+        
+        settingsWindowController?.showWindow(self)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    @objc private func showAbout() {
+        let alert = NSAlert()
+        alert.messageText = "MatrixLocker"
+        alert.informativeText = "Version 1.0\n\nA Matrix-themed screen lock application for macOS.\nDesigned to help manage screen time and secure your session."
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
+    
+    @objc private func quitApp() {
+        NSApp.terminate(self)
     }
 }
 

@@ -33,45 +33,83 @@ class LockScreenViewController: NSViewController {
     }
     
     private func setupUnlockInterface() {
-        // Create container view for unlock interface
-        let containerView = NSView()
+        // Create main container with glass effect
+        let containerView = NSVisualEffectView()
+        containerView.material = .hudWindow
+        containerView.blendingMode = .behindWindow
+        containerView.state = .active
+        containerView.wantsLayer = true
+        containerView.layer?.cornerRadius = 12
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
-        // Message label
+        // Create content view inside the glass container
+        let contentView = NSView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Matrix-style title
+        let titleLabel = NSTextField()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.isEditable = false
+        titleLabel.isBordered = false
+        titleLabel.backgroundColor = .clear
+        titleLabel.textColor = UserSettings.shared.matrixCharacterColor
+        titleLabel.font = NSFont(name: "Menlo", size: 24) ?? NSFont.monospacedSystemFont(ofSize: 24, weight: .bold)
+        titleLabel.alignment = .center
+        titleLabel.stringValue = "MATRIX LOCKED"
+        
+        // Message label with glow effect
         messageLabel = NSTextField()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.isEditable = false
         messageLabel.isBordered = false
         messageLabel.backgroundColor = .clear
         messageLabel.textColor = .white
-        messageLabel.font = NSFont.systemFont(ofSize: 16)
+        messageLabel.font = NSFont.systemFont(ofSize: 16, weight: .medium)
         messageLabel.alignment = .center
-        messageLabel.stringValue = "Activity time limit reached - Enter password to unlock"
+        messageLabel.stringValue = "Activity limit reached - Enter authentication"
         
-        // Password field
+        // Modern password field with Matrix styling
         passwordField = NSSecureTextField()
         passwordField.translatesAutoresizingMaskIntoConstraints = false
-        passwordField.font = NSFont.systemFont(ofSize: 14)
+        passwordField.font = NSFont.monospacedSystemFont(ofSize: 16, weight: .medium)
+        passwordField.alignment = .center
         passwordField.target = self
         passwordField.action = #selector(passwordEntered)
+        passwordField.placeholderString = "Enter password..."
+        passwordField.wantsLayer = true
+        passwordField.layer?.cornerRadius = 8
+        passwordField.layer?.borderWidth = 2
+        passwordField.layer?.borderColor = UserSettings.shared.matrixCharacterColor.cgColor
+        passwordField.backgroundColor = NSColor.black.withAlphaComponent(0.7)
+        passwordField.textColor = UserSettings.shared.matrixCharacterColor
         
-        // Unlock button
+        // Styled unlock button
         unlockButton = NSButton()
         unlockButton.translatesAutoresizingMaskIntoConstraints = false
-        unlockButton.title = "Unlock"
+        unlockButton.title = "UNLOCK"
         unlockButton.bezelStyle = .rounded
+        unlockButton.font = NSFont.systemFont(ofSize: 14, weight: .bold)
         unlockButton.target = self
         unlockButton.action = #selector(unlockButtonClicked)
+        unlockButton.wantsLayer = true
+        unlockButton.layer?.cornerRadius = 6
+        unlockButton.layer?.borderWidth = 1
+        unlockButton.layer?.borderColor = UserSettings.shared.matrixCharacterColor.cgColor
         
-        // Use System Auth button
+        // Touch ID button
         useSystemAuthButton = NSButton()
         useSystemAuthButton.translatesAutoresizingMaskIntoConstraints = false
-        useSystemAuthButton.title = "Use Touch ID / Password"
+        useSystemAuthButton.title = "Use Touch ID / Face ID"
         useSystemAuthButton.bezelStyle = .rounded
+        useSystemAuthButton.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         useSystemAuthButton.target = self
         useSystemAuthButton.action = #selector(systemAuthButtonClicked)
+        useSystemAuthButton.wantsLayer = true
+        useSystemAuthButton.layer?.cornerRadius = 6
+        useSystemAuthButton.layer?.borderWidth = 1
+        useSystemAuthButton.layer?.borderColor = NSColor.systemBlue.cgColor
         
-        // Retry button (hidden initially)
+        // Retry button
         retryButton = NSButton()
         retryButton.translatesAutoresizingMaskIntoConstraints = false
         retryButton.title = "Try Again"

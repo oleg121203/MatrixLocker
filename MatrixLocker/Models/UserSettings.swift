@@ -14,18 +14,32 @@ class UserSettings {
         static let enablePasswordProtection = "enablePasswordProtection"
         static let enableAutomaticLock = "enableAutomaticLock"
         static let requirePasswordOnWake = "requirePasswordOnWake"
+        static let matrixAnimationSpeed = "matrixAnimationSpeed"
+        static let matrixDensity = "matrixDensity"
+        static let enableSoundEffects = "enableSoundEffects"
+        static let showTimeRemaining = "showTimeRemaining"
+        static let enableKeyboardShortcuts = "enableKeyboardShortcuts"
+        static let hideFromDock = "hideFromDock"
+        static let startMinimized = "startMinimized"
     }
 
     private init() {
         // Register default values to ensure the app has a valid state on first launch
         defaults.register(defaults: [
-            Keys.inactivityTimeout: 10.0, // Default: 10 seconds for testing
+            Keys.inactivityTimeout: 60.0, // Default: 1 minute
             Keys.matrixCharacterColor: try! NSKeyedArchiver.archivedData(withRootObject: NSColor.systemGreen, requiringSecureCoding: false),
             Keys.maxFailedAttempts: 3, // Default: 3 attempts
             Keys.lockoutDuration: 300.0, // Default: 5 minutes lockout
             Keys.enablePasswordProtection: true, // Default: password protection enabled
             Keys.enableAutomaticLock: true, // Default: automatic lock enabled
-            Keys.requirePasswordOnWake: true // Default: require password on wake
+            Keys.requirePasswordOnWake: true, // Default: require password on wake
+            Keys.matrixAnimationSpeed: 1.0, // Default: normal speed
+            Keys.matrixDensity: 0.7, // Default: 70% density
+            Keys.enableSoundEffects: true, // Default: sound effects enabled
+            Keys.showTimeRemaining: true, // Default: show time remaining
+            Keys.enableKeyboardShortcuts: true, // Default: keyboard shortcuts enabled
+            Keys.hideFromDock: false, // Default: show in dock
+            Keys.startMinimized: false // Default: start normally
         ])
     }
 
@@ -107,6 +121,81 @@ class UserSettings {
         }
         set {
             defaults.set(newValue, forKey: Keys.requirePasswordOnWake)
+        }
+    }
+    
+    // MARK: - Matrix Visual Settings
+    var matrixAnimationSpeed: Double {
+        get {
+            return defaults.double(forKey: Keys.matrixAnimationSpeed)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.matrixAnimationSpeed)
+        }
+    }
+    
+    var matrixDensity: Double {
+        get {
+            return defaults.double(forKey: Keys.matrixDensity)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.matrixDensity)
+        }
+    }
+    
+    // MARK: - UI/UX Settings
+    var enableSoundEffects: Bool {
+        get {
+            return defaults.bool(forKey: Keys.enableSoundEffects)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.enableSoundEffects)
+        }
+    }
+    
+    var showTimeRemaining: Bool {
+        get {
+            return defaults.bool(forKey: Keys.showTimeRemaining)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.showTimeRemaining)
+        }
+    }
+    
+    var enableKeyboardShortcuts: Bool {
+        get {
+            return defaults.bool(forKey: Keys.enableKeyboardShortcuts)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.enableKeyboardShortcuts)
+        }
+    }
+    
+    var hideFromDock: Bool {
+        get {
+            return defaults.bool(forKey: Keys.hideFromDock)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.hideFromDock)
+            updateDockVisibility()
+        }
+    }
+    
+    var startMinimized: Bool {
+        get {
+            return defaults.bool(forKey: Keys.startMinimized)
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.startMinimized)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    private func updateDockVisibility() {
+        if hideFromDock {
+            NSApp.setActivationPolicy(.accessory)
+        } else {
+            NSApp.setActivationPolicy(.regular)
         }
     }
     
