@@ -1,0 +1,44 @@
+{
+    // Swift/Xcode specific settings
+    "files.associations": {
+        "*.swift": "swift",
+        "*.h": "objective-c",
+        "*.m": "objective-c",
+        "*.mm": "objective-cpp",
+        "*.storyboard": "xml",
+        "*.xib": "xml",
+        "*.xcconfig": "properties",
+        "*.plist": "xml"
+    },
+    
+    // Build output formatting
+    "terminal.integrated.scrollback": 5000,
+    "terminal.integrated.fontSize": 12,
+    
+    // Task settings
+    "tasks.autoDetect": "on",
+    "tasks.showDecorations": true,
+    
+    // Editor settings for Swift
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    
+    // File watcher settings
+    "files.watcherExclude": {
+        "**/DerivedData/**": true,
+        "**/Build/**": true,
+        "**/.build/**": true,
+        "**/Pods/**": true
+    },
+    
+    // Search exclusions
+    "search.exclude": {
+        "**/DerivedData": true,
+        "**/Build": true,
+        "**/.build": true,
+        "**/Pods": true,
+        "**/*.xcworkspace": true,
+        "**/*.xcodeproj": false
+    }
+}

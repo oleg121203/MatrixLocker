@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch MatrixLocker",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/DerivedData/Build/Products/Debug/MatrixLocker.app/Contents/MacOS/MatrixLocker",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build MatrixLocker",
+            "console": "integratedTerminal"
+        }
+    ]
+}
