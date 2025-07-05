@@ -139,10 +139,6 @@ class GeneralSettingsViewController: NSViewController {
         lockoutSlider.isEnabled = isEnabled
     }
     
-    private func updateAutomaticLockUI() {
-        // Implement any additional UI updates for automatic lock here if needed
-    }
-    
     private func updateLockoutLabel(duration: TimeInterval) {
         let minutes = Int(duration / 60)
         if minutes < 60 {
