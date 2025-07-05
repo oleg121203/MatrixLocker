@@ -1,16 +1,29 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "Launch MatrixLocker",
-            "type": "lldb",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/DerivedData/Build/Products/Debug/MatrixLocker.app/Contents/MacOS/MatrixLocker",
+            "program": "/Users/dev/Library/Developer/Xcode/DerivedData/MatrixLocker-ereerxmolnmqeudsgocqfdzkemqk/Build/Products/Debug/MatrixLocker.app/Contents/MacOS/MatrixLocker",
             "args": [],
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Build MatrixLocker",
-            "console": "integratedTerminal"
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "Build MatrixLocker"
+        },
+        {
+            "name": "Just Run MatrixLocker",
+            "type": "node",
+            "request": "launch",
+            "program": "/usr/bin/open",
+            "args": [
+                "/Users/dev/Library/Developer/Xcode/DerivedData/MatrixLocker-ereerxmolnmqeudsgocqfdzkemqk/Build/Products/Debug/MatrixLocker.app"
+            ],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Build MatrixLocker"
         }
     ]
 }

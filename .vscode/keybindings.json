@@ -6,13 +6,13 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "cmd+shift+r",
+        "key": "cmd+shift+u",
         "command": "workbench.action.tasks.runTask", 
         "args": "Build and Run MatrixLocker",
         "when": "editorTextFocus"
     },
     {
-        "key": "cmd+shift+c",
+        "key": "cmd+shift+alt+b",
         "command": "workbench.action.tasks.runTask",
         "args": "Clean Build MatrixLocker",
         "when": "editorTextFocus"
@@ -21,6 +21,12 @@
         "key": "cmd+shift+x",
         "command": "workbench.action.tasks.runTask",
         "args": "Open in Xcode",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+alt+r",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Run MatrixLocker",
         "when": "editorTextFocus"
     }
 ]
