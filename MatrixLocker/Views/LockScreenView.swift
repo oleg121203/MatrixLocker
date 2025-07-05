@@ -1,226 +1,273 @@
-import Cocoa
+import UIKit
 
-class LockScreenView: NSView {
-    private var characters: [String] = []
-    private var columns: [MatrixColumn] = []
-    private var timer: Timer?
-    private var digitalRain: [DigitalRainDrop] = []
+/// A view that displays a "Matrix rain" style lock screen animation with customizable text and color.
+/// The view animates columns of characters that fall down the screen with a fading trail effect.
+final class LockScreenView: UIView {
     
-    private struct MatrixColumn {
-        var characters: [MatrixCharacter]
-        var x: CGFloat
-        var speed: Double
-        var lastDropTime: TimeInterval
-        var intensity: Double
+    // MARK: - Public Properties
+    
+    /// The text displayed as a trailing label at the bottom right.
+    public var trailingLabelText: String = "" {
+        didSet {
+            trailingLabel.text = trailingLabelText
+            trailingLabel.sizeToFit()
+            setNeedsLayout()
+        }
     }
     
-    private struct MatrixCharacter {
-        var char: String
-        var y: CGFloat
-        var brightness: Double
-        var isLeading: Bool
-        var age: Double
+    /// The color of the trailing text.
+    public var trailingLabelColor: UIColor = .green {
+        didSet {
+            trailingLabel.textColor = trailingLabelColor
+        }
     }
     
-    private struct DigitalRainDrop {
-        var x: CGFloat
-        var y: CGFloat
-        var speed: Double
-        var length: Int
-        var characters: [String]
-        var brightness: Double
+    /// The color used for the falling characters.
+    public var rainColor: UIColor = .green {
+        didSet {
+            setNeedsDisplay()
+        }
     }
-
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
+    
+    /// The font used for the falling characters.
+    /// Falls back to monospaced system font if "Menlo" is unavailable.
+    public var rainFont: UIFont = UIFont(name: "Menlo", size: 16.0) ?? UIFont.monospacedSystemFont(ofSize: 16.0, weight: .regular) {
+        didSet {
+            recalculateCharacterMetrics()
+            setNeedsDisplay()
+        }
+    }
+    
+    // MARK: - Private Properties
+    
+    /// The size of each character using the current rainFont.
+    private var charSize: CGSize = .zero
+    
+    /// Number of columns based on view width and character width.
+    private var numCols: Int = 0
+    
+    /// Y positions for each column's falling character.
+    private var columnYPositions: [CGFloat] = []
+    
+    /// Timer driving the animation.
+    private var animationTimer: Timer?
+    
+    /// Label shown at bottom right with trailing text.
+    private let trailingLabel = UILabel()
+    
+    /// The character set used for the "Matrix rain" effect.
+    private let rainCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
+    
+    /// Flag indicating whether animation is currently running.
+    private var isAnimating = false
+    
+    // MARK: - Initialization
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         commonInit()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit()
     }
     
+    /// Sets up the view's properties and observers.
     private func commonInit() {
-        // Authentic Matrix characters: Katakana, Latin, numerals, and symbols
-        let matrixChars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?"
-        characters = matrixChars.map { String($0) }
-        setupMatrixEffect()
-        timer = Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(updateAnimation), userInfo: nil, repeats: true)
+        backgroundColor = .black
+        isOpaque = true
         
-        // Listen for settings changes and preview requests
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: Notifications.settingsDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(previewEffect), name: Notifications.matrixPreview, object: nil)
+        // Set up trailing label font with fallback.
+        trailingLabel.font = UIFont(name: "Menlo-Bold", size: 18) ?? UIFont.monospacedSystemFont(ofSize: 18, weight: .bold)
+        trailingLabel.textColor = trailingLabelColor
+        trailingLabel.textAlignment = .right
+        trailingLabel.backgroundColor = .clear
+        trailingLabel.text = trailingLabelText
+        trailingLabel.sizeToFit()
+        addSubview(trailingLabel)
+        
+        // Initial calculation of character metrics.
+        recalculateCharacterMetrics()
+        
+        // Observe app lifecycle notifications to pause/resume animation.
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil)
     }
     
-    @objc private func settingsDidChange() {
-        // Force a redraw when settings change
-        DispatchQueue.main.async {
-            self.needsDisplay = true
-        }
-    }
-    
-    @objc private func previewEffect() {
-        // Clear current rain and spawn a burst of new drops for preview
-        digitalRain.removeAll()
-        
-        for i in 0..<columns.count {
-            if Double.random(in: 0...1) < 0.7 { // 70% chance to spawn a drop in each column
-                let drop = DigitalRainDrop(
-                    x: columns[i].x,
-                    y: -50,
-                    speed: columns[i].speed * UserSettings.shared.matrixAnimationSpeed,
-                    length: Int.random(in: 8...25),
-                    characters: (0..<25).map { _ in characters.randomElement()! },
-                    brightness: columns[i].intensity
-                )
-                digitalRain.append(drop)
-            }
-        }
-        
-        DispatchQueue.main.async {
-            self.needsDisplay = true
-        }
-    }
-
-    private func setupMatrixEffect() {
-        let fontSize: CGFloat = 24
-        let columnWidth: CGFloat = fontSize * 0.8
-        let columnCount = Int(bounds.width / columnWidth)
-        
-        columns = []
-        digitalRain = []
-        
-        for i in 0..<columnCount {
-            let column = MatrixColumn(
-                characters: [],
-                x: CGFloat(i) * columnWidth,
-                speed: Double.random(in: 1.0...3.0),
-                lastDropTime: 0,
-                intensity: Double.random(in: 0.3...1.0)
-            )
-            columns.append(column)
-        }
-    }
-
-    @objc private func updateAnimation() {
-        let settings = UserSettings.shared
-        let speedMultiplier = settings.matrixAnimationSpeed
-        let currentTime = CACurrentMediaTime()
-        
-        // Update existing drops
-        for i in stride(from: digitalRain.count - 1, through: 0, by: -1) {
-            digitalRain[i].y += CGFloat(digitalRain[i].speed * speedMultiplier)
-            digitalRain[i].brightness *= 0.995 // Fade over time
-            
-            // Remove drops that are off screen or too faded
-            if digitalRain[i].y > bounds.height + 100 || digitalRain[i].brightness < 0.1 {
-                digitalRain.remove(at: i)
-            }
-        }
-        
-        // Randomly spawn new drops based on density setting
-        let densityMultiplier = settings.matrixDensity
-        for i in 0..<columns.count {
-            let timeSinceLastDrop = currentTime - columns[i].lastDropTime
-            let spawnChance = densityMultiplier * 0.1 // Base spawn chance adjusted by density
-            let shouldSpawn = timeSinceLastDrop > Double.random(in: 0.5...3.0) && Double.random(in: 0...1) < spawnChance
-            
-            if shouldSpawn {
-                let drop = DigitalRainDrop(
-                    x: columns[i].x,
-                    y: -50,
-                    speed: columns[i].speed,
-                    length: Int.random(in: 8...25),
-                    characters: (0..<25).map { _ in characters.randomElement()! },
-                    brightness: columns[i].intensity
-                )
-                digitalRain.append(drop)
-                columns[i].lastDropTime = currentTime
-            }
-        }
-        
-        // Randomly change some characters
-        for i in 0..<digitalRain.count {
-            if Bool.random() && digitalRain[i].characters.count > 0 {
-                let randomIndex = Int.random(in: 0..<digitalRain[i].characters.count)
-                digitalRain[i].characters[randomIndex] = characters.randomElement()!
-            }
-        }
-        
-        needsDisplay = true
-    }
-
-    override func draw(_ dirtyRect: NSRect) {
-        // Deep black background
-        NSColor.black.setFill()
-        dirtyRect.fill()
-        
-        let matrixColor = UserSettings.shared.matrixCharacterColor
-        let fontSize: CGFloat = 24
-        let font = NSFont(name: "Menlo", size: fontSize) ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .medium)
-        
-        // Draw digital rain
-        for drop in digitalRain {
-            for (index, char) in drop.characters.enumerated() {
-                let charY = drop.y - CGFloat(index * Int(fontSize))
-                
-                // Skip if character is off screen
-                guard charY > -fontSize && charY < bounds.height + fontSize else { continue }
-                
-                // Calculate brightness based on position in drop
-                let isLeading = index == 0
-                let distanceFromHead = CGFloat(index)
-                let maxDistance = CGFloat(drop.length)
-                
-                var alpha: CGFloat
-                var color: NSColor
-                
-                if isLeading {
-                    // Leading character is bright white
-                    alpha = CGFloat(drop.brightness)
-                    color = NSColor.white
-                } else {
-                    // Trailing characters fade with matrix color
-                    let fadeMultiplier = max(0, 1.0 - (distanceFromHead / maxDistance))
-                    alpha = CGFloat(drop.brightness * Double(fadeMultiplier) * 0.8)
-                    color = matrixColor
-                }
-                
-                // Add slight random flicker
-                if Bool.random() {
-                    alpha *= 0.7
-                }
-                
-                let finalColor = color.withAlphaComponent(alpha)
-                let attrs: [NSAttributedString.Key: Any] = [
-                    .font: font,
-                    .foregroundColor: finalColor,
-                    .strokeWidth: -1.0,
-                    .strokeColor: finalColor.withAlphaComponent(alpha * 0.3)
-                ]
-                
-                let point = NSPoint(x: drop.x, y: charY)
-                char.draw(at: point, withAttributes: attrs)
-            }
-        }
-        
-        // Add occasional screen glitch effect
-        if Int.random(in: 0...200) == 0 {
-            let glitchRect = NSRect(x: 0, y: CGFloat.random(in: 0...bounds.height), 
-                                  width: bounds.width, height: 2)
-            matrixColor.withAlphaComponent(0.1).setFill()
-            glitchRect.fill()
-        }
-    }
-    
-    override func viewDidEndLiveResize() {
-        super.viewDidEndLiveResize()
-        setupMatrixEffect()
-    }
-
     deinit {
-        timer?.invalidate()
+        stopAnimation()
         NotificationCenter.default.removeObserver(self)
     }
+    
+    // MARK: - Layout
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Recalculate character size and columns when bounds change.
+        recalculateCharacterMetrics()
+        
+        // Update trailing label frame to bottom right with padding.
+        let padding: CGFloat = 10
+        let labelSize = trailingLabel.bounds.size
+        trailingLabel.frame = CGRect(
+            x: bounds.width - labelSize.width - padding,
+            y: bounds.height - labelSize.height - padding,
+            width: labelSize.width,
+            height: labelSize.height)
+    }
+    
+    /// Recalculates character size, number of columns, and adjusts column Y positions accordingly.
+    private func recalculateCharacterMetrics() {
+        charSize = "A".size(withAttributes: [.font: rainFont])
+        guard charSize.width > 0 else {
+            numCols = 0
+            columnYPositions.removeAll()
+            return
+        }
+        
+        let newNumCols = Int(bounds.width / charSize.width)
+        
+        if newNumCols != numCols {
+            numCols = newNumCols
+            // Resize or initialize columnYPositions with random starting Y values within bounds height
+            if columnYPositions.count > numCols {
+                columnYPositions = Array(columnYPositions.prefix(numCols))
+            } else if columnYPositions.count < numCols {
+                columnYPositions.append(contentsOf:
+                    (0..<(numCols - columnYPositions.count)).map { _ in CGFloat.random(in: 0...bounds.height) }
+                )
+            }
+        }
+    }
+    
+    // MARK: - Animation Control
+    
+    /// Starts the matrix rain animation.
+    public func startAnimation() {
+        guard !isAnimating else { return }
+        isAnimating = true
+        setupTimer()
+    }
+    
+    /// Stops the matrix rain animation.
+    public func stopAnimation() {
+        guard isAnimating else { return }
+        isAnimating = false
+        invalidateTimer()
+    }
+    
+    /// Creates and schedules the animation timer.
+    private func setupTimer() {
+        invalidateTimer()
+        animationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
+            self?.animationStep()
+        }
+        RunLoop.main.add(animationTimer!, forMode: .common)
+    }
+    
+    /// Invalidates and nils out the animation timer.
+    private func invalidateTimer() {
+        animationTimer?.invalidate()
+        animationTimer = nil
+    }
+    
+    // MARK: - Application Lifecycle Handlers
+    
+    @objc private func applicationDidEnterBackground() {
+        invalidateTimer()
+    }
+    
+    @objc private func applicationWillEnterForeground() {
+        if isAnimating && animationTimer == nil {
+            setupTimer()
+        }
+    }
+    
+    // MARK: - Animation Logic
+    
+    /// Performs one animation step: updates Y positions and triggers view redraw.
+    private func animationStep() {
+        guard numCols > 0 else { return }
+        
+        // Update the y position for each column to create falling effect.
+        for index in 0..<numCols {
+            // Move the position down by one character height.
+            columnYPositions[index] += charSize.height
+            
+            // Reset to top after reaching bottom.
+            if columnYPositions[index] > bounds.height {
+                columnYPositions[index] = 0
+            }
+        }
+        
+        // Trigger redraw.
+        setNeedsDisplay()
+    }
+    
+    /// Draws the matrix rain effect.
+    override func draw(_ rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext(), numCols > 0 else { return }
+        
+        // Fill background black.
+        context.setFillColor(UIColor.black.cgColor)
+        context.fill(rect)
+        
+        // Attributes for drawing characters.
+        let baseAttributes: [NSAttributedString.Key: Any] = [
+            .font: rainFont,
+            .foregroundColor: rainColor
+        ]
+        
+        // Draw each column's falling character.
+        for colIndex in 0..<numCols {
+            // Randomly pick one character from rainCharacters.
+            let randomIndex = rainCharacters.index(
+                rainCharacters.startIndex,
+                offsetBy: Int.random(in: 0..<rainCharacters.count))
+            let char = String(rainCharacters[randomIndex])
+            
+            let xPos = CGFloat(colIndex) * charSize.width
+            let yPos = columnYPositions[colIndex]
+            
+            char.draw(at: CGPoint(x: xPos, y: yPos), withAttributes: baseAttributes)
+            
+            // Draw a fading trail above the current character.
+            let trailLength = 5
+            for trailOffset in 1...trailLength {
+                let trailY = yPos - CGFloat(trailOffset) * charSize.height
+                if trailY < 0 { break }
+                
+                // Alpha decreases with trail offset.
+                let alpha = CGFloat(trailLength - trailOffset) / CGFloat(trailLength) * 0.7
+                
+                // Pick random character for trail to enhance variety.
+                let trailCharIndex = rainCharacters.index(
+                    rainCharacters.startIndex,
+                    offsetBy: Int.random(in: 0..<rainCharacters.count))
+                let trailChar = String(rainCharacters[trailCharIndex])
+                
+                let trailAttributes: [NSAttributedString.Key: Any] = [
+                    .font: rainFont,
+                    .foregroundColor: rainColor.withAlphaComponent(alpha)
+                ]
+                
+                trailChar.draw(at: CGPoint(x: xPos, y: trailY), withAttributes: trailAttributes)
+            }
+        }
+    }
+    
+    // MARK: - Notes
+    
+    // For smoother and more precise animation timing consider using CADisplayLink instead of Timer.
 }
