@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="B2Y-hE-cKL" systemVersion="20G71">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24093.8"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
     <scenes>
         <!--General Settings View Controller-->
         <scene sceneID="general-settings-scene">
             <objects>
-                <viewController id="general-vc" customClass="GeneralSettingsViewController" customModule="AppModule" customModuleProvider="target">
-                    <view key="view" contentMode="scaleToFill" id="general-vc-view">
+                <viewController id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target">
+                    <view key="view" id="general-vc-view">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
-                            <!-- Fixed: unique sidebar-width in general scene -->
-                            <constraint id="general-sidebar-width" firstAttribute="width" constant="250"/>
+                            <constraint firstAttribute="width" constant="250" id="general-sidebar-width"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -17,10 +22,12 @@
         <!--Settings View Controller-->
         <scene sceneID="settings-scene">
             <objects>
-                <viewController id="B2Y-hE-cKL" customClass="SettingsViewController" customModule="AppModule" customModuleProvider="target">
-                    <view key="view" contentMode="scaleToFill" id="settings-vc-view">
+                <viewController id="B2Y-hE-cKL" customClass="SettingsViewController" customModule="MatrixLocker" customModuleProvider="target">
+                    <view key="view" id="settings-vc-view">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
-                            <constraint id="sidebar-width" firstAttribute="width" constant="200"/>
+                            <constraint firstAttribute="width" constant="200" id="sidebar-width"/>
                         </constraints>
                     </view>
                 </viewController>
