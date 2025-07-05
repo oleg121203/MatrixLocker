@@ -1,4 +1,11 @@
-import class LockScreenViewController: NSViewController {
+import Cocoa
+import LocalAuthentication
+
+protocol LockScreenDelegate: AnyObject {
+    func didUnlockScreen()
+}
+
+class LockScreenViewController: NSViewController {
     weak var delegate: LockScreenDelegate?
     
     private var passwordField: NSSecureTextField!
