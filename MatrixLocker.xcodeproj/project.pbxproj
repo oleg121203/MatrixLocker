@@ -19,6 +19,7 @@
 		1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */; };
 		1A2B3C4D5E6F789AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789A /* Main.storyboard */; };
 		1A2B3C4D5E6F789BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789B /* Assets.xcassets */; };
+		D772876E2E19E1FD005ABBE2 /* auto_commit.sh in Resources */ = {isa = PBXBuildFile; fileRef = D772876D2E19E1FD005ABBE2 /* auto_commit.sh */; };
 		E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		1A2B3C4D5E6F789B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789D /* MatrixLocker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MatrixLocker.entitlements; sourceTree = "<group>"; };
+		D772876D2E19E1FD005ABBE2 /* auto_commit.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = auto_commit.sh; sourceTree = "<group>"; };
 		E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				1A2B3C4D5E6F7897 /* LockScreenView.swift */,
+				D772876D2E19E1FD005ABBE2 /* auto_commit.sh */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				1A2B3C4D5E6F789BA /* Assets.xcassets in Resources */,
+				D772876E2E19E1FD005ABBE2 /* auto_commit.sh in Resources */,
 				1A2B3C4D5E6F789AA /* Main.storyboard in Resources */,
 			);
 		};
