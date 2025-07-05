@@ -219,6 +219,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc private func toggleMonitoring() {
         UserSettings.shared.enableAutomaticLock.toggle()
+        
+        // Start or stop monitoring based on new setting
+        if UserSettings.shared.enableAutomaticLock {
+            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
+        }
+        
         settingsDidChange()
         setupStatusMenu() // Refresh menu
     }

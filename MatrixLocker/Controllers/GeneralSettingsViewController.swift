@@ -35,6 +35,15 @@ class GeneralSettingsViewController: NSViewController {
         super.viewDidLoad()
         loadSettings()
         setupUI()
+        setupSliderRange()
+    }
+    
+    private func setupSliderRange() {
+        // Set slider range: 10 seconds to 5 minutes (300 seconds) as per README
+        timeoutSlider?.minValue = 10.0
+        timeoutSlider?.maxValue = 300.0
+        timeoutSlider?.numberOfTickMarks = 5
+        timeoutSlider?.allowsTickMarkValuesOnly = false
     }
     
     private func setupUI() {
@@ -122,6 +131,12 @@ class GeneralSettingsViewController: NSViewController {
         timeoutLabel?.stringValue = "Lock after \(Int(newTimeout)) seconds of activity"
         UserSettings.shared.inactivityTimeout = newTimeout
         
+        // Restart monitoring with new timeout if currently monitoring
+        if UserSettings.shared.enableAutomaticLock {
+            NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
+            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
+        }
+        
         // Notify about settings change
         NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
@@ -202,6 +217,13 @@ class GeneralSettingsViewController: NSViewController {
     @IBAction func automaticLockDidChange(_ sender: NSSwitch) {
         UserSettings.shared.enableAutomaticLock = (sender.state == .on)
         updateAutomaticLockUI()
+        
+        // Start or stop monitoring based on new setting
+        if sender.state == .on {
+            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
+        }
         
         // Notify about settings change
         NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)

@@ -49,6 +49,8 @@ class ActivityMonitor {
         inactivityTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [weak self] _ in
             self?.inactivityTimerDidFire()
         }
+        // Important: Listen for activity during the 10-second countdown
+        startListeningForActivity()
     }
 
     private func resetInactivityTimer() {

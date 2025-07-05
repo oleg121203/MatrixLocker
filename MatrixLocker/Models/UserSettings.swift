@@ -51,7 +51,9 @@ class UserSettings {
             return defaults.double(forKey: Keys.inactivityTimeout)
         }
         set {
-            defaults.set(newValue, forKey: Keys.inactivityTimeout)
+            // Validate range: 10 seconds to 5 minutes (300 seconds)
+            let clampedValue = max(10.0, min(300.0, newValue))
+            defaults.set(clampedValue, forKey: Keys.inactivityTimeout)
         }
     }
 
