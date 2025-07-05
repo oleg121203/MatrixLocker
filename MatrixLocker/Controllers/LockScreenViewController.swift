@@ -253,8 +253,8 @@ class LockScreenViewController: NSViewController {
             }
         } else {
             messageLabel.stringValue = "Activity limit reached - Enter authentication"
-            passwordField.isEnabled = true
-            unlockButton.isEnabled = true
+            passwordField.isEnabled = settings.enablePasswordProtection
+            unlockButton.isEnabled = settings.enablePasswordProtection
         }
         
         // Update time remaining display

@@ -84,7 +84,7 @@ class LockScreenView: NSView {
     }
 
     private func setupMatrixEffect() {
-        let fontSize: CGFloat = 14
+        let fontSize: CGFloat = 24
         let columnWidth: CGFloat = fontSize * 0.8
         let columnCount = Int(bounds.width / columnWidth)
         
@@ -157,7 +157,7 @@ class LockScreenView: NSView {
         dirtyRect.fill()
         
         let matrixColor = UserSettings.shared.matrixCharacterColor
-        let fontSize: CGFloat = 14
+        let fontSize: CGFloat = 24
         let font = NSFont(name: "Menlo", size: fontSize) ?? NSFont.monospacedSystemFont(ofSize: fontSize, weight: .medium)
         
         // Draw digital rain
