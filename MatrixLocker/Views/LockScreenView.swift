@@ -1,40 +1,40 @@
-import UIKit
+import AppKit
 
 /// A view that displays a "Matrix rain" style lock screen animation with customizable text and color.
 /// The view animates columns of characters that fall down the screen with a fading trail effect.
-final class LockScreenView: UIView {
+final class LockScreenView: NSView {
     
     // MARK: - Public Properties
     
     /// The text displayed as a trailing label at the bottom right.
     public var trailingLabelText: String = "" {
         didSet {
-            trailingLabel.text = trailingLabelText
+            trailingLabel.stringValue = trailingLabelText
             trailingLabel.sizeToFit()
-            setNeedsLayout()
+            needsLayout = true
         }
     }
     
     /// The color of the trailing text.
-    public var trailingLabelColor: UIColor = .green {
+    public var trailingLabelColor: NSColor = .green {
         didSet {
             trailingLabel.textColor = trailingLabelColor
         }
     }
     
     /// The color used for the falling characters.
-    public var rainColor: UIColor = .green {
+    public var rainColor: NSColor = .green {
         didSet {
-            setNeedsDisplay()
+            needsDisplay = true
         }
     }
     
     /// The font used for the falling characters.
     /// Falls back to monospaced system font if "Menlo" is unavailable.
-    public var rainFont: UIFont = UIFont(name: "Menlo", size: 16.0) ?? UIFont.monospacedSystemFont(ofSize: 16.0, weight: .regular) {
+    public var rainFont: NSFont = NSFont(name: "Menlo", size: 16.0) ?? NSFont.monospacedSystemFont(ofSize: 16.0, weight: .regular) {
         didSet {
             recalculateCharacterMetrics()
-            setNeedsDisplay()
+            needsDisplay = true
         }
     }
     
@@ -53,7 +53,7 @@ final class LockScreenView: UIView {
     private var animationTimer: Timer?
     
     /// Label shown at bottom right with trailing text.
-    private let trailingLabel = UILabel()
+    private let trailingLabel = NSTextField()
     
     /// The character set used for the "Matrix rain" effect.
     private let rainCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"
@@ -63,8 +63,8 @@ final class LockScreenView: UIView {
     
     // MARK: - Initialization
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
         commonInit()
     }
     
@@ -75,15 +75,17 @@ final class LockScreenView: UIView {
     
     /// Sets up the view's properties and observers.
     private func commonInit() {
-        backgroundColor = .black
-        isOpaque = true
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.black.cgColor
         
         // Set up trailing label font with fallback.
-        trailingLabel.font = UIFont(name: "Menlo-Bold", size: 18) ?? UIFont.monospacedSystemFont(ofSize: 18, weight: .bold)
+        trailingLabel.font = NSFont(name: "Menlo-Bold", size: 18) ?? NSFont.monospacedSystemFont(ofSize: 18, weight: .bold)
         trailingLabel.textColor = trailingLabelColor
-        trailingLabel.textAlignment = .right
-        trailingLabel.backgroundColor = .clear
-        trailingLabel.text = trailingLabelText
+        trailingLabel.alignment = .right
+        trailingLabel.isBezeled = false
+        trailingLabel.isEditable = false
+        trailingLabel.drawsBackground = false
+        trailingLabel.stringValue = trailingLabelText
         trailingLabel.sizeToFit()
         addSubview(trailingLabel)
         
@@ -93,14 +95,14 @@ final class LockScreenView: UIView {
         // Observe app lifecycle notifications to pause/resume animation.
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(applicationDidEnterBackground),
-            name: UIApplication.didEnterBackgroundNotification,
+            selector: #selector(applicationWillResignActive),
+            name: NSApplication.willResignActiveNotification,
             object: nil)
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(applicationWillEnterForeground),
-            name: UIApplication.willEnterForegroundNotification,
+            selector: #selector(applicationDidBecomeActive),
+            name: NSApplication.didBecomeActiveNotification,
             object: nil)
     }
     
@@ -111,8 +113,8 @@ final class LockScreenView: UIView {
     
     // MARK: - Layout
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func layout() {
+        super.layout()
         
         // Recalculate character size and columns when bounds change.
         recalculateCharacterMetrics()
@@ -120,16 +122,17 @@ final class LockScreenView: UIView {
         // Update trailing label frame to bottom right with padding.
         let padding: CGFloat = 10
         let labelSize = trailingLabel.bounds.size
-        trailingLabel.frame = CGRect(
+        trailingLabel.frame = NSRect(
             x: bounds.width - labelSize.width - padding,
-            y: bounds.height - labelSize.height - padding,
+            y: padding,
             width: labelSize.width,
             height: labelSize.height)
     }
     
     /// Recalculates character size, number of columns, and adjusts column Y positions accordingly.
     private func recalculateCharacterMetrics() {
-        charSize = "A".size(withAttributes: [.font: rainFont])
+        let attributes = [NSAttributedString.Key.font: rainFont]
+        charSize = "A".size(withAttributes: attributes)
         guard charSize.width > 0 else {
             numCols = 0
             columnYPositions.removeAll()
@@ -173,7 +176,6 @@ final class LockScreenView: UIView {
         animationTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { [weak self] _ in
             self?.animationStep()
         }
-        RunLoop.main.add(animationTimer!, forMode: .common)
     }
     
     /// Invalidates and nils out the animation timer.
@@ -184,11 +186,11 @@ final class LockScreenView: UIView {
     
     // MARK: - Application Lifecycle Handlers
     
-    @objc private func applicationDidEnterBackground() {
+    @objc private func applicationWillResignActive() {
         invalidateTimer()
     }
     
-    @objc private func applicationWillEnterForeground() {
+    @objc private func applicationDidBecomeActive() {
         if isAnimating && animationTimer == nil {
             setupTimer()
         }
@@ -212,22 +214,17 @@ final class LockScreenView: UIView {
         }
         
         // Trigger redraw.
-        setNeedsDisplay()
+        needsDisplay = true
     }
     
     /// Draws the matrix rain effect.
-    override func draw(_ rect: CGRect) {
-        guard let context = UIGraphicsGetCurrentContext(), numCols > 0 else { return }
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        guard numCols > 0 else { return }
         
         // Fill background black.
-        context.setFillColor(UIColor.black.cgColor)
-        context.fill(rect)
-        
-        // Attributes for drawing characters.
-        let baseAttributes: [NSAttributedString.Key: Any] = [
-            .font: rainFont,
-            .foregroundColor: rainColor
-        ]
+        NSColor.black.setFill()
+        dirtyRect.fill()
         
         // Draw each column's falling character.
         for colIndex in 0..<numCols {
@@ -240,7 +237,13 @@ final class LockScreenView: UIView {
             let xPos = CGFloat(colIndex) * charSize.width
             let yPos = columnYPositions[colIndex]
             
-            char.draw(at: CGPoint(x: xPos, y: yPos), withAttributes: baseAttributes)
+            let baseAttributes: [NSAttributedString.Key: Any] = [
+                .font: rainFont,
+                .foregroundColor: rainColor
+            ]
+            
+            let charPoint = NSPoint(x: xPos, y: yPos)
+            char.draw(at: charPoint, withAttributes: baseAttributes)
             
             // Draw a fading trail above the current character.
             let trailLength = 5
@@ -262,12 +265,13 @@ final class LockScreenView: UIView {
                     .foregroundColor: rainColor.withAlphaComponent(alpha)
                 ]
                 
-                trailChar.draw(at: CGPoint(x: xPos, y: trailY), withAttributes: trailAttributes)
+                let trailPoint = NSPoint(x: xPos, y: trailY)
+                trailChar.draw(at: trailPoint, withAttributes: trailAttributes)
             }
         }
     }
     
     // MARK: - Notes
     
-    // For smoother and more precise animation timing consider using CADisplayLink instead of Timer.
+    // For smoother and more precise animation timing consider using CVDisplayLink instead of Timer on macOS.
 }
