@@ -123,4 +123,132 @@ class UserSettings {
         }
         return inputPassword == savedPassword
     }
+    
+    // MARK: - Failed Attempts Management
+    
+    private struct SecurityKeys {
+        static let failedAttempts = "failedAttempts"
+        static let lastFailedAttempt = "lastFailedAttempt"
+        static let lockoutEndTime = "lockoutEndTime"
+    }
+    
+    var failedAttempts: Int {
+        get {
+            return defaults.integer(forKey: SecurityKeys.failedAttempts)
+        }
+        set {
+            defaults.set(newValue, forKey: SecurityKeys.failedAttempts)
+        }
+    }
+    
+    private var lastFailedAttempt: Date? {
+        get {
+            return defaults.object(forKey: SecurityKeys.lastFailedAttempt) as? Date
+        }
+        set {
+            defaults.set(newValue, forKey: SecurityKeys.lastFailedAttempt)
+        }
+    }
+    
+    private var lockoutEndTime: Date? {
+        get {
+            return defaults.object(forKey: SecurityKeys.lockoutEndTime) as? Date
+        }
+        set {
+            defaults.set(newValue, forKey: SecurityKeys.lockoutEndTime)
+        }
+    }
+    
+    // MARK: - Security Check Methods
+    
+    func isLockedOut() -> Bool {
+        guard let lockoutEnd = lockoutEndTime else { return false }
+        return Date() < lockoutEnd
+    }
+    
+    func timeRemainingInLockout() -> TimeInterval {
+        guard let lockoutEnd = lockoutEndTime else { return 0 }
+        let remaining = lockoutEnd.timeIntervalSince(Date())
+        return max(0, remaining)
+    }
+    
+    func attemptLogin(password: String) -> LoginResult {
+        // Check if currently locked out
+        if isLockedOut() {
+            let remaining = timeRemainingInLockout()
+            return .lockedOut(timeRemaining: remaining)
+        }
+        
+        // Validate password
+        if validatePassword(password) {
+            // Successful login - reset failed attempts
+            resetFailedAttempts()
+            return .success
+        } else {
+            // Failed login - increment counter
+            return handleFailedAttempt()
+        }
+    }
+    
+    private func handleFailedAttempt() -> LoginResult {
+        failedAttempts += 1
+        lastFailedAttempt = Date()
+        
+        if failedAttempts >= maxFailedAttempts {
+            // Lock out the user
+            lockoutEndTime = Date().addingTimeInterval(lockoutDuration)
+            return .lockedOut(timeRemaining: lockoutDuration)
+        } else {
+            let remainingAttempts = maxFailedAttempts - failedAttempts
+            return .failed(attemptsRemaining: remainingAttempts)
+        }
+    }
+    
+    private func resetFailedAttempts() {
+        failedAttempts = 0
+        lastFailedAttempt = nil
+        lockoutEndTime = nil
+    }
+    
+    // MARK: - Utility Methods
+    
+    func formatTimeRemaining(_ timeInterval: TimeInterval) -> String {
+        let totalMinutes = Int(timeInterval / 60)
+        let seconds = Int(timeInterval.truncatingRemainder(dividingBy: 60))
+        
+        if totalMinutes > 0 {
+            return String(format: "%d:%02d", totalMinutes, seconds)
+        } else {
+            return "\(seconds) seconds"
+        }
+    }
+}
+
+// MARK: - Login Result Enum
+
+enum LoginResult {
+    case success
+    case failed(attemptsRemaining: Int)
+    case lockedOut(timeRemaining: TimeInterval)
+    
+    var isSuccess: Bool {
+        switch self {
+        case .success:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var errorMessage: String {
+        switch self {
+        case .success:
+            return ""
+        case .failed(let remaining):
+            return "Incorrect password. \(remaining) attempt\(remaining != 1 ? "s" : "") remaining."
+        case .lockedOut(let timeRemaining):
+            let timeString = UserSettings.shared.formatTimeRemaining(timeRemaining)
+            return "Too many failed attempts. Try again in \(timeString)."
+        }
+    }
 }

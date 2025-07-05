@@ -130,23 +130,22 @@ class LockScreenViewController: NSViewController {
     
     private func updateInterface() {
         let settings = UserSettings.shared
-        let security = SecurityManager.shared
         
         // Check if locked out
-        if security.isLockedOut() {
-            let timeRemaining = security.timeRemainingInLockout()
-            messageLabel.stringValue = "Too many failed attempts. Try again in \(security.formatTimeRemaining(timeRemaining))"
+        if settings.isLockedOut() {
+            let timeRemaining = settings.timeRemainingInLockout()
+            messageLabel.stringValue = "Too many failed attempts. Try again in \(settings.formatTimeRemaining(timeRemaining))"
             passwordField.isEnabled = false
             unlockButton.isEnabled = false
             
             // Start timer to update countdown
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-                if !security.isLockedOut() {
+                if !settings.isLockedOut() {
                     timer.invalidate()
                     self?.updateInterface()
                 } else {
-                    let remaining = security.timeRemainingInLockout()
-                    self?.messageLabel.stringValue = "Too many failed attempts. Try again in \(security.formatTimeRemaining(remaining))"
+                    let remaining = settings.timeRemainingInLockout()
+                    self?.messageLabel.stringValue = "Too many failed attempts. Try again in \(settings.formatTimeRemaining(remaining))"
                 }
             }
         } else {
@@ -170,7 +169,7 @@ class LockScreenViewController: NSViewController {
     
     @objc private func unlockButtonClicked() {
         let inputPassword = passwordField.stringValue
-        let result = SecurityManager.shared.attemptLogin(password: inputPassword)
+        let result = UserSettings.shared.attemptLogin(password: inputPassword)
         
         switch result {
         case .success:
@@ -212,7 +211,7 @@ class LockScreenViewController: NSViewController {
                 DispatchQueue.main.async {
                     if success {
                         // Reset failed attempts on successful system auth
-                        SecurityManager.shared.attemptLogin(password: UserSettings.shared.lockPassword ?? "")
+                        _ = UserSettings.shared.attemptLogin(password: UserSettings.shared.lockPassword ?? "")
                         self?.delegate?.didUnlockScreen()
                     } else {
                         self?.retryButton.isHidden = false
