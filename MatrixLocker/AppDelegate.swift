@@ -10,10 +10,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Configure the observer for user inactivity
         NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: .userDidBecomeInactive, object: nil)
         
-        // Start monitoring user activity with the saved interval
-        activityMonitor.startMonitoring(inactivityInterval: UserSettings.shared.inactivityTimeout)
+        // Configure observer for settings changes
+        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: .settingsDidChange, object: nil)
         
-        print("MatrixLocker launched. Activity monitoring started.")
+        // Start monitoring user activity with the saved interval (only if automatic lock is enabled)
+        if UserSettings.shared.enableAutomaticLock {
+            activityMonitor.startMonitoring(inactivityInterval: UserSettings.shared.inactivityTimeout)
+            print("MatrixLocker launched. Activity monitoring started with \(UserSettings.shared.inactivityTimeout) seconds timeout.")
+        } else {
+            print("MatrixLocker launched. Activity monitoring disabled (automatic lock is off).")
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -63,6 +69,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         wc.showWindow(self)
     }
+    
+    @objc func settingsDidChange() {
+        print("Settings changed, updating activity monitor")
+        activityMonitor.updateFromSettings()
+    }
 }
 
 // Implement the delegate protocol to handle the unlock event
@@ -79,4 +90,5 @@ extension AppDelegate: LockScreenDelegate {
 // Custom Notification Name for better code readability
 extension Notification.Name {
     static let userDidBecomeInactive = Notification.Name("userDidBecomeInactive")
+    static let settingsDidChange = Notification.Name("settingsDidChange")
 }
