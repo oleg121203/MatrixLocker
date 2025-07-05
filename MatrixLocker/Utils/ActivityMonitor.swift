@@ -12,9 +12,9 @@ class ActivityMonitor {
     private var inactivityTimer: Timer?
 
     init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: .startMonitoring, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: .stopMonitoring, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(activateNow), name: .activateNow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(startMonitoring), name: Notifications.startMonitoring, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(stopMonitoring), name: Notifications.stopMonitoring, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(activateNow), name: Notifications.activateNow, object: nil)
     }
 
     deinit {
@@ -99,7 +99,7 @@ class ActivityMonitor {
         if state == .readyToLock {
             print("Activity detected in ready state. Locking screen.")
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: .userDidBecomeInactive, object: nil)
+                NotificationCenter.default.post(name: Notifications.userDidBecomeInactive, object: nil)
             }
             stopMonitoring()
         }

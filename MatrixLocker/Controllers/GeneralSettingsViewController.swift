@@ -64,15 +64,15 @@ class GeneralSettingsViewController: NSViewController {
     }
 
     @objc private func startMonitoringClicked() {
-        NotificationCenter.default.post(name: Notification.Name("startMonitoring"), object: nil)
+        NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
     }
 
     @objc private func stopMonitoringClicked() {
-        NotificationCenter.default.post(name: Notification.Name("stopMonitoring"), object: nil)
+        NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
     }
 
     @objc private func activateNowClicked() {
-        NotificationCenter.default.post(name: Notification.Name("activateNow"), object: nil)
+        NotificationCenter.default.post(name: Notifications.activateNow, object: nil)
     }
 
     private func loadSettings() {
@@ -123,21 +123,21 @@ class GeneralSettingsViewController: NSViewController {
         UserSettings.shared.inactivityTimeout = newTimeout
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func colorDidChange(_ sender: NSColorWell) {
         UserSettings.shared.matrixCharacterColor = sender.color
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func launchAtLoginDidChange(_ sender: NSSwitch) {
         LaunchAtLogin.isEnabled = (sender.state == .on)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     // MARK: - Matrix Effect Actions
@@ -148,7 +148,7 @@ class GeneralSettingsViewController: NSViewController {
         animationSpeedLabel?.stringValue = String(format: "%.1fx", speed)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func densityDidChange(_ sender: NSSlider) {
@@ -157,21 +157,21 @@ class GeneralSettingsViewController: NSViewController {
         densityLabel?.stringValue = "\(Int(density * 100))%"
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func soundEffectsDidChange(_ sender: NSSwitch) {
         UserSettings.shared.matrixSoundEffects = (sender.state == .on)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func showTimeRemainingDidChange(_ sender: NSSwitch) {
         UserSettings.shared.showTimeRemaining = (sender.state == .on)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     // MARK: - App Behavior Actions
@@ -187,14 +187,14 @@ class GeneralSettingsViewController: NSViewController {
         alert.runModal()
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func startMinimizedDidChange(_ sender: NSSwitch) {
         UserSettings.shared.startMinimized = (sender.state == .on)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     // MARK: - Security Settings Actions
@@ -204,7 +204,7 @@ class GeneralSettingsViewController: NSViewController {
         updateAutomaticLockUI()
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func passwordProtectionDidChange(_ sender: NSSwitch) {
@@ -212,14 +212,14 @@ class GeneralSettingsViewController: NSViewController {
         updatePasswordProtectionUI()
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func passwordDidChange(_ sender: NSSecureTextField) {
         UserSettings.shared.setPassword(sender.stringValue)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func failedAttemptsDidChange(_ sender: NSStepper) {
@@ -233,7 +233,7 @@ class GeneralSettingsViewController: NSViewController {
         failedAttemptsLabel.stringValue = "\(attempts)"
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     @IBAction func lockoutDurationDidChange(_ sender: NSSlider) {
@@ -242,7 +242,7 @@ class GeneralSettingsViewController: NSViewController {
         updateLockoutLabel(duration: duration)
         
         // Notify about settings change
-        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
     }
     
     // MARK: - Helper Methods

@@ -17,6 +17,7 @@
 		1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7897 /* LockScreenView.swift */; };
 		1A2B3C4D5E6F7898A /* ActivityMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7898 /* ActivityMonitor.swift */; };
 		1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */; };
+		E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
 		1A2B3C4D5E6F789AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789A /* Main.storyboard */; };
 		1A2B3C4D5E6F789BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F789B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -33,6 +34,7 @@
 		1A2B3C4D5E6F7897 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7898 /* ActivityMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityMonitor.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLogin.swift; sourceTree = "<group>"; };
+		E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789A /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A2B3C4D5E6F789C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			children = (
 				1A2B3C4D5E6F7898 /* ActivityMonitor.swift */,
 				1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */,
+				E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 				1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */,
 				1A2B3C4D5E6F7898A /* ActivityMonitor.swift in Sources */,
 				1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */,
+				E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

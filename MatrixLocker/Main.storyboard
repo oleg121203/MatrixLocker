@@ -183,7 +183,7 @@
                                     <action selector="failedAttemptsDidChange:" target="general-vc" id="CXo-Ax-9YI"/>
                                 </connections>
                             </stepper>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mA1-LW-tdA">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mA1-LW-tdA">
                                 <rect key="frame" x="490" y="132" width="20" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="3" id="nSh-40-Jqi">
                                     <font key="font" metaFont="system"/>
@@ -206,7 +206,7 @@
                                     <action selector="lockoutDurationDidChange:" target="general-vc" id="RaK-Kx-Wjx"/>
                                 </connections>
                             </slider>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-1L-wMu">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9Y-1L-wMu">
                                 <rect key="frame" x="430" y="54" width="80" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 minutes" id="7CH-5S-7TF">
                                     <font key="font" metaFont="system"/>
@@ -243,6 +243,21 @@
                             <constraint firstItem="sidebar-view" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="sidebar-leading"/>
                             <constraint firstItem="sidebar-view" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="sidebar-top"/>
                             <constraint firstItem="L49-L8-TT0" firstAttribute="top" secondItem="Bgr-dT-Gvf" secondAttribute="bottom" constant="15" id="spH-wn-bsJ"/>
+                            <!-- Added constraints to fix ambiguous layout -->
+                            <constraint firstItem="WG7-3M-C0K" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="210" id="password-protection-switch-leading"/>
+                            <constraint firstItem="WG7-3M-C0K" firstAttribute="top" secondItem="Eu6-MB-KCz" secondAttribute="bottom" constant="15" id="password-protection-switch-top"/>
+                            <constraint firstItem="Wgw-5X-Yjc" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="210" id="password-field-leading"/>
+                            <constraint firstItem="Wgw-5X-Yjc" firstAttribute="top" secondItem="gov-ML-IJp" secondAttribute="bottom" constant="17" id="password-field-top"/>
+                            <constraint firstItem="Wgw-5X-Yjc" firstAttribute="width" constant="200" id="password-field-width"/>
+                            <constraint firstItem="tQv-bW-lLg" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="462" id="failed-attempts-stepper-leading"/>
+                            <constraint firstItem="tQv-bW-lLg" firstAttribute="top" secondItem="BAf-vp-iEC" secondAttribute="bottom" constant="17" id="failed-attempts-stepper-top"/>
+                            <constraint firstItem="mA1-LW-tdA" firstAttribute="centerY" secondItem="tQv-bW-lLg" secondAttribute="centerY" id="failed-attempts-label-center-y"/>
+                            <constraint firstItem="mA1-LW-tdA" firstAttribute="leading" secondItem="tQv-bW-lLg" secondAttribute="trailing" constant="10" id="failed-attempts-label-leading"/>
+                            <constraint firstItem="Od7-dg-fkS" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="222" id="lockout-slider-leading"/>
+                            <constraint firstItem="Od7-dg-fkS" firstAttribute="top" secondItem="WXr-uq-gF2" secondAttribute="bottom" constant="17" id="lockout-slider-top"/>
+                            <constraint firstItem="Od7-dg-fkS" firstAttribute="width" constant="200" id="lockout-slider-width"/>
+                            <constraint firstItem="Y9Y-1L-wMu" firstAttribute="centerY" secondItem="Od7-dg-fkS" secondAttribute="centerY" id="lockout-label-center-y"/>
+                            <constraint firstItem="Y9Y-1L-wMu" firstAttribute="leading" secondItem="Od7-dg-fkS" secondAttribute="trailing" constant="10" id="lockout-label-leading"/>
                         </constraints>
                     </view>
                     <connections>
@@ -316,7 +331,7 @@
                                     <action selector="launchAtLoginDidChange:" target="general-vc" id="launch-action"/>
                                 </connections>
                             </switch>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="security-section-title">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="security-section-title">
                                 <rect key="frame" x="48" y="271" width="146" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Security Settings" id="security-section-title-cell">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -324,7 +339,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-title">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-title">
                                 <rect key="frame" x="48" y="232" width="140" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password Protection:" id="password-protection-title-cell">
                                     <font key="font" metaFont="system"/>
@@ -332,13 +347,13 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <switch misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-switch">
+                            <switch translatesAutoresizingMaskIntoConstraints="NO" id="password-protection-switch">
                                 <rect key="frame" x="50" y="193" width="54" height="24"/>
                                 <connections>
                                     <action selector="passwordProtectionDidChange:" target="general-vc" id="password-protection-action"/>
                                 </connections>
                             </switch>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-title">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="password-title">
                                 <rect key="frame" x="48" y="154" width="80" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Set Password:" id="password-title-cell">
                                     <font key="font" metaFont="system"/>
@@ -346,7 +361,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <secureTextField misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="password-field">
+                            <secureTextField translatesAutoresizingMaskIntoConstraints="NO" id="password-field">
                                 <rect key="frame" x="50" y="115" width="200" height="22"/>
                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="password-field-cell">
                                     <font key="font" metaFont="system"/>
@@ -360,7 +375,7 @@
                                     <action selector="passwordDidChange:" target="general-vc" id="password-action"/>
                                 </connections>
                             </secureTextField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-title">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-title">
                                 <rect key="frame" x="300" y="154" width="140" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Failed Attempts:" id="failed-attempts-title-cell">
                                     <font key="font" metaFont="system"/>
@@ -368,14 +383,14 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <stepper misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-stepper">
+                            <stepper translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-stepper">
                                 <rect key="frame" x="302" y="115" width="19" height="28"/>
                                 <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="10" doubleValue="3" id="failed-attempts-stepper-cell"/>
                                 <connections>
                                     <action selector="failedAttemptsDidChange:" target="general-vc" id="failed-attempts-action"/>
                                 </connections>
                             </stepper>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-label">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="failed-attempts-label">
                                 <rect key="frame" x="330" y="119" width="20" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="3" id="failed-attempts-label-cell">
                                     <font key="font" metaFont="system"/>
@@ -383,7 +398,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-title">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-title">
                                 <rect key="frame" x="48" y="76" width="120" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lockout Duration:" id="lockout-title-cell">
                                     <font key="font" metaFont="system"/>
@@ -391,14 +406,14 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-slider">
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-slider">
                                 <rect key="frame" x="62" y="37" width="200" height="22"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="60" maxValue="1800" doubleValue="300" tickMarkPosition="below" sliderType="linear" id="lockout-slider-cell"/>
                                 <connections>
                                     <action selector="lockoutDurationDidChange:" target="general-vc" id="lockout-action"/>
                                 </connections>
                             </slider>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-label">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lockout-label">
                                 <rect key="frame" x="270" y="41" width="80" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 minutes" id="lockout-label-cell">
                                     <font key="font" metaFont="system"/>
@@ -408,6 +423,13 @@
                             </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="timeout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="G0s-aA-Y3k"/>
+                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="23" id="H4s-3e-R2C"/>
+                            <constraint firstItem="timeout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="J3b-wG-Y8g"/>
+                            <constraint firstItem="timeout-slider" firstAttribute="top" secondItem="timeout-title" secondAttribute="bottom" constant="21" id="timeout-slider-top"/>
+                            <constraint firstItem="timeout-label" firstAttribute="leading" secondItem="timeout-slider" secondAttribute="trailing" constant="10" id="timeout-label-leading"/>
+                            <constraint firstItem="timeout-label" firstAttribute="centerY" secondItem="timeout-slider" secondAttribute="centerY" id="timeout-label-center"/>
+                            <constraint firstItem="timeout-slider" firstAttribute="width" constant="400" id="timeout-slider-width"/>
                             <constraint firstItem="color-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-title-leading"/>
                             <constraint firstItem="color-title" firstAttribute="top" secondItem="timeout-slider" secondAttribute="bottom" constant="43" id="color-title-top"/>
                             <constraint firstItem="color-well" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="color-well-leading"/>
@@ -424,7 +446,7 @@
                             <constraint firstItem="launch-title" firstAttribute="top" secondItem="color-well" secondAttribute="bottom" constant="43" id="launch-title-top"/>
                             <constraint firstItem="lockout-label" firstAttribute="centerY" secondItem="lockout-slider" secondAttribute="centerY" id="lockout-label-center"/>
                             <constraint firstItem="lockout-label" firstAttribute="leading" secondItem="lockout-slider" secondAttribute="trailing" constant="10" id="lockout-label-leading"/>
-                            <constraint firstItem="lockout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="lockout-slider-leading"/>
+                            <constraint firstItem="lockout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="62" id="lockout-slider-leading"/>
                             <constraint firstItem="lockout-slider" firstAttribute="top" secondItem="lockout-title" secondAttribute="bottom" constant="17" id="lockout-slider-top"/>
                             <constraint firstItem="lockout-slider" firstAttribute="width" constant="200" id="lockout-slider-width"/>
                             <constraint firstItem="lockout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="lockout-title-leading"/>
@@ -440,13 +462,6 @@
                             <constraint firstItem="password-title" firstAttribute="top" secondItem="password-protection-switch" secondAttribute="bottom" constant="23" id="password-title-top"/>
                             <constraint firstItem="security-section-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="security-section-title-leading"/>
                             <constraint firstItem="security-section-title" firstAttribute="top" secondItem="launch-switch" secondAttribute="bottom" constant="25" id="security-section-title-top"/>
-                            <constraint firstItem="timeout-label" firstAttribute="centerY" secondItem="timeout-slider" secondAttribute="centerY" id="timeout-label-center"/>
-                            <constraint firstItem="timeout-label" firstAttribute="leading" secondItem="timeout-slider" secondAttribute="trailing" constant="10" id="timeout-label-leading"/>
-                            <constraint firstItem="timeout-slider" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-slider-leading"/>
-                            <constraint firstItem="timeout-slider" firstAttribute="top" secondItem="timeout-title" secondAttribute="bottom" constant="21" id="timeout-slider-top"/>
-                            <constraint firstItem="timeout-slider" firstAttribute="width" constant="400" id="timeout-slider-width"/>
-                            <constraint firstItem="timeout-title" firstAttribute="leading" secondItem="general-view" secondAttribute="leading" constant="50" id="timeout-title-leading"/>
-                            <constraint firstItem="timeout-title" firstAttribute="top" secondItem="general-view" secondAttribute="top" constant="23" id="timeout-title-top"/>
                         </constraints>
                     </view>
                     <connections>

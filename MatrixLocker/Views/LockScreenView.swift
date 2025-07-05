@@ -49,8 +49,8 @@ class LockScreenView: NSView {
         timer = Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(updateAnimation), userInfo: nil, repeats: true)
         
         // Listen for settings changes and preview requests
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: .settingsDidChange, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(previewEffect), name: NSNotification.Name("MatrixPreview"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: Notifications.settingsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(previewEffect), name: Notifications.matrixPreview, object: nil)
     }
     
     @objc private func settingsDidChange() {

@@ -17,14 +17,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Post a notification to start monitoring if enabled in settings
         if UserSettings.shared.enableAutomaticLock {
-            NotificationCenter.default.post(name: .startMonitoring, object: nil)
+            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
         }
         
         // Configure the observer for user inactivity
-        NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: .userDidBecomeInactive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: Notifications.userDidBecomeInactive, object: nil)
         
         // Configure observer for settings changes
-        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: .settingsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: Notifications.settingsDidChange, object: nil)
         
 
     }
@@ -258,12 +258,8 @@ extension AppDelegate: LockScreenDelegate {
         lockScreenWindowController?.close()
         lockScreenWindowController = nil
         // Reset the inactivity timer to start monitoring again
-        activityMonitor.resetTimer()
+        activityMonitor?.startMonitoring()
     }
 }
 
-// Custom Notification Name for better code readability
-extension Notification.Name {
-    static let userDidBecomeInactive = Notification.Name("userDidBecomeInactive")
-    static let settingsDidChange = Notification.Name("settingsDidChange")
-}
+
