@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24093.8" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24093.8" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B1O-5B-ZlI">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24093.8"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -48,11 +48,15 @@
         <scene sceneID="tab-scene">
             <objects>
                 <tabViewController id="tab-controller" sceneMemberID="viewController">
-                    <tabViewItems>
-                        <tabViewItem label="General" identifier="general" id="general-tab"/>
-                        <tabViewItem label="Xcode" identifier="xcode" id="xcode-tab"/>
-                        <tabViewItem label="About" identifier="about" id="about-tab"/>
-                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsBezelBorder" id="tab-view">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <tabViewItems>
+                            <tabViewItem label="General" identifier="general" id="general-tab"/>
+                            <tabViewItem label="Xcode" identifier="xcode" id="xcode-tab"/>
+                            <tabViewItem label="About" identifier="about" id="about-tab"/>
+                        </tabViewItems>
+                    </tabView>
                     <connections>
                         <segue destination="general-vc" kind="relationship" relationship="tabViewItem" id="general-relationship"/>
                         <segue destination="xcode-vc" kind="relationship" relationship="tabViewItem" id="xcode-relationship"/>
