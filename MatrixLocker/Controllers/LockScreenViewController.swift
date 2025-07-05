@@ -46,7 +46,7 @@ class LockScreenViewController: NSViewController {
         messageLabel.textColor = .white
         messageLabel.font = NSFont.systemFont(ofSize: 16)
         messageLabel.alignment = .center
-        messageLabel.stringValue = "Enter password to unlock"
+        messageLabel.stringValue = "Activity time limit reached - Enter password to unlock"
         
         // Password field
         passwordField = NSSecureTextField()

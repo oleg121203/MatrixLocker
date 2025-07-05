@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Start monitoring user activity with the saved interval (only if automatic lock is enabled)
         if UserSettings.shared.enableAutomaticLock {
             activityMonitor.startMonitoring(inactivityInterval: UserSettings.shared.inactivityTimeout)
-            print("MatrixLocker launched. Activity monitoring started with \(UserSettings.shared.inactivityTimeout) seconds timeout.")
+            print("MatrixLocker launched. Activity monitoring started with \(UserSettings.shared.inactivityTimeout) seconds limit.")
         } else {
             print("MatrixLocker launched. Activity monitoring disabled (automatic lock is off).")
         }
@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Prevent showing multiple lock screens
         guard lockScreenWindowController == nil else { return }
 
-        print("User is inactive. Presenting lock screen.")
+        print("User has exceeded activity time limit. Presenting lock screen.")
         
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateController(withIdentifier: "LockScreenViewController") as? LockScreenViewController else {

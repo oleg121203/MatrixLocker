@@ -92,7 +92,7 @@
                 </viewController>
                 <customObject id="rCF-N1-vf3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="-964" y="390"/>
         </scene>
         <!--General Settings View Controller-->
         <scene sceneID="general-scene">
@@ -302,7 +302,7 @@
                 </viewController>
                 <customObject id="general-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="800" y="100"/>
+            <point key="canvasLocation" x="388" y="-370"/>
         </scene>
         <!--Xcode Settings View Controller-->
         <scene sceneID="xcode-scene">
@@ -417,20 +417,20 @@
                 </viewController>
                 <customObject id="about-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="800" y="400"/>
+            <point key="canvasLocation" x="1236" y="-127"/>
         </scene>
         <!--Lock Screen View Controller-->
         <scene sceneID="lock-scene">
             <objects>
                 <viewController storyboardIdentifier="LockScreenViewController" id="lock-vc" customClass="LockScreenViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="lock-view">
-                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1379" height="1080"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
                 <customObject id="lock-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="550"/>
+            <point key="canvasLocation" x="247" y="1602"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -487,11 +487,11 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PiU-QC-26Z"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="MatrixLocker" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="MatrixLocker" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="-50"/>
+            <point key="canvasLocation" x="523" y="-445"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -512,7 +512,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-54.5" y="150"/>
+            <point key="canvasLocation" x="-447" y="-403"/>
         </scene>
     </scenes>
 </document>

@@ -19,7 +19,7 @@ class UserSettings {
     private init() {
         // Register default values to ensure the app has a valid state on first launch
         defaults.register(defaults: [
-            Keys.inactivityTimeout: 60.0, // Default: 1 minute
+            Keys.inactivityTimeout: 10.0, // Default: 10 seconds for testing
             Keys.matrixCharacterColor: try! NSKeyedArchiver.archivedData(withRootObject: NSColor.systemGreen, requiringSecureCoding: false),
             Keys.maxFailedAttempts: 3, // Default: 3 attempts
             Keys.lockoutDuration: 300.0, // Default: 5 minutes lockout

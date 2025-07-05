@@ -39,10 +39,10 @@ class GeneralSettingsViewController: NSViewController {
             return
         }
         
-        // Inactivity Timeout
+        // Activity Time Limit
         let timeout = settings.inactivityTimeout
         timeoutSlider.doubleValue = timeout
-        timeoutLabel.stringValue = "\(Int(timeout)) seconds"
+        timeoutLabel.stringValue = "Lock after \(Int(timeout)) seconds of activity"
         
         // Matrix Color
         characterColorWell.color = settings.matrixCharacterColor
@@ -74,7 +74,7 @@ class GeneralSettingsViewController: NSViewController {
         }
         
         let newTimeout = sender.doubleValue
-        timeoutLabel.stringValue = "\(Int(newTimeout)) seconds"
+        timeoutLabel.stringValue = "Lock after \(Int(newTimeout)) seconds of activity"
         UserSettings.shared.inactivityTimeout = newTimeout
         
         // Notify about settings change
