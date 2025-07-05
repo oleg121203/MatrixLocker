@@ -31,6 +31,30 @@
 ./build_and_run.sh clean
 ```
 
+## 🔧 Terminal Aliases
+
+Для швидшого доступу додай aliases до свого shell профілю:
+
+```bash
+# Завантажити aliases
+source matrix_aliases.sh
+
+# Або додати до ~/.zshrc:
+echo "source /Users/dev/Documents/NIMDA/MATRIX/matrix_aliases.sh" >> ~/.zshrc
+```
+
+### Доступні команди:
+- `matrix-build` - Компіляція
+- `matrix-clean` - Чиста компіляція  
+- `matrix-run` - Швидка компіляція + запуск
+- `matrix-run-clean` - Чиста компіляція + запуск
+- `matrix-xcode` - Відкрити в Xcode
+- `matrix-dir` - Перейти в директорію проекту
+- `matrix-status` - Статус проекту
+- `matrix-logs` - Відкрити логи
+- `matrix-clean-derived` - Очистити кеш
+- `matrix-help` - Довідка
+
 ## 🔧 Ручні Команди
 
 ### Компіляція:
@@ -59,7 +83,19 @@ open MatrixLocker.xcodeproj
 
 # Перевірити логи
 Console.app
+
+# Очистити DerivedData при проблемах
+rm -rf ~/Library/Developer/Xcode/DerivedData/MatrixLocker-*
 ```
+
+## ⚡ Найшвидші Способи
+
+| Мета | VS Code | Terminal |
+|------|---------|----------|
+| Швидка компіляція | `⌘ + Shift + B` | `matrix-build` |
+| Компіляція + запуск | `⌘ + Shift + R` | `matrix-run` |
+| Чиста компіляція | `⌘ + Shift + C` | `matrix-clean` |
+| Відкрити Xcode | `⌘ + Shift + X` | `matrix-xcode` |
 
 ---
 
