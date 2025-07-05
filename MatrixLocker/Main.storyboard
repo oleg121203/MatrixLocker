@@ -44,25 +44,15 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Tab View Controller-->
+        <!--Settings Container Controller-->
         <scene sceneID="tab-scene">
             <objects>
-                <tabViewController id="tab-controller" sceneMemberID="viewController">
-                    <tabView key="tabView" type="noTabsBezelBorder" id="tab-view">
+                <viewController id="tab-controller" sceneMemberID="viewController">
+                    <view key="view" id="tab-view">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <tabViewItems>
-                            <tabViewItem label="General" identifier="general" id="general-tab"/>
-                            <tabViewItem label="Xcode" identifier="xcode" id="xcode-tab"/>
-                            <tabViewItem label="About" identifier="about" id="about-tab"/>
-                        </tabViewItems>
-                    </tabView>
-                    <connections>
-                        <segue destination="general-vc" kind="relationship" relationship="tabViewItem" id="general-relationship"/>
-                        <segue destination="xcode-vc" kind="relationship" relationship="tabViewItem" id="xcode-relationship"/>
-                        <segue destination="about-vc" kind="relationship" relationship="tabViewItem" id="about-relationship"/>
-                    </connections>
-                </tabViewController>
+                    </view>
+                </viewController>
                 <customObject id="tab-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="500" y="250"/>
