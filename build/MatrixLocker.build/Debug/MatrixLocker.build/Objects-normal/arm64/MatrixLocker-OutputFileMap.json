@@ -1,0 +1,119 @@
+{
+  "" : {
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/MatrixLocker-master.dia",
+    "emit-module-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/MatrixLocker-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/MatrixLocker-master-emit-module.dia",
+    "pch" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/MatrixLocker-master-Bridging-header.pch",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/MatrixLocker-master.swiftdeps"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/AppDelegate.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AppDelegate~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Controllers/AboutViewController.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/AboutViewController~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Controllers/GeneralSettingsViewController.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneralSettingsViewController~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Controllers/LockScreenViewController.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenViewController~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Controllers/SettingsViewController.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/SettingsViewController~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Controllers/XcodeSettingsViewController.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/XcodeSettingsViewController~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Models/UserSettings.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/UserSettings~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Utils/ActivityMonitor.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/ActivityMonitor~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Utils/LaunchAtLogin.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LaunchAtLogin~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/MatrixLocker/Views/LockScreenView.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/LockScreenView~partial.swiftmodule"
+  },
+  "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/dev/Documents/NIMDA/MATRIX/build/MatrixLocker.build/Debug/MatrixLocker.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

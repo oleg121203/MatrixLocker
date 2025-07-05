@@ -175,19 +175,20 @@ class LockScreenViewController: NSViewController {
         switch result {
         case .success:
             delegate?.didUnlockScreen()
-        case .failed(let remaining), .lockedOut(_):
+        case .failed(let remaining):
             messageLabel.stringValue = result.errorMessage
             messageLabel.textColor = .systemRed
             passwordField.stringValue = ""
+        case .lockedOut(_):
+            messageLabel.stringValue = result.errorMessage
+            messageLabel.textColor = .systemRed
+            passwordField.stringValue = ""
+            passwordField.isEnabled = false
+            unlockButton.isEnabled = false
             
-            if case .lockedOut(_) = result {
-                passwordField.isEnabled = false
-                unlockButton.isEnabled = false
-                
-                // Update interface after a delay to refresh lockout status
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.updateInterface()
-                }
+            // Update interface after a delay to refresh lockout status
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.updateInterface()
             }
         }
     }
@@ -226,5 +227,4 @@ class LockScreenViewController: NSViewController {
             messageLabel.textColor = .systemYellow
         }
     }
-}
 }
