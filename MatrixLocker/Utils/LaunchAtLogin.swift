@@ -9,7 +9,7 @@ enum LaunchAtLogin {
         get {
             // Note: The `SMAppService` API is available from macOS 13.
             if #available(macOS 13.0, *) {
-                return SMAppService.main.status == .enabled
+                return SMAppService.mainApp.status == .enabled
             }
             // Fallback for older systems is more complex and not included here for simplicity.
             // For a production app, you would use the deprecated SMLoginItemSetEnabled.
@@ -19,12 +19,12 @@ enum LaunchAtLogin {
             if #available(macOS 13.0, *) {
                 do {
                     if newValue {
-                        if SMAppService.main.status == .enabled {
-                            try SMAppService.main.unregister()
+                        if SMAppService.mainApp.status == .enabled {
+                            try SMAppService.mainApp.unregister()
                         }
-                        try SMAppService.main.register()
+                        try SMAppService.mainApp.register()
                     } else {
-                        try SMAppService.main.unregister()
+                        try SMAppService.mainApp.unregister()
                     }
                 } catch {
                     print("Failed to update Launch at Login status: \(error.localizedDescription)")

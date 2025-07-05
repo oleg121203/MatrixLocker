@@ -44,7 +44,7 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Settings Container Controller-->
+        <!--View Controller-->
         <scene sceneID="tab-scene">
             <objects>
                 <viewController id="tab-controller" sceneMemberID="viewController">

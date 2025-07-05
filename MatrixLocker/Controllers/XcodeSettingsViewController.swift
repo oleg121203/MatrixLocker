@@ -79,13 +79,14 @@ class XcodeSettingsViewController: NSViewController {
             context.duration = 0.5
             toastLabel.animator().alphaValue = 1.0
         }, completionHandler: {
-            NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 0.5
-                context.delay = 2.0
-                toastLabel.animator().alphaValue = 0.0
-            }, completionHandler: {
-                toastLabel.removeFromSuperview()
-            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                NSAnimationContext.runAnimationGroup({ context in
+                    context.duration = 0.5
+                    toastLabel.animator().alphaValue = 0.0
+                }, completionHandler: {
+                    toastLabel.removeFromSuperview()
+                })
+            }
         })
     }
 }
