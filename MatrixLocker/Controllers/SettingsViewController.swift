@@ -15,12 +15,21 @@ class SettingsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set up button tags for identification
-        generalButton?.tag = 0
-        xcodeButton?.tag = 1
-        aboutButton?.tag = 2
+        // Ensure all outlets are connected
+        guard let generalButton = generalButton,
+              let xcodeButton = xcodeButton,
+              let aboutButton = aboutButton,
+              let _ = containerView else {
+            print("ERROR: Some outlets are not connected in the storyboard!")
+            return
+        }
         
-        sidebarButtons = [generalButton, xcodeButton, aboutButton].compactMap { $0 }
+        // Set up button tags for identification
+        generalButton.tag = 0
+        xcodeButton.tag = 1
+        aboutButton.tag = 2
+        
+        sidebarButtons = [generalButton, xcodeButton, aboutButton]
         
         // Set the initial state - show general settings
         showViewController(withIdentifier: "GeneralSettingsViewController")
@@ -37,6 +46,11 @@ class SettingsViewController: NSViewController {
     }
     
     private func showViewController(withIdentifier identifier: String) {
+        guard let containerView = containerView else {
+            print("ERROR: Container view is not connected!")
+            return
+        }
+        
         // Remove current view controller if any
         if let current = currentViewController {
             current.view.removeFromSuperview()
@@ -54,6 +68,8 @@ class SettingsViewController: NSViewController {
             containerView.addSubview(newViewController.view)
             
             currentViewController = newViewController
+        } else {
+            print("ERROR: Could not instantiate view controller with identifier: \(identifier)")
         }
     }
     
