@@ -15,15 +15,62 @@
                         <subviews>
                             <visualEffectView blendingMode="behindWindow" material="sidebar" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="sidebar-view">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="600"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="general-button">
+                                        <rect key="frame" x="20" y="520" width="160" height="32"/>
+                                        <buttonCell key="cell" type="push" title="General" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="general-button-cell">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="general-button-height"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="general-button-action"/>
+                                        </connections>
+                                    </button>
+                                    <button tag="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xcode-button">
+                                        <rect key="frame" x="20" y="480" width="160" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Xcode" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xcode-button-cell">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="xcode-button-height"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="xcode-button-action"/>
+                                        </connections>
+                                    </button>
+                                    <button tag="2" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="about-button">
+                                        <rect key="frame" x="20" y="440" width="160" height="32"/>
+                                        <buttonCell key="cell" type="push" title="About" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="about-button-cell">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="about-button-height"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="sidebarButtonTapped:" target="B2Y-hE-cKL" id="about-button-action"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstItem="about-button" firstAttribute="leading" secondItem="sidebar-view" secondAttribute="leading" constant="20" id="about-button-leading"/>
+                                    <constraint firstItem="about-button" firstAttribute="top" secondItem="xcode-button" secondAttribute="bottom" constant="8" id="about-button-top"/>
+                                    <constraint firstAttribute="trailing" secondItem="about-button" secondAttribute="trailing" constant="20" id="about-button-trailing"/>
+                                    <constraint firstItem="general-button" firstAttribute="leading" secondItem="sidebar-view" secondAttribute="leading" constant="20" id="general-button-leading"/>
+                                    <constraint firstItem="general-button" firstAttribute="top" secondItem="sidebar-view" secondAttribute="top" constant="48" id="general-button-top"/>
+                                    <constraint firstAttribute="trailing" secondItem="general-button" secondAttribute="trailing" constant="20" id="general-button-trailing"/>
                                     <constraint firstAttribute="width" constant="200" id="sidebar-width"/>
+                                    <constraint firstItem="xcode-button" firstAttribute="leading" secondItem="sidebar-view" secondAttribute="leading" constant="20" id="xcode-button-leading"/>
+                                    <constraint firstItem="xcode-button" firstAttribute="top" secondItem="general-button" secondAttribute="bottom" constant="8" id="xcode-button-top"/>
+                                    <constraint firstAttribute="trailing" secondItem="xcode-button" secondAttribute="trailing" constant="20" id="xcode-button-trailing"/>
                                 </constraints>
                             </visualEffectView>
                             <containerView translatesAutoresizingMaskIntoConstraints="NO" id="container-view">
                                 <rect key="frame" x="200" y="0.0" width="600" height="600"/>
-                                <connections>
-                                    <segue destination="tab-controller" kind="embed" id="embed-segue"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <constraints>
@@ -37,30 +84,20 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="aboutButton" destination="about-button" id="about-button-outlet"/>
                         <outlet property="containerView" destination="container-view" id="container-outlet"/>
+                        <outlet property="generalButton" destination="general-button" id="general-button-outlet"/>
+                        <outlet property="xcodeButton" destination="xcode-button" id="xcode-button-outlet"/>
                     </connections>
                 </viewController>
                 <customObject id="rCF-N1-vf3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="tab-scene">
-            <objects>
-                <viewController id="tab-controller" sceneMemberID="viewController">
-                    <view key="view" id="tab-view">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="tab-responder" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="500" y="250"/>
-        </scene>
         <!--General Settings View Controller-->
         <scene sceneID="general-scene">
             <objects>
-                <viewController id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GeneralSettingsViewController" id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="general-view">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -150,7 +187,7 @@
         <!--Xcode Settings View Controller-->
         <scene sceneID="xcode-scene">
             <objects>
-                <viewController id="xcode-vc" customClass="XcodeSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="XcodeSettingsViewController" id="xcode-vc" customClass="XcodeSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="xcode-view">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -215,7 +252,7 @@
         <!--About View Controller-->
         <scene sceneID="about-scene">
             <objects>
-                <viewController id="about-vc" customClass="AboutViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AboutViewController" id="about-vc" customClass="AboutViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="about-view">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
