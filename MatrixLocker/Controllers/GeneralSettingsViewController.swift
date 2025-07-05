@@ -2,12 +2,9 @@ import Cocoa
 
 class GeneralSettingsViewController: NSViewController {
 
+    // Activity & Lock Settings
     @IBOutlet weak var timeoutLabel: NSTextField!
     @IBOutlet weak var timeoutSlider: NSSlider!
-    @IBOutlet weak var characterColorWell: NSColorWell!
-    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
-    
-    // Security Settings Outlets
     @IBOutlet weak var automaticLockSwitch: NSSwitch!
     @IBOutlet weak var passwordProtectionSwitch: NSSwitch!
     @IBOutlet weak var passwordField: NSSecureTextField!
@@ -15,66 +12,78 @@ class GeneralSettingsViewController: NSViewController {
     @IBOutlet weak var failedAttemptsLabel: NSTextField!
     @IBOutlet weak var lockoutSlider: NSSlider!
     @IBOutlet weak var lockoutLabel: NSTextField!
+    
+    // Matrix Effect Settings
+    @IBOutlet weak var characterColorWell: NSColorWell!
+    @IBOutlet weak var animationSpeedSlider: NSSlider!
+    @IBOutlet weak var animationSpeedLabel: NSTextField!
+    @IBOutlet weak var densitySlider: NSSlider!
+    @IBOutlet weak var densityLabel: NSTextField!
+    @IBOutlet weak var soundEffectsSwitch: NSSwitch!
+    @IBOutlet weak var showTimeRemainingSwitch: NSSwitch!
+    
+    // App Behavior Settings
+    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
+    @IBOutlet weak var hideFromDockSwitch: NSSwitch!
+    @IBOutlet weak var startMinimizedSwitch: NSSwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSettings()
+        setupUI()
+    }
+    
+    private func setupUI() {
+        // Set up modern styling for the settings view
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
     }
 
     private func loadSettings() {
         let settings = UserSettings.shared
         
-        // Ensure all outlets are connected before proceeding
-        guard let timeoutSlider = timeoutSlider,
-              let timeoutLabel = timeoutLabel,
-              let characterColorWell = characterColorWell,
-              let launchAtLoginSwitch = launchAtLoginSwitch,
-              let automaticLockSwitch = automaticLockSwitch,
-              let passwordProtectionSwitch = passwordProtectionSwitch,
-              let passwordField = passwordField,
-              let failedAttemptsStepper = failedAttemptsStepper,
-              let failedAttemptsLabel = failedAttemptsLabel,
-              let lockoutSlider = lockoutSlider else {
-            print("❌ Error: One or more IBOutlets are not connected in GeneralSettingsViewController")
-            return
-        }
-        
         // Activity Time Limit
         let timeout = settings.inactivityTimeout
-        timeoutSlider.doubleValue = timeout
-        timeoutLabel.stringValue = "Lock after \(Int(timeout)) seconds of activity"
-        
-        // Matrix Color
-        characterColorWell.color = settings.matrixCharacterColor
-        
-        // Launch at Login
-        launchAtLoginSwitch.state = LaunchAtLogin.isEnabled ? .on : .off
+        timeoutSlider?.doubleValue = timeout
+        timeoutLabel?.stringValue = "Lock after \(Int(timeout)) seconds of activity"
         
         // Security Settings
-        automaticLockSwitch.state = settings.enableAutomaticLock ? .on : .off
-        passwordProtectionSwitch.state = settings.enablePasswordProtection ? .on : .off
-        passwordField.stringValue = settings.lockPassword ?? ""
+        automaticLockSwitch?.state = settings.enableAutomaticLock ? .on : .off
+        passwordProtectionSwitch?.state = settings.enablePasswordProtection ? .on : .off
+        passwordField?.stringValue = settings.lockPassword ?? ""
         
         // Failed Attempts
-        failedAttemptsStepper.doubleValue = Double(settings.maxFailedAttempts)
-        failedAttemptsLabel.stringValue = "\(settings.maxFailedAttempts)"
+        failedAttemptsStepper?.doubleValue = Double(settings.maxFailedAttempts)
+        failedAttemptsLabel?.stringValue = "\(settings.maxFailedAttempts)"
         
         // Lockout Duration
-        lockoutSlider.doubleValue = settings.lockoutDuration
+        lockoutSlider?.doubleValue = settings.lockoutDuration
         updateLockoutLabel(duration: settings.lockoutDuration)
         
-        // Update UI state based on automatic lock and password protection settings
+        // Matrix Effect Settings
+        characterColorWell?.color = settings.matrixCharacterColor
+        
+        animationSpeedSlider?.doubleValue = settings.matrixAnimationSpeed
+        animationSpeedLabel?.stringValue = String(format: "%.1fx", settings.matrixAnimationSpeed)
+        
+        densitySlider?.doubleValue = settings.matrixDensity
+        densityLabel?.stringValue = "\(Int(settings.matrixDensity * 100))%"
+        
+        soundEffectsSwitch?.state = settings.matrixSoundEffects ? .on : .off
+        showTimeRemainingSwitch?.state = settings.showTimeRemaining ? .on : .off
+        
+        // App Behavior Settings
+        launchAtLoginSwitch?.state = LaunchAtLogin.isEnabled ? .on : .off
+        hideFromDockSwitch?.state = settings.hideFromDock ? .on : .off
+        startMinimizedSwitch?.state = settings.startMinimized ? .on : .off
+        
+        // Update UI state
         updateAutomaticLockUI()
     }
 
     @IBAction func sliderDidChange(_ sender: NSSlider) {
-        guard let timeoutLabel = timeoutLabel else {
-            print("❌ Error: timeoutLabel outlet not connected")
-            return
-        }
-        
         let newTimeout = sender.doubleValue
-        timeoutLabel.stringValue = "Lock after \(Int(newTimeout)) seconds of activity"
+        timeoutLabel?.stringValue = "Lock after \(Int(newTimeout)) seconds of activity"
         UserSettings.shared.inactivityTimeout = newTimeout
         
         // Notify about settings change
@@ -90,6 +99,63 @@ class GeneralSettingsViewController: NSViewController {
     
     @IBAction func launchAtLoginDidChange(_ sender: NSSwitch) {
         LaunchAtLogin.isEnabled = (sender.state == .on)
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    // MARK: - Matrix Effect Actions
+    
+    @IBAction func animationSpeedDidChange(_ sender: NSSlider) {
+        let speed = sender.doubleValue
+        UserSettings.shared.matrixAnimationSpeed = speed
+        animationSpeedLabel?.stringValue = String(format: "%.1fx", speed)
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    @IBAction func densityDidChange(_ sender: NSSlider) {
+        let density = sender.doubleValue
+        UserSettings.shared.matrixDensity = density
+        densityLabel?.stringValue = "\(Int(density * 100))%"
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    @IBAction func soundEffectsDidChange(_ sender: NSSwitch) {
+        UserSettings.shared.matrixSoundEffects = (sender.state == .on)
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    @IBAction func showTimeRemainingDidChange(_ sender: NSSwitch) {
+        UserSettings.shared.showTimeRemaining = (sender.state == .on)
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    // MARK: - App Behavior Actions
+    
+    @IBAction func hideFromDockDidChange(_ sender: NSSwitch) {
+        UserSettings.shared.hideFromDock = (sender.state == .on)
+        
+        // This will require app restart to take effect
+        let alert = NSAlert()
+        alert.messageText = "Restart Required"
+        alert.informativeText = "You'll need to restart MatrixLocker for this change to take effect."
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+        
+        // Notify about settings change
+        NotificationCenter.default.post(name: .settingsDidChange, object: nil)
+    }
+    
+    @IBAction func startMinimizedDidChange(_ sender: NSSwitch) {
+        UserSettings.shared.startMinimized = (sender.state == .on)
         
         // Notify about settings change
         NotificationCenter.default.post(name: .settingsDidChange, object: nil)
@@ -146,56 +212,35 @@ class GeneralSettingsViewController: NSViewController {
     // MARK: - Helper Methods
     
     private func updateAutomaticLockUI() {
-        guard let automaticLockSwitch = automaticLockSwitch,
-              let timeoutSlider = timeoutSlider,
-              let passwordProtectionSwitch = passwordProtectionSwitch else {
-            print("❌ Error: Required outlets not connected in updateAutomaticLockUI")
-            return
-        }
-        
-        let isEnabled = automaticLockSwitch.state == .on
-        timeoutSlider.isEnabled = isEnabled
-        passwordProtectionSwitch.isEnabled = isEnabled
+        let isEnabled = automaticLockSwitch?.state == .on
+        timeoutSlider?.isEnabled = isEnabled ?? false
+        passwordProtectionSwitch?.isEnabled = isEnabled ?? false
         
         // Also update password protection UI
         updatePasswordProtectionUI()
     }
     
     private func updatePasswordProtectionUI() {
-        guard let automaticLockSwitch = automaticLockSwitch,
-              let passwordProtectionSwitch = passwordProtectionSwitch,
-              let passwordField = passwordField,
-              let failedAttemptsStepper = failedAttemptsStepper,
-              let lockoutSlider = lockoutSlider else {
-            print("❌ Error: Required outlets not connected in updatePasswordProtectionUI")
-            return
-        }
+        let automaticLockEnabled = automaticLockSwitch?.state == .on
+        let passwordProtectionEnabled = passwordProtectionSwitch?.state == .on
+        let isEnabled = (automaticLockEnabled ?? false) && (passwordProtectionEnabled ?? false)
         
-        let automaticLockEnabled = automaticLockSwitch.state == .on
-        let passwordProtectionEnabled = passwordProtectionSwitch.state == .on
-        let isEnabled = automaticLockEnabled && passwordProtectionEnabled
-        
-        passwordField.isEnabled = isEnabled
-        failedAttemptsStepper.isEnabled = isEnabled
-        lockoutSlider.isEnabled = isEnabled
+        passwordField?.isEnabled = isEnabled
+        failedAttemptsStepper?.isEnabled = isEnabled
+        lockoutSlider?.isEnabled = isEnabled
     }
     
     private func updateLockoutLabel(duration: TimeInterval) {
-        guard let lockoutLabel = lockoutLabel else {
-            print("❌ Error: lockoutLabel outlet not connected")
-            return
-        }
-        
         let minutes = Int(duration / 60)
         if minutes < 60 {
-            lockoutLabel.stringValue = "\(minutes) minutes"
+            lockoutLabel?.stringValue = "\(minutes) minutes"
         } else {
             let hours = minutes / 60
             let remainingMinutes = minutes % 60
             if remainingMinutes == 0 {
-                lockoutLabel.stringValue = "\(hours) hour\(hours > 1 ? "s" : "")"
+                lockoutLabel?.stringValue = "\(hours) hour\(hours > 1 ? "s" : "")"
             } else {
-                lockoutLabel.stringValue = "\(hours)h \(remainingMinutes)m"
+                lockoutLabel?.stringValue = "\(hours)h \(remainingMinutes)m"
             }
         }
     }

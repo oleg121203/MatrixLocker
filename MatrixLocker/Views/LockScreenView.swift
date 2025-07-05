@@ -47,6 +47,40 @@ class LockScreenView: NSView {
         characters = matrixChars.map { String($0) }
         setupMatrixEffect()
         timer = Timer.scheduledTimer(timeInterval: 0.03, target: self, selector: #selector(updateAnimation), userInfo: nil, repeats: true)
+        
+        // Listen for settings changes and preview requests
+        NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: .settingsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(previewEffect), name: NSNotification.Name("MatrixPreview"), object: nil)
+    }
+    
+    @objc private func settingsDidChange() {
+        // Force a redraw when settings change
+        DispatchQueue.main.async {
+            self.needsDisplay = true
+        }
+    }
+    
+    @objc private func previewEffect() {
+        // Clear current rain and spawn a burst of new drops for preview
+        digitalRain.removeAll()
+        
+        for i in 0..<columns.count {
+            if Double.random(in: 0...1) < 0.7 { // 70% chance to spawn a drop in each column
+                let drop = DigitalRainDrop(
+                    x: columns[i].x,
+                    y: -50,
+                    speed: columns[i].speed * UserSettings.shared.matrixAnimationSpeed,
+                    length: Int.random(in: 8...25),
+                    characters: (0..<25).map { _ in characters.randomElement()! },
+                    brightness: columns[i].intensity
+                )
+                digitalRain.append(drop)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.needsDisplay = true
+        }
     }
 
     private func setupMatrixEffect() {
@@ -70,11 +104,13 @@ class LockScreenView: NSView {
     }
 
     @objc private func updateAnimation() {
+        let settings = UserSettings.shared
+        let speedMultiplier = settings.matrixAnimationSpeed
         let currentTime = CACurrentMediaTime()
         
         // Update existing drops
         for i in stride(from: digitalRain.count - 1, through: 0, by: -1) {
-            digitalRain[i].y += CGFloat(digitalRain[i].speed)
+            digitalRain[i].y += CGFloat(digitalRain[i].speed * speedMultiplier)
             digitalRain[i].brightness *= 0.995 // Fade over time
             
             // Remove drops that are off screen or too faded
@@ -83,10 +119,12 @@ class LockScreenView: NSView {
             }
         }
         
-        // Randomly spawn new drops
+        // Randomly spawn new drops based on density setting
+        let densityMultiplier = settings.matrixDensity
         for i in 0..<columns.count {
             let timeSinceLastDrop = currentTime - columns[i].lastDropTime
-            let shouldSpawn = timeSinceLastDrop > Double.random(in: 0.5...3.0) && Bool.random()
+            let spawnChance = densityMultiplier * 0.1 // Base spawn chance adjusted by density
+            let shouldSpawn = timeSinceLastDrop > Double.random(in: 0.5...3.0) && Double.random(in: 0...1) < spawnChance
             
             if shouldSpawn {
                 let drop = DigitalRainDrop(
@@ -183,5 +221,6 @@ class LockScreenView: NSView {
 
     deinit {
         timer?.invalidate()
+        NotificationCenter.default.removeObserver(self)
     }
 }

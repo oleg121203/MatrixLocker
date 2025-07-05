@@ -1,5 +1,14 @@
-import Cocoa
-import LocalAuthentication
+import class LockScreenViewController: NSViewController {
+    weak var delegate: LockScreenDelegate?
+    
+    private var passwordField: NSSecureTextField!
+    private var messageLabel: NSTextField!
+    private var unlockButton: NSButton!
+    private var retryButton: NSButton!
+    private var useSystemAuthButton: NSButton!
+    private var timeRemainingLabel: NSTextField!
+    private var lockStartTime: Date?
+    private var timeRemainingTimer: Timer?port LocalAuthentication
 
 protocol LockScreenDelegate: AnyObject {
     func didUnlockScreen()
@@ -16,9 +25,11 @@ class LockScreenViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        lockStartTime = Date()
         setupMatrixBackground()
         setupUnlockInterface()
         updateInterface()
+        setupTimeRemainingTimer()
     }
 
     override func viewDidAppear() {
@@ -118,13 +129,27 @@ class LockScreenViewController: NSViewController {
         retryButton.action = #selector(retryButtonClicked)
         retryButton.isHidden = true
         
-        // Add subviews
-        containerView.addSubview(messageLabel)
-        containerView.addSubview(passwordField)
-        containerView.addSubview(unlockButton)
-        containerView.addSubview(useSystemAuthButton)
-        containerView.addSubview(retryButton)
+        // Time remaining label (conditional)
+        timeRemainingLabel = NSTextField()
+        timeRemainingLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeRemainingLabel.isEditable = false
+        timeRemainingLabel.isBordered = false
+        timeRemainingLabel.backgroundColor = .clear
+        timeRemainingLabel.textColor = UserSettings.shared.matrixCharacterColor.withAlphaComponent(0.8)
+        timeRemainingLabel.font = NSFont.monospacedSystemFont(ofSize: 12, weight: .medium)
+        timeRemainingLabel.alignment = .center
+        timeRemainingLabel.isHidden = !UserSettings.shared.showTimeRemaining
         
+        // Add subviews
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(messageLabel)
+        contentView.addSubview(passwordField)
+        contentView.addSubview(unlockButton)
+        contentView.addSubview(useSystemAuthButton)
+        contentView.addSubview(retryButton)
+        contentView.addSubview(timeRemainingLabel)
+        
+        containerView.addSubview(contentView)
         self.view.addSubview(containerView)
         
         // Setup constraints
@@ -132,36 +157,52 @@ class LockScreenViewController: NSViewController {
             // Container view centered
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 300),
-            containerView.heightAnchor.constraint(equalToConstant: 200),
+            containerView.widthAnchor.constraint(equalToConstant: 350),
+            containerView.heightAnchor.constraint(equalToConstant: 280),
+            
+            // Content view fills container
+            contentView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            contentView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
+            contentView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
+            contentView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
+            
+            // Title label
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             // Message label
-            messageLabel.topAnchor.constraint(equalTo: containerView.topAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+            messageLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            messageLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             // Password field
             passwordField.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 20),
-            passwordField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            passwordField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            passwordField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            passwordField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             passwordField.heightAnchor.constraint(equalToConstant: 30),
             
             // Unlock button
             unlockButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 15),
-            unlockButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            unlockButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            unlockButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            unlockButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             unlockButton.heightAnchor.constraint(equalToConstant: 32),
             
             // System auth button
             useSystemAuthButton.topAnchor.constraint(equalTo: unlockButton.bottomAnchor, constant: 10),
-            useSystemAuthButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            useSystemAuthButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            useSystemAuthButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            useSystemAuthButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             useSystemAuthButton.heightAnchor.constraint(equalToConstant: 32),
             
+            // Time remaining label
+            timeRemainingLabel.topAnchor.constraint(equalTo: useSystemAuthButton.bottomAnchor, constant: 10),
+            timeRemainingLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            timeRemainingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             // Retry button
-            retryButton.topAnchor.constraint(equalTo: useSystemAuthButton.bottomAnchor, constant: 10),
-            retryButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            retryButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            retryButton.topAnchor.constraint(equalTo: timeRemainingLabel.bottomAnchor, constant: 5),
+            retryButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            retryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             retryButton.heightAnchor.constraint(equalToConstant: 32)
         ])
     }
@@ -201,6 +242,44 @@ class LockScreenViewController: NSViewController {
         }
     }
 
+    private func setupTimeRemainingTimer() {
+        guard UserSettings.shared.showTimeRemaining else { return }
+        
+        timeRemainingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.updateTimeRemaining()
+        }
+    }
+    
+    private func updateTimeRemaining() {
+        guard UserSettings.shared.showTimeRemaining,
+              let startTime = lockStartTime else {
+            timeRemainingLabel?.isHidden = true
+            return
+        }
+        
+        let elapsedTime = Date().timeIntervalSince(startTime)
+        let totalLockTime = UserSettings.shared.inactivityTimeout
+        let remainingTime = max(0, totalLockTime - elapsedTime)
+        
+        if remainingTime > 0 {
+            let minutes = Int(remainingTime) / 60
+            let seconds = Int(remainingTime) % 60
+            timeRemainingLabel?.stringValue = String(format: "Auto-unlock in: %02d:%02d", minutes, seconds)
+            timeRemainingLabel?.isHidden = false
+        } else {
+            timeRemainingLabel?.stringValue = "Auto-unlock available"
+            timeRemainingLabel?.isHidden = false
+        }
+    }
+    
+    // MARK: - Cleanup
+    
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        timeRemainingTimer?.invalidate()
+        timeRemainingTimer = nil
+    }
+    
     @objc private func passwordEntered() {
         unlockButtonClicked()
     }
