@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B2Y-hE-cKL">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24093.8"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--General Settings View Controller-->
-        <scene sceneID="general-settings-scene">
-            <objects>
-                <viewController id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target">
-                    <view key="view" id="general-vc-view">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="250" id="general-sidebar-width"/>
-                        </constraints>
-                    </view>
-                </viewController>
-            </objects>
-        </scene>
         <!--Settings View Controller-->
         <scene sceneID="settings-scene">
             <objects>
-                <viewController id="B2Y-hE-cKL" customClass="SettingsViewController" customModule="MatrixLocker" customModuleProvider="target">
-                    <view key="view" id="settings-vc-view">
+                <viewController storyboardIdentifier="SettingsViewController" id="B2Y-hE-cKL" customClass="SettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="settings-view">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="200" id="sidebar-width"/>
-                        </constraints>
                     </view>
                 </viewController>
             </objects>
+            <point key="canvasLocation" x="75" y="250"/>
+        </scene>
+        <!--General Settings View Controller-->
+        <scene sceneID="general-settings-scene">
+            <objects>
+                <viewController storyboardIdentifier="GeneralSettingsViewController" id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="general-view">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="75" y="750"/>
         </scene>
     </scenes>
 </document>
