@@ -152,7 +152,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         
         // Quick actions
-        let lockNowItem = NSMenuItem(title: "Lock Screen Now", action: #selector(lockScreenNow), keyEquivalent: "l")
+        let lockNowItem = NSMenuItem(title: "🔒 Lock Screen Now", action: #selector(lockScreenNow), keyEquivalent: "l")
         lockNowItem.target = self
         menu.addItem(lockNowItem)
         
@@ -162,21 +162,48 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateToggleMenuItem(toggleMonitoringItem)
         menu.addItem(toggleMonitoringItem)
         
+        let activateNowItem = NSMenuItem(title: "⚡ Activate Now (10s)", action: #selector(activateNow), keyEquivalent: "")
+        activateNowItem.target = self
+        menu.addItem(activateNowItem)
+        
         menu.addItem(NSMenuItem.separator())
         
-        // Settings
-        let settingsItem = NSMenuItem(title: "Settings...", action: #selector(showSettings), keyEquivalent: "s")
-        settingsItem.target = self
-        menu.addItem(settingsItem)
+        // Stealth Mode
+        let stealthModeItem = NSMenuItem()
+        stealthModeItem.target = self
+        stealthModeItem.action = #selector(toggleStealthMode)
+        updateStealthModeMenuItem(stealthModeItem)
+        menu.addItem(stealthModeItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        
+        // Settings submenu
+        let settingsSubmenu = NSMenu()
+        
+        let generalSettingsItem = NSMenuItem(title: "General Settings", action: #selector(showSettings), keyEquivalent: "s")
+        generalSettingsItem.target = self
+        settingsSubmenu.addItem(generalSettingsItem)
+        
+        let matrixSettingsItem = NSMenuItem(title: "Matrix Animation", action: #selector(showMatrixSettings), keyEquivalent: "")
+        matrixSettingsItem.target = self
+        settingsSubmenu.addItem(matrixSettingsItem)
+        
+        let securitySettingsItem = NSMenuItem(title: "Security & Lock", action: #selector(showSecuritySettings), keyEquivalent: "")
+        securitySettingsItem.target = self
+        settingsSubmenu.addItem(securitySettingsItem)
+        
+        let settingsMenuItem = NSMenuItem(title: "⚙️ Settings", action: nil, keyEquivalent: "")
+        settingsMenuItem.submenu = settingsSubmenu
+        menu.addItem(settingsMenuItem)
         
         menu.addItem(NSMenuItem.separator())
         
         // About and Quit
-        let aboutItem = NSMenuItem(title: "About MatrixLocker", action: #selector(showAbout), keyEquivalent: "")
+        let aboutItem = NSMenuItem(title: "ℹ️ About MatrixLocker", action: #selector(showAbout), keyEquivalent: "")
         aboutItem.target = self
         menu.addItem(aboutItem)
         
-        let quitItem = NSMenuItem(title: "Quit MatrixLocker", action: #selector(quitApp), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "❌ Quit MatrixLocker", action: #selector(quitApp), keyEquivalent: "q")
         quitItem.target = self
         menu.addItem(quitItem)
         
@@ -196,7 +223,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func updateToggleMenuItem(_ item: NSMenuItem) {
         let isEnabled = UserSettings.shared.enableAutomaticLock
-        item.title = isEnabled ? "Disable Activity Monitoring" : "Enable Activity Monitoring"
+        item.title = isEnabled ? "⏸️ Disable Activity Monitoring" : "▶️ Enable Activity Monitoring"
+    }
+    
+    private func updateStealthModeMenuItem(_ item: NSMenuItem) {
+        let isStealthMode = UserSettings.shared.hideFromDock
+        item.title = isStealthMode ? "👁️ Exit Stealth Mode" : "🥷 Enter Stealth Mode"
     }
     
     private func updateStatusItemIcon() {
@@ -231,6 +263,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusMenu() // Refresh menu
     }
     
+    @objc private func activateNow() {
+        NotificationCenter.default.post(name: Notifications.activateNow, object: nil)
+    }
+    
+    @objc private func toggleStealthMode() {
+        UserSettings.shared.hideFromDock.toggle()
+        setupStatusMenu() // Refresh menu
+    }
+    
     @objc private func showSettings() {
         // Open settings window
         if settingsWindowController == nil {
@@ -246,6 +287,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         settingsWindowController?.showWindow(self)
         NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    @objc private func showMatrixSettings() {
+        // Open settings window with Matrix tab selected
+        showSettings()
+        // TODO: Add logic to switch to Matrix settings tab
+    }
+    
+    @objc private func showSecuritySettings() {
+        // Open settings window with Security tab selected
+        showSettings()
+        // TODO: Add logic to switch to Security settings tab
     }
     
     @objc private func showAbout() {
