@@ -133,6 +133,7 @@ class LockScreenViewController: NSViewController {
 
     private func attemptSystemAuthentication() {
         guard UserSettings.shared.enablePasswordProtection else {
+            print("🔓 Password protection disabled, unlocking immediately")
             delegate?.didUnlockScreen()
             return
         }
@@ -142,15 +143,20 @@ class LockScreenViewController: NSViewController {
 
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "Unlock MatrixLocker"
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, _ in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authError in
                 DispatchQueue.main.async {
                     if success {
+                        print("🔓 Biometric authentication successful")
                         SoundManager.shared.play(effect: .unlock)
                         self?.delegate?.didUnlockScreen()
+                    } else {
+                        print("🔒 Biometric authentication failed: \(authError?.localizedDescription ?? "Unknown error")")
                     }
                     // If biometric fails, the user can still type their password.
                 }
             }
+        } else {
+            print("🚫 Biometric authentication not available: \(error?.localizedDescription ?? "Unknown error")")
         }
     }
     

@@ -79,9 +79,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - System Tray Setup
     
     private func setupSystemTray() {
+        print("🔧 Setting up system tray...")
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        statusItem?.button?.image = NSImage(systemSymbolName: "grid", accessibilityDescription: "MatrixLocker")
+        
+        if let button = statusItem?.button {
+            button.image = NSImage(systemSymbolName: "grid", accessibilityDescription: "MatrixLocker")
+            button.image?.isTemplate = true // Makes it adapt to dark/light mode
+            print("✅ Status item button configured")
+        } else {
+            print("❌ Failed to get status item button")
+        }
+        
         updateStatusMenu()
+        print("✅ System tray setup complete")
     }
     
     private func updateStatusMenu() {
@@ -97,12 +107,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
 
         // Quick Actions
-        menu.addItem(NSMenuItem(title: "Lock Screen Now", action: #selector(lockScreenNow), keyEquivalent: "l"))
+        menu.addItem(NSMenuItem(title: "🔒 Lock Screen Now", action: #selector(lockScreenNow), keyEquivalent: "l"))
         
-        let toggleTitle = settings.enableAutomaticLock ? "Disable Monitoring" : "Enable Monitoring"
+        // Start/Stop Monitoring
+        let toggleTitle = settings.enableAutomaticLock ? "⏸️ Stop Monitoring" : "▶️ Start Monitoring"
         menu.addItem(NSMenuItem(title: toggleTitle, action: #selector(toggleMonitoring), keyEquivalent: ""))
 
-        menu.addItem(NSMenuItem(title: "Activate in 10s", action: #selector(activateNow), keyEquivalent: ""))
+        // Test Matrix Screensaver
+        menu.addItem(NSMenuItem(title: "🧪 Test Matrix Screensaver", action: #selector(testMatrixScreensaver), keyEquivalent: "t"))
+
+        menu.addItem(NSMenuItem(title: "⏰ Activate in 10s", action: #selector(activateNow), keyEquivalent: ""))
         
         menu.addItem(NSMenuItem.separator())
         
@@ -150,7 +164,43 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func activateNow() {
         NotificationCenter.default.post(name: Notifications.activateNow, object: nil)
     }
-
+    
+    @objc private func testMatrixScreensaver() {
+        // Show matrix screensaver for testing without password protection
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateController(withIdentifier: "LockScreenViewController") as? LockScreenViewController else {
+            fatalError("Could not find LockScreenViewController in Storyboard.")
+        }
+        
+        // Create a test window that can be closed with Escape
+        let testWindow = NSWindow(contentViewController: vc)
+        testWindow.styleMask = [.borderless]
+        testWindow.isOpaque = true
+        testWindow.backgroundColor = .black
+        testWindow.level = .normal // Not screen saver level for testing
+        testWindow.setFrame(NSScreen.main!.frame, display: true, animate: false)
+        testWindow.title = "Matrix Screensaver Test (Press ESC to close)"
+        
+        let testWindowController = NSWindowController(window: testWindow)
+        
+        // Override delegate to close on test
+        let testDelegate = TestScreenDelegate { [weak testWindowController] in
+            testWindowController?.close()
+        }
+        vc.delegate = testDelegate
+        
+        testWindowController.showWindow(self)
+        
+        // Add escape key handler
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            if event.keyCode == 53 { // Escape key
+                testWindowController.close()
+                return nil
+            }
+            return event
+        }
+    }
+    
     @objc private func showSettings() {
         if settingsWindowController == nil {
             let storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -197,6 +247,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if response == .alertFirstButtonReturn {
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
         }
+    }
+}
+
+// MARK: - Test Screen Delegate
+class TestScreenDelegate: LockScreenDelegate {
+    private let onUnlock: () -> Void
+    
+    init(onUnlock: @escaping () -> Void) {
+        self.onUnlock = onUnlock
+    }
+    
+    func didUnlockScreen() {
+        onUnlock()
     }
 }
 
