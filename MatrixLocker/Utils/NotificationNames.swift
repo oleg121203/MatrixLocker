@@ -1,10 +1,12 @@
 import Foundation
 
-struct Notifications {
-    static let startMonitoring = Notification.Name("startMonitoring")
-    static let stopMonitoring = Notification.Name("stopMonitoring")
-    static let activateNow = Notification.Name("activateNow")
-    static let userDidBecomeInactive = Notification.Name("userDidBecomeInactive")
-    static let settingsDidChange = Notification.Name("settingsDidChange")
-    static let matrixPreview = Notification.Name("MatrixPreview")
+extension Notification.Name {
+    /// Сповіщення, що надсилається, коли користувач був неактивним протягом заданого часу.
+    static let userIsInactive = Notification.Name("userIsInactive")
+
+    /// Сповіщення, що надсилається для ручного запуску блокування екрана.
+    static let lockScreen = Notification.Name("lockScreen")
+
+    /// Сповіщення, що надсилається після успішного розблокування екрана.
+    static let didUnlock = Notification.Name("didUnlock")
 }

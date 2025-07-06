@@ -1,209 +1,116 @@
 import Cocoa
-import Foundation
-
-/// Simple SoundManager for the application
-final class SoundManager {
-    static let shared = SoundManager()
-    
-    private init() {}
-    
-    enum SoundEffect {
-        case lock
-        case unlock
-        case failedAttempt
-    }
-    
-    func play(effect: SoundEffect) {
-        guard UserSettings.shared.matrixSoundEffects else { return }
-        
-        var soundName: String?
-        
-        switch effect {
-        case .lock:
-            soundName = "Tink"
-        case .unlock:
-            soundName = "Submarine"
-        case .failedAttempt:
-            soundName = "Basso"
-        }
-        
-        if let soundName = soundName, let sound = NSSound(named: soundName) {
-            sound.play()
-        }
-    }
-}
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var lockScreenWindowController: NSWindowController?
-    private var activityMonitor: ActivityMonitor?
-    var statusItem: NSStatusItem?
-    var settingsWindowController: NSWindowController?
+    // MARK: - Properties
+
+    // Статус-бар елемент для доступу до меню програми
+    private var statusItem: NSStatusItem!
+    // Менеджер вікон блокування, по одному на кожен екран
+    private var lockWindows: [NSWindow] = []
+    // Монітор активності користувача для автоматичного блокування
+    private let activityMonitor = ActivityMonitor()
+    // Прапорець, що показує, чи екран зараз заблоковано
+    private var isLocked = false
+
+    // MARK: - Application Lifecycle
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        setupSystemTray()
-        activityMonitor = ActivityMonitor()
-        
-        if !UserSettings.shared.startMinimized {
-            showSettings()
-        }
-        
-        // Update application's presence in Dock based on settings
-        if UserSettings.shared.hideFromDock {
-            NSApp.setActivationPolicy(.accessory)
-        }
-        
-        NotificationCenter.default.addObserver(self,
-                                            selector: #selector(settingsDidChange),
-                                            name: Notifications.settingsDidChange,
-                                            object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                            selector: #selector(showLockScreen),
-                                            name: Notifications.userDidBecomeInactive,
-                                            object: nil)
-        
-        if UserSettings.shared.enableAutomaticLock {
-            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
+        // Налаштування статус-бар меню
+        setupStatusItem()
+
+        // Налаштування спостерігачів за подіями
+        setupObservers()
+
+        // Запуск моніторингу бездіяльності, якщо ввімкнено в налаштуваннях
+        if UserSettings.shared.inactivityTimeout > 0 {
+            activityMonitor.startMonitoring()
         }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        activityMonitor?.stopMonitoring()
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag {
-            showSettings()
-        }
-        return true
+        // Зупиняємо моніторинг при виході з програми
+        activityMonitor.stopMonitoring()
     }
 
-    @objc func showLockScreen() {
-        guard lockScreenWindowController == nil else { return }
-        
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        guard let wc = storyboard.instantiateController(withIdentifier: "LockScreen") as? NSWindowController,
-              let vc = wc.contentViewController as? LockScreenViewController else {
+    // MARK: - Setup Methods
+
+    /// Налаштовує меню в статус-барі
+    private func setupStatusItem() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+
+        if let button = statusItem.button {
+            button.image = NSImage(systemSymbolName: "lock.shield", accessibilityDescription: "MatrixLocker")
+        }
+
+        let menu = NSMenu()
+        menu.addItem(withTitle: "Заблокувати", action: #selector(lockScreen), keyEquivalent: "l")
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: "Налаштування", action: #selector(openSettings), keyEquivalent: ",")
+        menu.addItem(withTitle: "Вийти", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        statusItem.menu = menu
+    }
+
+    /// Налаштовує спостерігачі за сповіщеннями
+    private func setupObservers() {
+        // Спостерігач для автоматичного блокування при бездіяльності
+        NotificationCenter.default.addObserver(self, selector: #selector(lockScreen), name: .userIsInactive, object: nil)
+
+        // Спостерігач для ручного блокування через меню
+        NotificationCenter.default.addObserver(self, selector: #selector(lockScreen), name: .lockScreen, object: nil)
+
+        // Спостерігач для розблокування екрану
+        NotificationCenter.default.addObserver(self, selector: #selector(unlockScreen), name: .didUnlock, object: nil)
+    }
+
+    // MARK: - Actions
+
+    /// Блокує екран, створюючи вікна на всіх моніторах
+    @objc func lockScreen() {
+        // Перевіряємо, чи екран вже не заблоковано
+        guard !isLocked else { return }
+        isLocked = true
+
+        // Створюємо вікно блокування для кожного екрану
+        for screen in NSScreen.screens {
+            let lockScreenController = LockScreenViewController()
+
+            // Створюємо вікно без рамок, яке покриває весь екран
+            let window = NSWindow(
+                contentRect: screen.frame,
+                styleMask: .borderless,
+                backing: .buffered,
+                defer: false,
+                screen: screen
+            )
+
+            // Встановлюємо рівень вікна, щоб воно було поверх усього
+            window.level = .screenSaver
+            window.contentViewController = lockScreenController
+            window.makeKeyAndOrderFront(nil) // Показуємо вікно
+
+            lockWindows.append(window)
+        }
+    }
+
+    /// Розблоковує екран, закриваючи всі вікна блокування
+    @objc func unlockScreen() {
+        // Закриваємо та видаляємо всі вікна блокування
+        lockWindows.forEach { $0.close() }
+        lockWindows.removeAll()
+        isLocked = false
+    }
+
+    /// Відкриває вікно налаштувань
+    @objc func openSettings() {
+        // Реалізація для відкриття вікна налаштувань.
+        // Зазвичай це робиться через Storyboard або створенням нового вікна програмно.
+        let settingsStoryboard = NSStoryboard(name: "Main", bundle: nil)
+        guard let settingsWindowController = settingsStoryboard.instantiateController(withIdentifier: "SettingsWindowController") as? NSWindowController else {
             return
         }
-        
-        lockScreenWindowController = wc
-        vc.delegate = self
-        
-        wc.window?.level = .screenSaver
-        wc.window?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        
-        SoundManager.shared.play(effect: .lock)
-        wc.showWindow(self)
-        
-        if let screen = NSScreen.main {
-            wc.window?.setFrame(screen.frame, display: true)
-        }
-    }
-    
-    @objc func settingsDidChange() {
-        // Refresh the status item to reflect new settings
-        updateStatusMenu()
-        
-        // Update dock visibility
-        if UserSettings.shared.hideFromDock {
-            NSApp.setActivationPolicy(.accessory)
-        } else {
-            NSApp.setActivationPolicy(.regular)
-        }
-    }
-    
-    // MARK: - System Tray Setup
-    
-    private func setupSystemTray() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        // Accessibility label for the status bar icon
-        statusItem?.button?.setAccessibilityLabel(NSLocalizedString("Status Bar Icon", comment: ""))
-        // Tooltip for the status bar icon
-        statusItem?.button?.toolTip = NSLocalizedString("MatrixLocker status icon. Shows lock state.", comment: "")
-        updateStatusMenu()
-    }
-    
-    private func updateStatusMenu() {
-        let menu = NSMenu()
-        
-        let monitoringEnabled = UserSettings.shared.enableAutomaticLock
-        menu.addItem(withTitle: monitoringEnabled ? "Disable Auto-Lock" : "Enable Auto-Lock",
-                    action: #selector(toggleMonitoring),
-                    keyEquivalent: "")
-        
-        menu.addItem(withTitle: "Lock Now",
-                    action: #selector(lockScreenNow),
-                    keyEquivalent: "l")
-        
-        menu.addItem(withTitle: "Lock in 10 seconds",
-                    action: #selector(activateNow),
-                    keyEquivalent: "")
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        menu.addItem(withTitle: "Settings",
-                    action: #selector(showSettings),
-                    keyEquivalent: ",")
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        menu.addItem(withTitle: "Quit",
-                    action: #selector(NSApplication.terminate(_:)),
-                    keyEquivalent: "q")
-        
-        statusItem?.menu = menu
-        updateStatusItemIcon()
-    }
-    
-    private func updateStatusItemIcon() {
-        if let button = statusItem?.button {
-            button.image = NSImage(named: UserSettings.shared.enableAutomaticLock ? "StatusIconActive" : "StatusIconInactive")
-        }
-    }
-    
-    // MARK: - Menu Actions
-    
-    @objc private func lockScreenNow() {
-        showLockScreen()
-    }
-    
-    @objc private func toggleMonitoring() {
-        UserSettings.shared.enableAutomaticLock.toggle()
-        if UserSettings.shared.enableAutomaticLock {
-            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
-        } else {
-            NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
-        }
-        updateStatusMenu()
-    }
-    
-    @objc private func activateNow() {
-        NotificationCenter.default.post(name: Notifications.activateNow, object: nil)
-    }
-
-    @objc private func showSettings() {
-        if settingsWindowController == nil {
-            let storyboard = NSStoryboard(name: "Main", bundle: nil)
-            settingsWindowController = storyboard.instantiateController(withIdentifier: "Settings") as? NSWindowController
-        }
-        
-        settingsWindowController?.showWindow(self)
+        settingsWindowController.showWindow(self)
         NSApp.activate(ignoringOtherApps: true)
-    }
-}
-
-// MARK: - LockScreenDelegate
-extension AppDelegate: LockScreenDelegate {
-    func didUnlockScreen() {
-        lockScreenWindowController?.close()
-        lockScreenWindowController = nil
-        
-        if UserSettings.shared.enableAutomaticLock {
-            NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
-        }
     }
 }
