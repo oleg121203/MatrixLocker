@@ -5,15 +5,15 @@ import AppKit
 class ActivityMonitor {
 
     private var timer: Timer?
-    private var lastActivityTimestamp: TimeInterval
 
     /// Час бездіяльності, після якого спрацьовує сповіщення
     private var inactivityTimeout: TimeInterval {
+        // Переконуємось, що UserSettings доступний
         return UserSettings.shared.inactivityTimeout
     }
 
     init() {
-        self.lastActivityTimestamp = Date.timeIntervalSinceReferenceDate
+        // Ініціалізація не потребує додаткових дій
     }
 
     /// Запускає моніторинг активності
@@ -21,8 +21,9 @@ class ActivityMonitor {
         // Зупиняємо попередній таймер, якщо він був
         stopMonitoring()
 
-        // Не запускаємо таймер, якщо таймаут вимкнено
-        guard inactivityTimeout > 0 else { return }
+        let timeout = inactivityTimeout
+        // Не запускаємо таймер, якщо таймаут вимкнено (дорівнює 0)
+        guard timeout > 0 else { return }
 
         // Створюємо та запускаємо таймер, що перевіряє активність кожні 30 секунд
         timer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
@@ -38,13 +39,16 @@ class ActivityMonitor {
 
     /// Перевіряє час бездіяльності та надсилає сповіщення, якщо потрібно
     private func checkActivity() {
-        // Отримуємо час з моменту останньої події (рух миші, натискання клавіші)
-        let idleTime = CGEventSource.secondsSinceLastEventType(for: .combinedSessionState)
+        let timeout = inactivityTimeout
+        guard timeout > 0 else { return }
+
+        // ВИПРАВЛЕНО: Правильний синтаксис виклику функції для отримання часу бездіяльності
+        let idleTime = CGEventSource.secondsSinceLastEventType(CGEventSourceStateID.combinedSessionState, eventType: .any)
 
         // Якщо час бездіяльності перевищує встановлений ліміт, надсилаємо сповіщення
-        if idleTime > inactivityTimeout {
+        if idleTime > timeout {
             NotificationCenter.default.post(name: .userIsInactive, object: nil)
-            // Можна зупинити таймер після блокування, щоб не спрацьовував повторно
+            // Зупиняємо таймер після блокування, щоб не спрацьовував повторно
             stopMonitoring()
         }
     }
