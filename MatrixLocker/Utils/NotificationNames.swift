@@ -33,38 +33,3 @@ struct Notifications {
     static let lockScreen = Notification.Name.lockScreen
     static let didUnlock = Notification.Name.didUnlock
 }
-
-// MARK: - Sound Manager
-
-/// Manages the playback of sound effects for the application.
-final class SoundManager {
-    static let shared = SoundManager()
-    private init() {}
-
-    enum SoundEffect {
-        case lock
-        case unlock
-        case failedAttempt
-    }
-
-    /// Plays a specified sound effect if sound effects are enabled in user settings.
-    ///
-    /// - Parameter effect: The `SoundEffect` to play.
-    func play(effect: SoundEffect) {
-        guard UserSettings.shared.matrixSoundEffects else { return }
-
-        let soundName: String
-        switch effect {
-        case .lock:
-            soundName = "Tink"
-        case .unlock:
-            soundName = "Submarine"
-        case .failedAttempt:
-            soundName = "Basso"
-        }
-
-        if let sound = NSSound(named: soundName) {
-            sound.play()
-        }
-    }
-}
