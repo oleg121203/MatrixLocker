@@ -22,8 +22,44 @@ class ActivityMonitor {
         NotificationCenter.default.removeObserver(self)
         stopMonitoring()
     }
+    
+    // MARK: - Accessibility Check
+    private func checkAccessibilityPermissions() -> Bool {
+        let options: [String: Any] = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true]
+        let accessibilityEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
+        
+        if !accessibilityEnabled {
+            print("❌ ActivityMonitor: Accessibility permissions not granted!")
+            DispatchQueue.main.async {
+                self.showAccessibilityAlert()
+            }
+            return false
+        }
+        
+        print("✅ ActivityMonitor: Accessibility permissions granted")
+        return true
+    }
+    
+    private func showAccessibilityAlert() {
+        let alert = NSAlert()
+        alert.messageText = "Accessibility Access Required"
+        alert.informativeText = "MatrixLocker needs accessibility permissions to monitor user activity. Please grant access in System Preferences > Security & Privacy > Accessibility."
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open System Preferences")
+        alert.addButton(withTitle: "Cancel")
+        
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
+        }
+    }
 
     @objc func startMonitoring() {
+        guard checkAccessibilityPermissions() else {
+            print("❌ ActivityMonitor: Cannot start monitoring without accessibility permissions")
+            return
+        }
+        
         guard state == .stopped || state == .activateNowCountdown else { return }
         print("Activity Monitor: Started")
         state = .monitoring

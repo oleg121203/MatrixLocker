@@ -9,6 +9,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var settingsWindowController: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        print("🚀 MatrixLocker: Application starting...")
+        
+        // Check system permissions first
+        checkSystemPermissions()
+        
         setupSystemTray()
         
         activityMonitor = ActivityMonitor()
@@ -17,11 +22,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateDockVisibility()
 
         if UserSettings.shared.enableAutomaticLock {
+            print("🔄 MatrixLocker: Starting automatic monitoring...")
             NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
+        } else {
+            print("⏸️ MatrixLocker: Automatic monitoring disabled")
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(showLockScreen), name: Notifications.userDidBecomeInactive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(settingsDidChange), name: Notifications.settingsDidChange, object: nil)
+        
+        print("✅ MatrixLocker: Application setup complete")
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -157,6 +167,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         settingsWindowController?.showWindow(self)
         NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    private func checkSystemPermissions() {
+        // Check Accessibility permissions
+        let options: [String: Any] = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: false]
+        let accessibilityEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
+        
+        if accessibilityEnabled {
+            print("✅ MatrixLocker: Accessibility permissions granted")
+        } else {
+            print("❌ MatrixLocker: Accessibility permissions NOT granted")
+        }
     }
 }
 

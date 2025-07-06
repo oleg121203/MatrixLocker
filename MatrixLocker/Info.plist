@@ -37,6 +37,8 @@
 	<string>This app needs to monitor system activity to provide screen locking functionality.</string>
 	<key>NSSystemAdministrationUsageDescription</key>
 	<string>This app needs system administration access to monitor user activity.</string>
+	<key>NSAccessibilityUsageDescription</key>
+	<string>MatrixLocker needs accessibility permissions to monitor user activity and provide automatic screen locking.</string>
 	<key>LSUIElement</key>
 	<true/>
 </dict>
