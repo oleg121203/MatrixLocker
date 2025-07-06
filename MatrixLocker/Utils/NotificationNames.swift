@@ -1,12 +1,24 @@
 import Foundation
 
 extension Notification.Name {
-    /// Сповіщення, що надсилається, коли користувач був неактивним протягом заданого часу.
-    static let userIsInactive = Notification.Name("userIsInactive")
+    /// Spawns when automatic monitoring should start
+    static let startMonitoring = Notification.Name("startMonitoring")
 
-    /// Сповіщення, що надсилається для ручного запуску блокування екрана.
+    /// Spawns when automatic monitoring should stop
+    static let stopMonitoring = Notification.Name("stopMonitoring")
+
+    /// Spawns when a manual activate-now countdown is requested
+    static let activateNow = Notification.Name("activateNow")
+
+    /// Spawns when the user becomes inactive and the lock should engage
+    static let userDidBecomeInactive = Notification.Name("userDidBecomeInactive")
+
+    /// Spawns when any settings have changed
+    static let settingsDidChange = Notification.Name("settingsDidChange")
+
+    /// Spawns for manual lock screen requests
     static let lockScreen = Notification.Name("lockScreen")
 
-    /// Сповіщення, що надсилається після успішного розблокування екрана.
+    /// Spawns after a successful unlock
     static let didUnlock = Notification.Name("didUnlock")
 }
