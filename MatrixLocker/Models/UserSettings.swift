@@ -1,5 +1,6 @@
 import Foundation
 import Security
+import AppKit
 
 // MARK: - UserSettings
 final class UserSettings {
@@ -144,6 +145,79 @@ final class UserSettings {
             return "\(seconds)s"
         }
     }
+    
+    // Matrix settings
+    var matrixCharacterColor: NSColor {
+        get {
+            if let colorData = UserDefaults.standard.data(forKey: "matrixCharacterColor"),
+               let color = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? NSColor {
+                return color
+            }
+            return NSColor.green
+        }
+        set {
+            let colorData = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false)
+            UserDefaults.standard.set(colorData, forKey: "matrixCharacterColor")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var matrixAnimationSpeed: Double {
+        get {
+            let speed = UserDefaults.standard.double(forKey: "matrixAnimationSpeed")
+            return speed > 0 ? speed : 1.0 // Default speed 1.0x
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "matrixAnimationSpeed")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var matrixDensity: Double {
+        get {
+            let density = UserDefaults.standard.double(forKey: "matrixDensity")
+            return density > 0 ? density : 0.5 // Default to 50%
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "matrixDensity")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    // Lockout and security settings
+    var maxFailedAttempts: Int {
+        get { UserDefaults.standard.integer(forKey: "maxFailedAttempts") > 0 ? UserDefaults.standard.integer(forKey: "maxFailedAttempts") : 5 }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "maxFailedAttempts")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var lockoutDuration: TimeInterval {
+        get {
+            let duration = UserDefaults.standard.double(forKey: "lockoutDuration")
+            return duration > 0 ? duration : 300 // Default to 5 minutes
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lockoutDuration")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    // Password management using PasswordManager
+    var lockPassword: String? {
+        let manager = PasswordManager()
+        return manager.readPassword()
+    }
+    
+    func setPassword(_ password: String?) {
+        let manager = PasswordManager()
+        if let password = password, !password.isEmpty {
+            manager.savePassword(password)
+        } else {
+            manager.deletePassword()
+        }
+    }
 }
 
 // MARK: - KeychainHelper
@@ -217,3 +291,4 @@ class PasswordManager {
         KeychainHelper.shared.delete(service: service, account: account)
     }
 }
+
