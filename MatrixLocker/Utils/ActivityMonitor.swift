@@ -1,5 +1,6 @@
 import Foundation
 import AppKit
+import CoreGraphics
 
 /// Клас для моніторингу активності користувача
 class ActivityMonitor {
@@ -43,7 +44,7 @@ class ActivityMonitor {
         guard timeout > 0 else { return }
 
         // ВИПРАВЛЕНО: Правильний синтаксис виклику функції для отримання часу бездіяльності
-        let idleTime = CGEventSource.secondsSinceLastEventType(CGEventSourceStateID.combinedSessionState, eventType: .any)
+        let idleTime = CGEventSource.secondsSinceLastEventType(CGEventSourceStateID.combinedSessionState, eventType: .null)
 
         // Якщо час бездіяльності перевищує встановлений ліміт, надсилаємо сповіщення
         if idleTime > timeout {
@@ -53,3 +54,4 @@ class ActivityMonitor {
         }
     }
 }
+
