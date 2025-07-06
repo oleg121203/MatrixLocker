@@ -170,14 +170,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func checkSystemPermissions() {
-        // Check Accessibility permissions
-        let options: [String: Any] = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: false]
+        // Check Accessibility permissions with prompt
+        let options: [String: Any] = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true]
         let accessibilityEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary)
         
         if accessibilityEnabled {
             print("✅ MatrixLocker: Accessibility permissions granted")
         } else {
             print("❌ MatrixLocker: Accessibility permissions NOT granted")
+            // Show alert to guide user
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.showAccessibilityPermissionAlert()
+            }
+        }
+    }
+    
+    private func showAccessibilityPermissionAlert() {
+        let alert = NSAlert()
+        alert.messageText = "Accessibility Permission Required"
+        alert.informativeText = "MatrixLocker needs Accessibility permission to monitor user activity for automatic screen locking.\n\n1. Click 'Open System Preferences'\n2. Click the lock to make changes\n3. Find and check 'MatrixLocker' in the list\n4. Restart MatrixLocker"
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Open System Preferences")
+        alert.addButton(withTitle: "Cancel")
+        
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
         }
     }
 }
