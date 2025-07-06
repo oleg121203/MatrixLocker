@@ -88,6 +88,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func setupSystemTray() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        // Accessibility label for the status bar icon
+        statusItem?.button?.accessibilityLabel = NSLocalizedString("Status Bar Icon", comment: "")
+        // Tooltip for the status bar icon
+        statusItem?.button?.toolTip = NSLocalizedString("MatrixLocker status icon. Shows lock state.", comment: "")
         updateStatusMenu()
     }
     

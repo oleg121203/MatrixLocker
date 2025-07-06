@@ -111,6 +111,22 @@ final class LockScreenView: NSView {
         NotificationCenter.default.removeObserver(self)
     }
     
+    // MARK: - Accessibility
+    
+    /// Sets up accessibility, tooltip, and identifier when view is added to a window.
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        
+        // Set an accessibility label describing the matrix animation area.
+        self.setAccessibilityLabel(NSLocalizedString("Matrix Animation Area", comment: ""))
+        
+        // Set a tooltip that describes the function of this view area.
+        self.toolTip = NSLocalizedString("This area shows the Matrix rain animation.", comment: "")
+        
+        // Set an accessibility identifier for UI testing and accessibility.
+        self.accessibilityIdentifier = "matrixView"
+    }
+    
     // MARK: - Layout
     
     override func layout() {
@@ -275,3 +291,4 @@ final class LockScreenView: NSView {
     
     // For smoother and more precise animation timing consider using CVDisplayLink instead of Timer on macOS.
 }
+
