@@ -1,6 +1,65 @@
 import Foundation
 import Security
 
+// MARK: - UserSettings
+final class UserSettings {
+    static let shared = UserSettings()
+    
+    private init() {}
+    
+    var enableAutomaticLock: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "enableAutomaticLock")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "enableAutomaticLock")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var startMinimized: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "startMinimized")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "startMinimized")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var hideFromDock: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "hideFromDock")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hideFromDock")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var matrixSoundEffects: Bool {
+        get {
+            UserDefaults.standard.object(forKey: "matrixSoundEffects") as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "matrixSoundEffects")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    var inactivityTimeout: TimeInterval {
+        get {
+            let timeout = UserDefaults.standard.double(forKey: "inactivityTimeout")
+            return timeout > 0 ? timeout : 300 // Default to 5 minutes
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "inactivityTimeout")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+}
+
+// MARK: - KeychainHelper
 final class KeychainHelper {
     static let shared = KeychainHelper()
     
