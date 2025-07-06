@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    environment {
+        LANG = 'en_US.UTF-8'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Install Tools') {
+            steps {
+                sh 'brew install swiftlint || true'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'xcodebuild -scheme MatrixLocker -sdk macosx -destination "platform=macOS,arch=x86_64" build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'xcodebuild test -scheme MatrixLocker -sdk macosx -destination "platform=macOS,arch=x86_64"'
+            }
+        }
+    }
+}

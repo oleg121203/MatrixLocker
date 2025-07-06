@@ -1,0 +1,24 @@
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  primary:
+    steps:
+      - activate-ssh-key@4: {}
+      - git-clone@8: {}
+      - script@1:
+          title: Do anything with Script step
+          inputs:
+          - content: |
+              #!/bin/bash
+              set -ex
+              brew install swiftlint || true
+      - xcode-build-for-test@1:
+          inputs:
+          - project_path: "$BITRISE_PROJECT_PATH"
+          - scheme: MatrixLocker
+      - xcode-test@2:
+          inputs:
+          - project_path: "$BITRISE_PROJECT_PATH"
+          - scheme: MatrixLocker
+      - deploy-to-bitrise-io@2: {}
