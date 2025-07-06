@@ -1,6 +1,38 @@
 import Cocoa
 import Foundation
 
+/// Simple SoundManager for the application
+final class SoundManager {
+    static let shared = SoundManager()
+    
+    private init() {}
+    
+    enum SoundEffect {
+        case lock
+        case unlock
+        case failedAttempt
+    }
+    
+    func play(effect: SoundEffect) {
+        guard UserSettings.shared.matrixSoundEffects else { return }
+        
+        var soundName: String?
+        
+        switch effect {
+        case .lock:
+            soundName = "Tink"
+        case .unlock:
+            soundName = "Submarine"
+        case .failedAttempt:
+            soundName = "Basso"
+        }
+        
+        if let soundName = soundName, let sound = NSSound(named: soundName) {
+            sound.play()
+        }
+    }
+}
+
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 

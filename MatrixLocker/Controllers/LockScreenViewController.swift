@@ -76,7 +76,7 @@ class LockScreenViewController: NSViewController {
         unlockButton.setAccessibilityLabel("Unlock Button")
         unlockButton.setAccessibilityIdentifier("unlockButton")
         unlockButton.setAccessibilityValue("Unlock Button") // Added accessibilityValue
-        unlockButton.setAccessibilityHint("Unlocks the screen with your password") // Added accessibilityHint
+        unlockButton.setAccessibilityHelp("Unlocks the screen with your password") // Added accessibilityHelp
         
         // Set accessibility elements order for proper VoiceOver navigation
         setAccessibilityElementsOrder()
@@ -200,7 +200,7 @@ class LockScreenViewController: NSViewController {
     /// Sets the accessibility elements order for proper VoiceOver navigation.
     private func setAccessibilityElementsOrder() {
         // Ensures that VoiceOver navigates first to password field, then unlock button, then message label.
-        view.setAccessibilityChildren([passwordField, unlockButton, messageLabel])
+        view.setAccessibilityChildren([passwordField!, unlockButton!, messageLabel!])
     }
     
     // MARK: - Actions

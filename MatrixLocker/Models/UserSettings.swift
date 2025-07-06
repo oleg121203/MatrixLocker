@@ -57,6 +57,93 @@ final class UserSettings {
             NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
         }
     }
+    
+    var enablePasswordProtection: Bool {
+        get {
+            UserDefaults.standard.object(forKey: "enablePasswordProtection") as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "enablePasswordProtection")
+            NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        }
+    }
+    
+    // MARK: - Login and Security
+    private let maxFailedAttempts = 5
+    private let lockoutDuration: TimeInterval = 300 // 5 minutes
+    
+    enum LoginResult {
+        case success
+        case failed(attemptsRemaining: Int)
+        case lockedOut(timeRemaining: TimeInterval)
+    }
+    
+    private var failedAttempts: Int {
+        get {
+            UserDefaults.standard.integer(forKey: "failedAttempts")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "failedAttempts")
+        }
+    }
+    
+    private var lockoutStartTime: Date? {
+        get {
+            UserDefaults.standard.object(forKey: "lockoutStartTime") as? Date
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lockoutStartTime")
+        }
+    }
+    
+    func attemptLogin(password: String) -> LoginResult {
+        // Check if currently locked out
+        if let timeRemaining = timeRemainingInLockout(), timeRemaining > 0 {
+            return .lockedOut(timeRemaining: timeRemaining)
+        }
+        
+        // For demo purposes, use a simple password check
+        // In a real app, this should use secure password storage
+        let storedPassword = UserDefaults.standard.string(forKey: "userPassword") ?? "password"
+        
+        if password == storedPassword {
+            // Reset failed attempts on successful login
+            failedAttempts = 0
+            lockoutStartTime = nil
+            return .success
+        } else {
+            failedAttempts += 1
+            
+            if failedAttempts >= maxFailedAttempts {
+                // Start lockout
+                lockoutStartTime = Date()
+                return .lockedOut(timeRemaining: lockoutDuration)
+            } else {
+                let attemptsRemaining = maxFailedAttempts - failedAttempts
+                return .failed(attemptsRemaining: attemptsRemaining)
+            }
+        }
+    }
+    
+    func timeRemainingInLockout() -> TimeInterval? {
+        guard let startTime = lockoutStartTime else { return nil }
+        
+        let elapsed = Date().timeIntervalSince(startTime)
+        let remaining = lockoutDuration - elapsed
+        
+        return remaining > 0 ? remaining : nil
+    }
+    
+    func formatTimeRemaining(_ timeRemaining: TimeInterval) -> String {
+        let minutes = Int(timeRemaining) / 60
+        let seconds = Int(timeRemaining) % 60
+        
+        if minutes > 0 {
+            return "\(minutes)m \(seconds)s"
+        } else {
+            return "\(seconds)s"
+        }
+    }
 }
 
 // MARK: - KeychainHelper
