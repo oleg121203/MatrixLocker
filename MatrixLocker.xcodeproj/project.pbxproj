@@ -20,7 +20,9 @@
 		D77287702E19F9AC005ABBE2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D772876F2E19F9AC005ABBE2 /* README.md */; };
 		D77287722E19FA66005ABBE2 /* bitrise.yml in Resources */ = {isa = PBXBuildFile; fileRef = D77287712E19FA66005ABBE2 /* bitrise.yml */; };
 		D77287742E19FA68005ABBE2 /* Jenkinsfile in Resources */ = {isa = PBXBuildFile; fileRef = D77287732E19FA68005ABBE2 /* Jenkinsfile */; };
-		E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
+        E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */; };
+        F4B69B5B2A1D0E84004A2514 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B69B5A2A1D0E84004A2514 /* KeychainHelper.swift */; };
+        F4B69B6B2A1D0E84004A2515 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B69B6A2A1D0E84004A2515 /* SoundManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +42,9 @@
 		D772876F2E19F9AC005ABBE2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D77287712E19FA66005ABBE2 /* bitrise.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = bitrise.yml; sourceTree = "<group>"; };
 		D77287732E19FA68005ABBE2 /* Jenkinsfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Jenkinsfile; sourceTree = "<group>"; };
-		E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+			E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
+			F4B69B5A2A1D0E84004A2514 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+			F4B69B6A2A1D0E84004A2515 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,16 +117,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1A2B3C4D5E6F788D /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				1A2B3C4D5E6F7898 /* ActivityMonitor.swift */,
-				1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */,
-				E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
+			1A2B3C4D5E6F788D /* Utils */ = {
+				isa = PBXGroup;
+				children = (
+					1A2B3C4D5E6F7898 /* ActivityMonitor.swift */,
+					1A2B3C4D5E6F7899 /* LaunchAtLogin.swift */,
+					E4B69B5A2A1D0E84004A2513 /* NotificationNames.swift */,
+					F4B69B5A2A1D0E84004A2514 /* KeychainHelper.swift */,
+					F4B69B6A2A1D0E84004A2515 /* SoundManager.swift */,
+				);
+				path = Utils;
+				sourceTree = "<group>";
+			};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -199,7 +205,9 @@
 				1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */,
 				1A2B3C4D5E6F7898A /* ActivityMonitor.swift in Sources */,
 				1A2B3C4D5E6F7899A /* LaunchAtLogin.swift in Sources */,
-				E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */,
+					E4B69B5B2A1D0E84004A2513 /* NotificationNames.swift in Sources */,
+					F4B69B5B2A1D0E84004A2514 /* KeychainHelper.swift in Sources */,
+					F4B69B6B2A1D0E84004A2515 /* SoundManager.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
