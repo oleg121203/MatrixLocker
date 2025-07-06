@@ -11,19 +11,317 @@
             <objects>
                 <viewController storyboardIdentifier="SettingsViewController" id="B2Y-hE-cKL" customClass="SettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="settings-view">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="500"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <subviews>
+                            <tabView id="tab-view">
+                                <rect key="frame" x="20" y="20" width="560" height="460"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <tabViewItems>
+                                    <tabViewItem label="General" identifier="general" id="general-tab">
+                                        <view key="view" id="general-tab-view">
+                                            <rect key="frame" x="10" y="33" width="540" height="414"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" id="launch-at-login-switch">
+                                                    <rect key="frame" x="20" y="360" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Launch at Login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="launch-at-login-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="launch-action"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" id="hide-from-dock-switch">
+                                                    <rect key="frame" x="20" y="320" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Hide from Dock" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hide-from-dock-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="hide-dock-action"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" id="start-minimized-switch">
+                                                    <rect key="frame" x="20" y="280" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Start Minimized" bezelStyle="regularSquare" imagePosition="left" inset="2" id="start-minimized-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="start-minimized-action"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Matrix" identifier="matrix" id="matrix-tab">
+                                        <view key="view" id="matrix-tab-view">
+                                            <rect key="frame" x="10" y="33" width="540" height="414"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="character-color-label">
+                                                    <rect key="frame" x="20" y="360" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Character Color:" id="character-color-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <colorWell id="character-color-well">
+                                                    <rect key="frame" x="130" y="355" width="44" height="23"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <color key="color" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="color-action"/>
+                                                    </connections>
+                                                </colorWell>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-title">
+                                                    <rect key="frame" x="20" y="300" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Animation Speed:" id="animation-speed-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <slider verticalHuggingPriority="750" id="animation-speed-slider">
+                                                    <rect key="frame" x="130" y="295" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <sliderCell key="cell" state="on" alignment="left" minValue="0.10000000000000001" maxValue="3" doubleValue="1" tickMarkPosition="below" numberOfTickMarks="6" sliderType="linear" id="animation-speed-cell"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="speed-action"/>
+                                                    </connections>
+                                                </slider>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-label">
+                                                    <rect key="frame" x="340" y="300" width="50" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1.0x" id="animation-speed-label-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-title">
+                                                    <rect key="frame" x="20" y="260" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Density:" id="density-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <slider verticalHuggingPriority="750" id="density-slider">
+                                                    <rect key="frame" x="130" y="255" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <sliderCell key="cell" state="on" alignment="left" minValue="0.10000000000000001" maxValue="1" doubleValue="0.69999999999999996" tickMarkPosition="below" numberOfTickMarks="10" sliderType="linear" id="density-cell"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="density-action"/>
+                                                    </connections>
+                                                </slider>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-label">
+                                                    <rect key="frame" x="340" y="260" width="50" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="70%" id="density-label-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" id="sound-effects-switch">
+                                                    <rect key="frame" x="20" y="220" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Sound Effects" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sound-effects-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="sound-action"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Security" identifier="security" id="security-tab">
+                                        <view key="view" id="security-tab-view">
+                                            <rect key="frame" x="10" y="33" width="540" height="414"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" id="automatic-lock-switch">
+                                                    <rect key="frame" x="20" y="360" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Enable Automatic Lock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="automatic-lock-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="auto-lock-action"/>
+                                                    </connections>
+                                                </button>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-title">
+                                                    <rect key="frame" x="20" y="320" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Timeout:" id="timeout-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <slider verticalHuggingPriority="750" id="timeout-slider">
+                                                    <rect key="frame" x="130" y="315" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="300" doubleValue="60" tickMarkPosition="below" numberOfTickMarks="6" sliderType="linear" id="timeout-cell"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="timeout-action"/>
+                                                    </connections>
+                                                </slider>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-label">
+                                                    <rect key="frame" x="340" y="320" width="150" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lock after 60 seconds" id="timeout-label-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" id="password-protection-switch">
+                                                    <rect key="frame" x="20" y="280" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Password Protection" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="password-protection-cell">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="password-protection-action"/>
+                                                    </connections>
+                                                </button>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="password-title">
+                                                    <rect key="frame" x="20" y="240" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password:" id="password-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <secureTextField focusRingType="none" verticalHuggingPriority="750" id="password-field">
+                                                    <rect key="frame" x="130" y="235" width="150" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Enter new password" id="password-field-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <allowedInputSourceLocales>
+                                                            <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                                        </allowedInputSourceLocales>
+                                                    </secureTextFieldCell>
+                                                </secureTextField>
+                                                <button verticalHuggingPriority="750" id="set-password-button">
+                                                    <rect key="frame" x="290" y="235" width="80" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="set-password-cell">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="setPasswordClicked:" target="B2Y-hE-cKL" id="set-password-action"/>
+                                                    </connections>
+                                                </button>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-title">
+                                                    <rect key="frame" x="20" y="200" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Attempts:" id="max-attempts-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" id="max-attempts-stepper">
+                                                    <rect key="frame" x="130" y="195" width="19" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <stepperCell key="cell" continuous="YES" alignment="left" minValue="1" maxValue="10" doubleValue="5" id="max-attempts-stepper-cell"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="max-attempts-action"/>
+                                                    </connections>
+                                                </stepper>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-label">
+                                                    <rect key="frame" x="160" y="200" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 attempts" id="max-attempts-label-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-title">
+                                                    <rect key="frame" x="20" y="160" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lockout Duration:" id="lockout-duration-title-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <slider verticalHuggingPriority="750" id="lockout-duration-slider">
+                                                    <rect key="frame" x="130" y="155" width="200" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <sliderCell key="cell" state="on" alignment="left" minValue="60" maxValue="1800" doubleValue="300" tickMarkPosition="below" numberOfTickMarks="6" sliderType="linear" id="lockout-duration-cell"/>
+                                                    <connections>
+                                                        <action selector="settingDidChange:" target="B2Y-hE-cKL" id="lockout-duration-action"/>
+                                                    </connections>
+                                                </slider>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-label">
+                                                    <rect key="frame" x="340" y="160" width="100" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 min lockout" id="lockout-duration-label-cell">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                            </tabView>
+                        </subviews>
                     </view>
+                    <connections>
+                        <outlet property="animationSpeedLabel" destination="animation-speed-label" id="speed-label-outlet"/>
+                        <outlet property="animationSpeedSlider" destination="animation-speed-slider" id="speed-slider-outlet"/>
+                        <outlet property="automaticLockSwitch" destination="automatic-lock-switch" id="auto-lock-outlet"/>
+                        <outlet property="characterColorWell" destination="character-color-well" id="color-outlet"/>
+                        <outlet property="densityLabel" destination="density-label" id="density-label-outlet"/>
+                        <outlet property="densitySlider" destination="density-slider" id="density-slider-outlet"/>
+                        <outlet property="hideFromDockSwitch" destination="hide-from-dock-switch" id="hide-dock-outlet"/>
+                        <outlet property="launchAtLoginSwitch" destination="launch-at-login-switch" id="launch-outlet"/>
+                        <outlet property="lockoutDurationLabel" destination="lockout-duration-label" id="lockout-duration-label-outlet"/>
+                        <outlet property="lockoutDurationSlider" destination="lockout-duration-slider" id="lockout-duration-slider-outlet"/>
+                        <outlet property="maxAttemptsLabel" destination="max-attempts-label" id="max-attempts-label-outlet"/>
+                        <outlet property="maxAttemptsStepper" destination="max-attempts-stepper" id="max-attempts-stepper-outlet"/>
+                        <outlet property="passwordField" destination="password-field" id="password-field-outlet"/>
+                        <outlet property="passwordProtectionSwitch" destination="password-protection-switch" id="password-protection-outlet"/>
+                        <outlet property="setPasswordButton" destination="set-password-button" id="set-password-outlet"/>
+                        <outlet property="soundEffectsSwitch" destination="sound-effects-switch" id="sound-outlet"/>
+                        <outlet property="startMinimizedSwitch" destination="start-minimized-switch" id="start-minimized-outlet"/>
+                        <outlet property="timeoutLabel" destination="timeout-label" id="timeout-label-outlet"/>
+                        <outlet property="timeoutSlider" destination="timeout-slider" id="timeout-slider-outlet"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--General Settings View Controller-->
-        <scene sceneID="general-settings-scene">
+        <!--Lock Screen View Controller-->
+        <scene sceneID="lock-screen-scene">
             <objects>
-                <viewController storyboardIdentifier="GeneralSettingsViewController" id="general-vc" customClass="GeneralSettingsViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="general-view">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <viewController storyboardIdentifier="LockScreenViewController" id="lock-screen-vc" customClass="LockScreenViewController" customModule="MatrixLocker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="lock-screen-view">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </view>
                 </viewController>
