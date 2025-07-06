@@ -5,6 +5,7 @@ class ActivityMonitor {
         case stopped
         case monitoring
         case readyToLock
+        case activateNowCountdown
     }
 
     private var state: State = .stopped
@@ -23,7 +24,7 @@ class ActivityMonitor {
     }
 
     @objc func startMonitoring() {
-        guard state == .stopped else { return }
+        guard state == .stopped || state == .activateNowCountdown else { return }
         print("Activity Monitor: Started")
         state = .monitoring
         resetInactivityTimer()
@@ -42,15 +43,15 @@ class ActivityMonitor {
     }
 
     @objc func activateNow() {
-        print("Activity Monitor: Activating now")
+        print("Activity Monitor: Activating now with 10-second countdown.")
         stopMonitoring() // Stop any current monitoring
-        state = .monitoring
-        // Start a 10-second timer, then move to readyToLock state
+        state = .activateNowCountdown
+        
+        // Start a 10-second timer. This timer will NOT be reset by activity.
         inactivityTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [weak self] _ in
             self?.inactivityTimerDidFire()
         }
-        // Important: Listen for activity during the 10-second countdown
-        startListeningForActivity()
+        // No activity listening during the `activateNow` countdown.
     }
 
     private func resetInactivityTimer() {
@@ -75,7 +76,9 @@ class ActivityMonitor {
     }
 
     private func startListeningForActivity() {
-        if activityMonitor != nil { return } // Already listening
+        if activityMonitor != nil {
+            NSEvent.removeMonitor(activityMonitor!)
+        }
         let eventMask: NSEvent.EventTypeMask = [.mouseMoved, .leftMouseDown, .rightMouseDown, .otherMouseDown, .keyDown, .scrollWheel]
         activityMonitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
             self?.handleActivity()
@@ -83,7 +86,9 @@ class ActivityMonitor {
     }
 
     private func startListeningForLockTrigger() {
-        if activityMonitor != nil { return } // Already listening
+        if activityMonitor != nil {
+            NSEvent.removeMonitor(activityMonitor!)
+        }
         let eventMask: NSEvent.EventTypeMask = [.mouseMoved, .leftMouseDown, .rightMouseDown, .otherMouseDown, .keyDown, .scrollWheel]
         activityMonitor = NSEvent.addGlobalMonitorForEvents(matching: eventMask) { [weak self] _ in
             self?.triggerLock()
@@ -91,9 +96,12 @@ class ActivityMonitor {
     }
 
     private func handleActivity() {
+        // Only reset the timer if we are in the standard monitoring state.
         if state == .monitoring {
             print("Activity detected, resetting timer.")
-            resetInactivityTimer()
+            DispatchQueue.main.async { // Ensure timer is handled on the main thread
+                self.resetInactivityTimer()
+            }
         }
     }
 

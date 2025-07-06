@@ -2,87 +2,205 @@ import Cocoa
 
 class SettingsViewController: NSViewController {
 
-    @IBOutlet weak var generalButton: NSButton!
-    @IBOutlet weak var xcodeButton: NSButton!
-    @IBOutlet weak var aboutButton: NSButton!
+    // MARK: - Outlets
     
-    // This will be the container for our different settings panes
-    @IBOutlet weak var containerView: NSView!
+    // General Tab
+    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
+    @IBOutlet weak var hideFromDockSwitch: NSSwitch!
+    @IBOutlet weak var startMinimizedSwitch: NSSwitch!
+
+    // Matrix Tab
+    @IBOutlet weak var characterColorWell: NSColorWell!
+    @IBOutlet weak var animationSpeedSlider: NSSlider!
+    @IBOutlet weak var animationSpeedLabel: NSTextField!
+    @IBOutlet weak var densitySlider: NSSlider!
+    @IBOutlet weak var densityLabel: NSTextField!
+    @IBOutlet weak var soundEffectsSwitch: NSSwitch!
+    
+    // Security Tab
+    @IBOutlet weak var automaticLockSwitch: NSSwitch!
+    @IBOutlet weak var timeoutSlider: NSSlider!
+    @IBOutlet weak var timeoutLabel: NSTextField!
+    @IBOutlet weak var passwordProtectionSwitch: NSSwitch!
+    @IBOutlet weak var passwordField: NSSecureTextField!
+    @IBOutlet weak var setPasswordButton: NSButton!
+    @IBOutlet weak var maxAttemptsStepper: NSStepper!
+    @IBOutlet weak var maxAttemptsLabel: NSTextField!
+    @IBOutlet weak var lockoutDurationSlider: NSSlider!
+    @IBOutlet weak var lockoutDurationLabel: NSTextField!
+
+    // MARK: - Properties
     
     private var currentViewController: NSViewController?
     private var sidebarButtons: [NSButton] = []
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Ensure all outlets are connected
-        guard let generalButton = generalButton,
-              let xcodeButton = xcodeButton,
-              let aboutButton = aboutButton,
-              let _ = containerView else {
-            print("ERROR: Some outlets are not connected in the storyboard!")
-            return
-        }
-        
-        // Set up button tags for identification
-        generalButton.tag = 0
-        xcodeButton.tag = 1
-        aboutButton.tag = 2
-        
-        sidebarButtons = [generalButton, xcodeButton, aboutButton]
-        
-        // Set the initial state - show general settings
-        showViewController(withIdentifier: "GeneralSettingsViewController")
-        updateSidebar(selectedButton: generalButton)
+        loadSettings()
+        updateUIState()
     }
     
-    @IBAction func sidebarButtonTapped(_ sender: NSButton) {
-        let identifiers = ["GeneralSettingsViewController", "XcodeSettingsViewController", "AboutViewController"]
+    // MARK: - Settings Loading and Saving
+    
+    private func loadSettings() {
+        let settings = UserSettings.shared
         
-        if sender.tag < identifiers.count {
-            showViewController(withIdentifier: identifiers[sender.tag])
-            updateSidebar(selectedButton: sender)
-        }
+        // General Settings
+        launchAtLoginSwitch.state = LaunchAtLogin.isEnabled ? .on : .off
+        hideFromDockSwitch.state = settings.hideFromDock ? .on : .off
+        startMinimizedSwitch.state = settings.startMinimized ? .on : .off
+        
+        // Matrix Settings
+        characterColorWell.color = settings.matrixCharacterColor
+        animationSpeedSlider.doubleValue = settings.matrixAnimationSpeed
+        densitySlider.doubleValue = settings.matrixDensity
+        soundEffectsSwitch.state = settings.matrixSoundEffects ? .on : .off
+        
+        // Security Settings
+        automaticLockSwitch.state = settings.enableAutomaticLock ? .on : .off
+        timeoutSlider.doubleValue = settings.inactivityTimeout
+        passwordProtectionSwitch.state = settings.enablePasswordProtection ? .on : .off
+        maxAttemptsStepper.integerValue = settings.maxFailedAttempts
+        lockoutDurationSlider.doubleValue = settings.lockoutDuration
+        
+        updateLabels()
     }
     
-    private func showViewController(withIdentifier identifier: String) {
-        guard let containerView = containerView else {
-            print("ERROR: Container view is not connected!")
-            return
-        }
+    private func updateUIState() {
+        let settings = UserSettings.shared
+        let passwordProtectionEnabled = settings.enablePasswordProtection
         
-        // Remove current view controller if any
-        if let current = currentViewController {
-            current.view.removeFromSuperview()
-            current.removeFromParent()
-        }
+        // Enable/disable controls based on password protection
+        passwordField.isEnabled = passwordProtectionEnabled
+        setPasswordButton.isEnabled = passwordProtectionEnabled
+        maxAttemptsStepper.isEnabled = passwordProtectionEnabled
+        lockoutDurationSlider.isEnabled = passwordProtectionEnabled
         
-        // Load new view controller
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let newViewController = storyboard.instantiateController(withIdentifier: identifier) as? NSViewController {
-            addChild(newViewController)
+        // Enable/disable controls based on automatic lock
+        let automaticLockEnabled = settings.enableAutomaticLock
+        timeoutSlider.isEnabled = automaticLockEnabled
+        
+        updateLabels()
+    }
+    
+    private func updateLabels() {
+        let settings = UserSettings.shared
+        
+        // Update Matrix labels
+        animationSpeedLabel.stringValue = String(format: "Animation Speed: %.1fx", settings.matrixAnimationSpeed)
+        densityLabel.stringValue = String(format: "Character Density: %.0f%%", settings.matrixDensity * 100)
+        
+        // Update Security labels
+        timeoutLabel.stringValue = String(format: "Lock after %.0f seconds of inactivity", settings.inactivityTimeout)
+        maxAttemptsLabel.stringValue = String(format: "%d failed attempts allowed", settings.maxFailedAttempts)
+        updateLockoutLabel(duration: settings.lockoutDuration)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func settingDidChange(_ sender: Any) {
+        let settings = UserSettings.shared
+        
+        switch sender {
+        case launchAtLoginSwitch:
+            LaunchAtLogin.isEnabled = launchAtLoginSwitch.state == .on
             
-            // Add the new view to container
-            newViewController.view.frame = containerView.bounds
-            newViewController.view.autoresizingMask = [.width, .height]
-            containerView.addSubview(newViewController.view)
+        case hideFromDockSwitch:
+            settings.hideFromDock = hideFromDockSwitch.state == .on
             
-            currentViewController = newViewController
-        } else {
-            print("ERROR: Could not instantiate view controller with identifier: \(identifier)")
-        }
-    }
-    
-    private func updateSidebar(selectedButton: NSButton?) {
-        // Visually update which button is currently selected
-        for button in sidebarButtons {
-            if button == selectedButton {
-                button.contentTintColor = .white
-                button.layer?.backgroundColor = NSColor(white: 1.0, alpha: 0.1).cgColor
+        case startMinimizedSwitch:
+            settings.startMinimized = startMinimizedSwitch.state == .on
+            
+        case characterColorWell:
+            settings.matrixCharacterColor = characterColorWell.color
+            
+        case animationSpeedSlider:
+            settings.matrixAnimationSpeed = animationSpeedSlider.doubleValue
+            updateLabels()
+            
+        case densitySlider:
+            settings.matrixDensity = densitySlider.doubleValue
+            updateLabels()
+            
+        case soundEffectsSwitch:
+            settings.matrixSoundEffects = soundEffectsSwitch.state == .on
+            
+        case automaticLockSwitch:
+            settings.enableAutomaticLock = automaticLockSwitch.state == .on
+            updateUIState()
+            if settings.enableAutomaticLock {
+                NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
             } else {
-                button.contentTintColor = .lightGray
-                button.layer?.backgroundColor = NSColor.clear.cgColor
+                NotificationCenter.default.post(name: Notifications.stopMonitoring, object: nil)
+            }
+            
+        case timeoutSlider:
+            settings.inactivityTimeout = timeoutSlider.doubleValue
+            updateLabels()
+            
+        case passwordProtectionSwitch:
+            settings.enablePasswordProtection = passwordProtectionSwitch.state == .on
+            updateUIState()
+            if !settings.enablePasswordProtection {
+                settings.setPassword(nil)
+            }
+            
+        case maxAttemptsStepper:
+            settings.maxFailedAttempts = maxAttemptsStepper.integerValue
+            updateLabels()
+            
+        case lockoutDurationSlider:
+            settings.lockoutDuration = lockoutDurationSlider.doubleValue
+            updateLabels()
+            
+        default:
+            break
+        }
+        
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+    }
+
+    @IBAction func setPasswordClicked(_ sender: NSButton) {
+        let password = passwordField.stringValue
+        guard !password.isEmpty else {
+            showAlert(title: "Invalid Password",
+                     message: "Please enter a password.",
+                     style: .warning)
+            return
+        }
+        
+        let alert = NSAlert()
+        alert.messageText = "Confirm Password Change"
+        alert.informativeText = "Are you sure you want to change the unlock password?"
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Change Password")
+        alert.addButton(withTitle: "Cancel")
+        
+        alert.beginSheetModal(for: self.view.window!) { response in
+            if response == .alertFirstButtonReturn {
+                UserSettings.shared.setPassword(password)
+                self.passwordField.stringValue = ""
+                self.showAlert(title: "Password Updated",
+                             message: "The unlock password has been changed successfully.",
+                             style: .informational)
             }
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func updateLockoutLabel(duration: TimeInterval) {
+        let minutes = Int(duration / 60)
+        lockoutDurationLabel.stringValue = "\(minutes) min lockout"
+    }
+    
+    private func showAlert(title: String, message: String, style: NSAlert.Style) {
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.alertStyle = style
+        alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
     }
 }
