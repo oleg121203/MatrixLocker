@@ -342,8 +342,7 @@ class LockScreenViewController: NSViewController {
     private func startLockoutTimer() {
         lockoutTimer?.invalidate()
         lockoutTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            let remaining = UserSettings.shared.timeRemainingInLockout()
-            if remaining > 0 {
+            if let remaining = UserSettings.shared.timeRemainingInLockout(), remaining > 0 {
                 self?.updateLockoutMessage(timeRemaining: remaining)
             } else {
                 timer.invalidate()
