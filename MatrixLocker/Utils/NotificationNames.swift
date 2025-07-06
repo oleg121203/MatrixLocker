@@ -22,3 +22,14 @@ extension Notification.Name {
     /// Spawns after a successful unlock
     static let didUnlock = Notification.Name("didUnlock")
 }
+
+/// Convenience wrapper to reference notification names via `Notifications.xxx`.
+struct Notifications {
+    static let startMonitoring = Notification.Name.startMonitoring
+    static let stopMonitoring = Notification.Name.stopMonitoring
+    static let activateNow = Notification.Name.activateNow
+    static let userDidBecomeInactive = Notification.Name.userDidBecomeInactive
+    static let settingsDidChange = Notification.Name.settingsDidChange
+    static let lockScreen = Notification.Name.lockScreen
+    static let didUnlock = Notification.Name.didUnlock
+}

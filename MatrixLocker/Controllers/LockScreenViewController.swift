@@ -1,5 +1,6 @@
 import Cocoa
 import LocalAuthentication
+import QuartzCore
 
 protocol LockScreenDelegate: AnyObject {
     func didUnlockScreen()
