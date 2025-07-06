@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		1A2B3C4D5E6F7890A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7890 /* AppDelegate.swift */; };
 		1A2B3C4D5E6F7891A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7891 /* SettingsViewController.swift */; };
-		1A2B3C4D5E6F7892A /* GeneralSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7892 /* GeneralSettingsViewController.swift */; };
-		1A2B3C4D5E6F7893A /* XcodeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7893 /* XcodeSettingsViewController.swift */; };
-		1A2B3C4D5E6F7894A /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7894 /* AboutViewController.swift */; };
 		1A2B3C4D5E6F7895A /* LockScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7895 /* LockScreenViewController.swift */; };
 		1A2B3C4D5E6F7896A /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7896 /* UserSettings.swift */; };
 		1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7897 /* LockScreenView.swift */; };
@@ -30,9 +27,6 @@
 		1A2B3C4D5E6F7888 /* MatrixLocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatrixLocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2B3C4D5E6F7890 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7891 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		1A2B3C4D5E6F7892 /* GeneralSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewController.swift; sourceTree = "<group>"; };
-		1A2B3C4D5E6F7893 /* XcodeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeSettingsViewController.swift; sourceTree = "<group>"; };
-		1A2B3C4D5E6F7894 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7895 /* LockScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenViewController.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7896 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		1A2B3C4D5E6F7897 /* LockScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenView.swift; sourceTree = "<group>"; };
@@ -97,9 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				1A2B3C4D5E6F7891 /* SettingsViewController.swift */,
-				1A2B3C4D5E6F7892 /* GeneralSettingsViewController.swift */,
-				1A2B3C4D5E6F7893 /* XcodeSettingsViewController.swift */,
-				1A2B3C4D5E6F7894 /* AboutViewController.swift */,
 				1A2B3C4D5E6F7895 /* LockScreenViewController.swift */,
 			);
 			path = Controllers;
@@ -203,9 +194,6 @@
 			files = (
 				1A2B3C4D5E6F7890A /* AppDelegate.swift in Sources */,
 				1A2B3C4D5E6F7891A /* SettingsViewController.swift in Sources */,
-				1A2B3C4D5E6F7892A /* GeneralSettingsViewController.swift in Sources */,
-				1A2B3C4D5E6F7893A /* XcodeSettingsViewController.swift in Sources */,
-				1A2B3C4D5E6F7894A /* AboutViewController.swift in Sources */,
 				1A2B3C4D5E6F7895A /* LockScreenViewController.swift in Sources */,
 				1A2B3C4D5E6F7896A /* UserSettings.swift in Sources */,
 				1A2B3C4D5E6F7897A /* LockScreenView.swift in Sources */,
