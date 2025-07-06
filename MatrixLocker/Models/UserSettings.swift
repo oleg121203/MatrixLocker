@@ -70,8 +70,6 @@ final class UserSettings {
     }
     
     // MARK: - Login and Security
-    private let maxFailedAttempts = 5
-    private let lockoutDuration: TimeInterval = 300 // 5 minutes
     
     enum LoginResult {
         case success

@@ -70,109 +70,109 @@ class SettingsViewController: NSViewController {
         // Accessibility Setup
         
         // General Tab Accessibility
-        launchAtLoginSwitch.setAccessibilityLabel("Launch at Login")
-        launchAtLoginSwitch.setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
-        launchAtLoginSwitch.setAccessibilityHelp("Toggle to launch the application automatically when you log in.")
-        launchAtLoginSwitch.setAccessibilityIdentifier("launchAtLoginSwitch")
+        (launchAtLoginSwitch as NSView).setAccessibilityLabel("Launch at Login")
+        (launchAtLoginSwitch as NSView).setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
+        (launchAtLoginSwitch as NSView).setAccessibilityHelp("Toggle to launch the application automatically when you log in.")
+        (launchAtLoginSwitch as NSView).setAccessibilityIdentifier("launchAtLoginSwitch")
         launchAtLoginSwitch.toolTip = NSLocalizedString("Enable or disable launch at login", comment: "")
         
-        hideFromDockSwitch.setAccessibilityLabel("Hide From Dock")
-        hideFromDockSwitch.setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
-        hideFromDockSwitch.setAccessibilityHelp("Toggle to hide the application icon from the Dock.")
-        hideFromDockSwitch.setAccessibilityIdentifier("hideFromDockSwitch")
+        (hideFromDockSwitch as NSView).setAccessibilityLabel("Hide From Dock")
+        (hideFromDockSwitch as NSView).setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
+        (hideFromDockSwitch as NSView).setAccessibilityHelp("Toggle to hide the application icon from the Dock.")
+        (hideFromDockSwitch as NSView).setAccessibilityIdentifier("hideFromDockSwitch")
         hideFromDockSwitch.toolTip = NSLocalizedString("Show or hide the app icon in the Dock", comment: "")
         
-        startMinimizedSwitch.setAccessibilityLabel("Start Minimized")
-        startMinimizedSwitch.setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
-        startMinimizedSwitch.setAccessibilityHelp("Toggle to start the application minimized.")
-        startMinimizedSwitch.setAccessibilityIdentifier("startMinimizedSwitch")
+        (startMinimizedSwitch as NSView).setAccessibilityLabel("Start Minimized")
+        (startMinimizedSwitch as NSView).setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
+        (startMinimizedSwitch as NSView).setAccessibilityHelp("Toggle to start the application minimized.")
+        (startMinimizedSwitch as NSView).setAccessibilityIdentifier("startMinimizedSwitch")
         startMinimizedSwitch.toolTip = NSLocalizedString("Start the application minimized on launch", comment: "")
         
         // Matrix Tab Accessibility
-        characterColorWell.setAccessibilityLabel("Character Color")
-        characterColorWell.setAccessibilityValue("Selected color")
-        characterColorWell.setAccessibilityHelp("Select the color of the matrix characters.")
-        characterColorWell.setAccessibilityIdentifier("characterColorWell")
+        (characterColorWell as NSView).setAccessibilityLabel("Character Color")
+        (characterColorWell as NSView).setAccessibilityValue("Selected color")
+        (characterColorWell as NSView).setAccessibilityHelp("Select the color of the matrix characters.")
+        (characterColorWell as NSView).setAccessibilityIdentifier("characterColorWell")
         
-        animationSpeedSlider.setAccessibilityLabel("Animation Speed")
-        animationSpeedSlider.setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
-        animationSpeedSlider.setAccessibilityHelp("Adjust the speed of the matrix animation.")
-        animationSpeedSlider.setAccessibilityIdentifier("animationSpeedSlider")
+        (animationSpeedSlider as NSView).setAccessibilityLabel("Animation Speed")
+        (animationSpeedSlider as NSView).setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
+        (animationSpeedSlider as NSView).setAccessibilityHelp("Adjust the speed of the matrix animation.")
+        (animationSpeedSlider as NSView).setAccessibilityIdentifier("animationSpeedSlider")
         
-        animationSpeedLabel.setAccessibilityLabel("Animation Speed Value")
-        animationSpeedLabel.setAccessibilityValue(animationSpeedLabel.stringValue)
-        animationSpeedLabel.setAccessibilityHelp("Displays the current animation speed.")
-        animationSpeedLabel.setAccessibilityIdentifier("animationSpeedLabel")
+        (animationSpeedLabel as NSView).setAccessibilityLabel("Animation Speed Value")
+        (animationSpeedLabel as NSView).setAccessibilityValue(animationSpeedLabel.stringValue)
+        (animationSpeedLabel as NSView).setAccessibilityHelp("Displays the current animation speed.")
+        (animationSpeedLabel as NSView).setAccessibilityIdentifier("animationSpeedLabel")
         
-        densitySlider.setAccessibilityLabel("Character Density")
-        densitySlider.setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
-        densitySlider.setAccessibilityHelp("Adjust the density of matrix characters on screen.")
-        densitySlider.setAccessibilityIdentifier("densitySlider")
+        (densitySlider as NSView).setAccessibilityLabel("Character Density")
+        (densitySlider as NSView).setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
+        (densitySlider as NSView).setAccessibilityHelp("Adjust the density of matrix characters on screen.")
+        (densitySlider as NSView).setAccessibilityIdentifier("densitySlider")
         
-        densityLabel.setAccessibilityLabel("Character Density Value")
-        densityLabel.setAccessibilityValue(densityLabel.stringValue)
-        densityLabel.setAccessibilityHelp("Displays the current character density percentage.")
-        densityLabel.setAccessibilityIdentifier("densityLabel")
+        (densityLabel as NSView).setAccessibilityLabel("Character Density Value")
+        (densityLabel as NSView).setAccessibilityValue(densityLabel.stringValue)
+        (densityLabel as NSView).setAccessibilityHelp("Displays the current character density percentage.")
+        (densityLabel as NSView).setAccessibilityIdentifier("densityLabel")
         
-        soundEffectsSwitch.setAccessibilityLabel("Sound Effects")
-        soundEffectsSwitch.setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
-        soundEffectsSwitch.setAccessibilityHelp("Toggle sound effects for matrix animation.")
-        soundEffectsSwitch.setAccessibilityIdentifier("soundEffectsSwitch")
+        (soundEffectsSwitch as NSView).setAccessibilityLabel("Sound Effects")
+        (soundEffectsSwitch as NSView).setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
+        (soundEffectsSwitch as NSView).setAccessibilityHelp("Toggle sound effects for matrix animation.")
+        (soundEffectsSwitch as NSView).setAccessibilityIdentifier("soundEffectsSwitch")
         soundEffectsSwitch.toolTip = NSLocalizedString("Enable or disable sound effects", comment: "")
         
         // Security Tab Accessibility
-        automaticLockSwitch.setAccessibilityLabel("Automatic Lock")
-        automaticLockSwitch.setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
-        automaticLockSwitch.setAccessibilityHelp("Toggle to enable automatic locking after inactivity.")
-        automaticLockSwitch.setAccessibilityIdentifier("automaticLockSwitch")
+        (automaticLockSwitch as NSView).setAccessibilityLabel("Automatic Lock")
+        (automaticLockSwitch as NSView).setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
+        (automaticLockSwitch as NSView).setAccessibilityHelp("Toggle to enable automatic locking after inactivity.")
+        (automaticLockSwitch as NSView).setAccessibilityIdentifier("automaticLockSwitch")
         automaticLockSwitch.toolTip = NSLocalizedString("Enable or disable automatic screen lock", comment: "")
         
-        timeoutSlider.setAccessibilityLabel("Inactivity Timeout")
-        timeoutSlider.setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
-        timeoutSlider.setAccessibilityHelp("Adjust the timeout period before automatic lock activates.")
-        timeoutSlider.setAccessibilityIdentifier("timeoutSlider")
+        (timeoutSlider as NSView).setAccessibilityLabel("Inactivity Timeout")
+        (timeoutSlider as NSView).setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
+        (timeoutSlider as NSView).setAccessibilityHelp("Adjust the timeout period before automatic lock activates.")
+        (timeoutSlider as NSView).setAccessibilityIdentifier("timeoutSlider")
         
-        timeoutLabel.setAccessibilityLabel("Inactivity Timeout Value")
-        timeoutLabel.setAccessibilityValue(timeoutLabel.stringValue)
-        timeoutLabel.setAccessibilityHelp("Displays the current inactivity timeout duration.")
-        timeoutLabel.setAccessibilityIdentifier("timeoutLabel")
+        (timeoutLabel as NSView).setAccessibilityLabel("Inactivity Timeout Value")
+        (timeoutLabel as NSView).setAccessibilityValue(timeoutLabel.stringValue)
+        (timeoutLabel as NSView).setAccessibilityHelp("Displays the current inactivity timeout duration.")
+        (timeoutLabel as NSView).setAccessibilityIdentifier("timeoutLabel")
         
-        passwordProtectionSwitch.setAccessibilityLabel("Password Protection")
-        passwordProtectionSwitch.setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
-        passwordProtectionSwitch.setAccessibilityHelp("Toggle to enable or disable password protection.")
-        passwordProtectionSwitch.setAccessibilityIdentifier("passwordProtectionSwitch")
+        (passwordProtectionSwitch as NSView).setAccessibilityLabel("Password Protection")
+        (passwordProtectionSwitch as NSView).setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
+        (passwordProtectionSwitch as NSView).setAccessibilityHelp("Toggle to enable or disable password protection.")
+        (passwordProtectionSwitch as NSView).setAccessibilityIdentifier("passwordProtectionSwitch")
         passwordProtectionSwitch.toolTip = NSLocalizedString("Enable or disable password protection for unlocking", comment: "")
         
-        passwordField.setAccessibilityLabel("Enter Password")
-        passwordField.setAccessibilityValue("")
-        passwordField.setAccessibilityHelp("Enter a new unlock password.")
-        passwordField.setAccessibilityIdentifier("passwordField")
+        (passwordField as NSView).setAccessibilityLabel("Enter Password")
+        (passwordField as NSView).setAccessibilityValue("")
+        (passwordField as NSView).setAccessibilityHelp("Enter a new unlock password.")
+        (passwordField as NSView).setAccessibilityIdentifier("passwordField")
         
-        setPasswordButton.setAccessibilityLabel("Set Password")
-        setPasswordButton.setAccessibilityHelp("Click to set or change the unlock password.")
-        setPasswordButton.setAccessibilityIdentifier("setPasswordButton")
+        (setPasswordButton as NSView).setAccessibilityLabel("Set Password")
+        (setPasswordButton as NSView).setAccessibilityHelp("Click to set or change the unlock password.")
+        (setPasswordButton as NSView).setAccessibilityIdentifier("setPasswordButton")
         setPasswordButton.toolTip = NSLocalizedString("Set or change the unlock password", comment: "")
         
-        maxAttemptsStepper.setAccessibilityLabel("Maximum Failed Attempts")
-        maxAttemptsStepper.setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
-        maxAttemptsStepper.setAccessibilityHelp("Set the maximum number of allowed failed unlock attempts.")
-        maxAttemptsStepper.setAccessibilityIdentifier("maxAttemptsStepper")
+        (maxAttemptsStepper as NSView).setAccessibilityLabel("Maximum Failed Attempts")
+        (maxAttemptsStepper as NSView).setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
+        (maxAttemptsStepper as NSView).setAccessibilityHelp("Set the maximum number of allowed failed unlock attempts.")
+        (maxAttemptsStepper as NSView).setAccessibilityIdentifier("maxAttemptsStepper")
         
-        maxAttemptsLabel.setAccessibilityLabel("Maximum Failed Attempts Value")
-        maxAttemptsLabel.setAccessibilityValue(maxAttemptsLabel.stringValue)
-        maxAttemptsLabel.setAccessibilityHelp("Displays the current maximum failed attempts allowed.")
-        maxAttemptsLabel.setAccessibilityIdentifier("maxAttemptsLabel")
+        (maxAttemptsLabel as NSView).setAccessibilityLabel("Maximum Failed Attempts Value")
+        (maxAttemptsLabel as NSView).setAccessibilityValue(maxAttemptsLabel.stringValue)
+        (maxAttemptsLabel as NSView).setAccessibilityHelp("Displays the current maximum failed attempts allowed.")
+        (maxAttemptsLabel as NSView).setAccessibilityIdentifier("maxAttemptsLabel")
         
-        lockoutDurationSlider.setAccessibilityLabel("Lockout Duration")
+        (lockoutDurationSlider as NSView).setAccessibilityLabel("Lockout Duration")
         let lockoutMinutes = Int(lockoutDurationSlider.doubleValue / 60)
-        lockoutDurationSlider.setAccessibilityValue("\(lockoutMinutes) minutes")
-        lockoutDurationSlider.setAccessibilityHelp("Set the duration of the lockout period after maximum failed attempts.")
-        lockoutDurationSlider.setAccessibilityIdentifier("lockoutDurationSlider")
+        (lockoutDurationSlider as NSView).setAccessibilityValue("\(lockoutMinutes) minutes")
+        (lockoutDurationSlider as NSView).setAccessibilityHelp("Set the duration of the lockout period after maximum failed attempts.")
+        (lockoutDurationSlider as NSView).setAccessibilityIdentifier("lockoutDurationSlider")
         
-        lockoutDurationLabel.setAccessibilityLabel("Lockout Duration Value")
-        lockoutDurationLabel.setAccessibilityValue(lockoutDurationLabel.stringValue)
-        lockoutDurationLabel.setAccessibilityHelp("Displays the current lockout duration in minutes.")
-        lockoutDurationLabel.setAccessibilityIdentifier("lockoutDurationLabel")
+        (lockoutDurationLabel as NSView).setAccessibilityLabel("Lockout Duration Value")
+        (lockoutDurationLabel as NSView).setAccessibilityValue(lockoutDurationLabel.stringValue)
+        (lockoutDurationLabel as NSView).setAccessibilityHelp("Displays the current lockout duration in minutes.")
+        (lockoutDurationLabel as NSView).setAccessibilityIdentifier("lockoutDurationLabel")
         
         // Tooltips provide important contextual information for all users,
         // especially benefiting users with accessibility needs by clarifying control functions.
@@ -265,26 +265,26 @@ class SettingsViewController: NSViewController {
     
     /// Updates accessibilityValue properties to reflect current UI states and values.
     private func updateAccessibilityValues() {
-        launchAtLoginSwitch.setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
-        hideFromDockSwitch.setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
-        startMinimizedSwitch.setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
+        (launchAtLoginSwitch as NSView).setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
+        (hideFromDockSwitch as NSView).setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
+        (startMinimizedSwitch as NSView).setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
         
-        characterColorWell.setAccessibilityValue("Selected color")
-        animationSpeedSlider.setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
-        animationSpeedLabel.setAccessibilityValue(animationSpeedLabel.stringValue)
-        densitySlider.setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
-        densityLabel.setAccessibilityValue(densityLabel.stringValue)
-        soundEffectsSwitch.setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
+        (characterColorWell as NSView).setAccessibilityValue("Selected color")
+        (animationSpeedSlider as NSView).setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
+        (animationSpeedLabel as NSView).setAccessibilityValue(animationSpeedLabel.stringValue)
+        (densitySlider as NSView).setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
+        (densityLabel as NSView).setAccessibilityValue(densityLabel.stringValue)
+        (soundEffectsSwitch as NSView).setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
         
-        automaticLockSwitch.setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
-        timeoutSlider.setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
-        timeoutLabel.setAccessibilityValue(timeoutLabel.stringValue)
-        passwordProtectionSwitch.setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
-        maxAttemptsStepper.setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
-        maxAttemptsLabel.setAccessibilityValue(maxAttemptsLabel.stringValue)
+        (automaticLockSwitch as NSView).setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
+        (timeoutSlider as NSView).setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
+        (timeoutLabel as NSView).setAccessibilityValue(timeoutLabel.stringValue)
+        (passwordProtectionSwitch as NSView).setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
+        (maxAttemptsStepper as NSView).setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
+        (maxAttemptsLabel as NSView).setAccessibilityValue(maxAttemptsLabel.stringValue)
         let lockoutMinutes = Int(lockoutDurationSlider.doubleValue / 60)
-        lockoutDurationSlider.setAccessibilityValue("\(lockoutMinutes) minutes")
-        lockoutDurationLabel.setAccessibilityValue(lockoutDurationLabel.stringValue)
+        (lockoutDurationSlider as NSView).setAccessibilityValue("\(lockoutMinutes) minutes")
+        (lockoutDurationLabel as NSView).setAccessibilityValue(lockoutDurationLabel.stringValue)
     }
     
     /// Updates the enabled/disabled state of UI controls based on current settings.
@@ -333,17 +333,17 @@ class SettingsViewController: NSViewController {
         switch sender {
         case launchAtLoginSwitch:
             LaunchAtLogin.isEnabled = launchAtLoginSwitch.state == .on
-            launchAtLoginSwitch.setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
+            (launchAtLoginSwitch as NSView).setAccessibilityValue(launchAtLoginSwitch.state == .on ? "Enabled" : "Disabled")
             announceAccessibilityChange("Launch at Login \(launchAtLoginSwitch.state == .on ? "enabled" : "disabled")")
             
         case hideFromDockSwitch:
             settings.hideFromDock = hideFromDockSwitch.state == .on
-            hideFromDockSwitch.setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
+            (hideFromDockSwitch as NSView).setAccessibilityValue(hideFromDockSwitch.state == .on ? "Enabled" : "Disabled")
             announceAccessibilityChange("Hide From Dock \(hideFromDockSwitch.state == .on ? "enabled" : "disabled")")
             
         case startMinimizedSwitch:
             settings.startMinimized = startMinimizedSwitch.state == .on
-            startMinimizedSwitch.setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
+            (startMinimizedSwitch as NSView).setAccessibilityValue(startMinimizedSwitch.state == .on ? "Enabled" : "Disabled")
             announceAccessibilityChange("Start Minimized \(startMinimizedSwitch.state == .on ? "enabled" : "disabled")")
             
         case characterColorWell:
@@ -352,24 +352,24 @@ class SettingsViewController: NSViewController {
             
         case animationSpeedSlider:
             settings.matrixAnimationSpeed = animationSpeedSlider.doubleValue
-            animationSpeedSlider.setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
+            (animationSpeedSlider as NSView).setAccessibilityValue(String(format: "%.1fx", animationSpeedSlider.doubleValue))
             updateLabels()
             announceAccessibilityChange("Animation speed set to \(String(format: "%.1fx", animationSpeedSlider.doubleValue))")
             
         case densitySlider:
             settings.matrixDensity = densitySlider.doubleValue
-            densitySlider.setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
+            (densitySlider as NSView).setAccessibilityValue(String(format: "%.0f%%", densitySlider.doubleValue * 100))
             updateLabels()
             announceAccessibilityChange("Character density set to \(String(format: "%.0f%%", densitySlider.doubleValue * 100))")
             
         case soundEffectsSwitch:
             settings.matrixSoundEffects = soundEffectsSwitch.state == .on
-            soundEffectsSwitch.setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
+            (soundEffectsSwitch as NSView).setAccessibilityValue(soundEffectsSwitch.state == .on ? "Enabled" : "Disabled")
             announceAccessibilityChange("Sound effects \(soundEffectsSwitch.state == .on ? "enabled" : "disabled")")
             
         case automaticLockSwitch:
             settings.enableAutomaticLock = automaticLockSwitch.state == .on
-            automaticLockSwitch.setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
+            (automaticLockSwitch as NSView).setAccessibilityValue(automaticLockSwitch.state == .on ? "Enabled" : "Disabled")
             updateUIState()
             announceAccessibilityChange("Automatic lock \(automaticLockSwitch.state == .on ? "enabled" : "disabled")")
             if settings.enableAutomaticLock {
@@ -380,13 +380,13 @@ class SettingsViewController: NSViewController {
             
         case timeoutSlider:
             settings.inactivityTimeout = timeoutSlider.doubleValue
-            timeoutSlider.setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
+            (timeoutSlider as NSView).setAccessibilityValue(String(format: "%.0f seconds", timeoutSlider.doubleValue))
             updateLabels()
             announceAccessibilityChange("Inactivity timeout set to \(String(format: "%.0f seconds", timeoutSlider.doubleValue))")
             
         case passwordProtectionSwitch:
             settings.enablePasswordProtection = passwordProtectionSwitch.state == .on
-            passwordProtectionSwitch.setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
+            (passwordProtectionSwitch as NSView).setAccessibilityValue(passwordProtectionSwitch.state == .on ? "Enabled" : "Disabled")
             updateUIState()
             announceAccessibilityChange("Password protection \(passwordProtectionSwitch.state == .on ? "enabled" : "disabled")")
             if !settings.enablePasswordProtection {
@@ -396,14 +396,14 @@ class SettingsViewController: NSViewController {
             
         case maxAttemptsStepper:
             settings.maxFailedAttempts = maxAttemptsStepper.integerValue
-            maxAttemptsStepper.setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
+            (maxAttemptsStepper as NSView).setAccessibilityValue("\(maxAttemptsStepper.integerValue) attempts")
             updateLabels()
             announceAccessibilityChange("Maximum failed attempts set to \(maxAttemptsStepper.integerValue)")
             
         case lockoutDurationSlider:
             settings.lockoutDuration = lockoutDurationSlider.doubleValue
             let minutes = Int(lockoutDurationSlider.doubleValue / 60)
-            lockoutDurationSlider.setAccessibilityValue("\(minutes) minutes")
+            (lockoutDurationSlider as NSView).setAccessibilityValue("\(minutes) minutes")
             updateLabels()
             announceAccessibilityChange("Lockout duration set to \(minutes) minutes")
             
