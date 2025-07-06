@@ -5,32 +5,36 @@ class SettingsViewController: NSViewController {
     // MARK: - Outlets
     
     // General Tab
-    @IBOutlet weak var launchAtLoginSwitch: NSSwitch!
-    @IBOutlet weak var hideFromDockSwitch: NSSwitch!
-    @IBOutlet weak var startMinimizedSwitch: NSSwitch!
+    @IBOutlet weak var launchAtLoginSwitch: NSSwitch?
+    @IBOutlet weak var hideFromDockSwitch: NSSwitch?
+    @IBOutlet weak var startMinimizedSwitch: NSSwitch?
 
     // Matrix Tab
-    @IBOutlet weak var characterColorWell: NSColorWell!
-    @IBOutlet weak var animationSpeedSlider: NSSlider!
-    @IBOutlet weak var animationSpeedLabel: NSTextField!
-    @IBOutlet weak var densitySlider: NSSlider!
-    @IBOutlet weak var densityLabel: NSTextField!
-    @IBOutlet weak var soundEffectsSwitch: NSSwitch!
+    @IBOutlet weak var characterColorWell: NSColorWell?
+    @IBOutlet weak var animationSpeedSlider: NSSlider?
+    @IBOutlet weak var animationSpeedLabel: NSTextField?
+    @IBOutlet weak var densitySlider: NSSlider?
+    @IBOutlet weak var densityLabel: NSTextField?
+    @IBOutlet weak var soundEffectsSwitch: NSSwitch?
     
     // Security Tab
-    @IBOutlet weak var automaticLockSwitch: NSSwitch!
-    @IBOutlet weak var timeoutSlider: NSSlider!
-    @IBOutlet weak var timeoutLabel: NSTextField!
-    @IBOutlet weak var passwordProtectionSwitch: NSSwitch!
-    @IBOutlet weak var passwordField: NSSecureTextField!
-    @IBOutlet weak var setPasswordButton: NSButton!
-    @IBOutlet weak var maxAttemptsStepper: NSStepper!
-    @IBOutlet weak var maxAttemptsLabel: NSTextField!
-    @IBOutlet weak var lockoutDurationSlider: NSSlider!
-    @IBOutlet weak var lockoutDurationLabel: NSTextField!
+    @IBOutlet weak var automaticLockSwitch: NSSwitch?
+    @IBOutlet weak var timeoutSlider: NSSlider?
+    @IBOutlet weak var timeoutLabel: NSTextField?
+    @IBOutlet weak var passwordProtectionSwitch: NSSwitch?
+    @IBOutlet weak var passwordField: NSSecureTextField?
+    @IBOutlet weak var setPasswordButton: NSButton?
+    @IBOutlet weak var maxAttemptsStepper: NSStepper?
+    @IBOutlet weak var maxAttemptsLabel: NSTextField?
+    @IBOutlet weak var lockoutDurationSlider: NSSlider?
+    @IBOutlet weak var lockoutDurationLabel: NSTextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Ensure view is loaded before accessing outlets
+        view.layoutSubtreeIfNeeded()
+        
         loadSettings()
         updateUIState()
     }
@@ -39,43 +43,43 @@ class SettingsViewController: NSViewController {
         let settings = UserSettings.shared
         
         // General
-        launchAtLoginSwitch.state = LaunchAtLogin.isEnabled ? .on : .off
-        hideFromDockSwitch.state = settings.hideFromDock ? .on : .off
-        startMinimizedSwitch.state = settings.startMinimized ? .on : .off
+        launchAtLoginSwitch?.state = LaunchAtLogin.isEnabled ? .on : .off
+        hideFromDockSwitch?.state = settings.hideFromDock ? .on : .off
+        startMinimizedSwitch?.state = settings.startMinimized ? .on : .off
         
         // Matrix
-        characterColorWell.color = settings.matrixCharacterColor
-        animationSpeedSlider.doubleValue = settings.matrixAnimationSpeed
-        densitySlider.doubleValue = settings.matrixDensity
-        soundEffectsSwitch.state = settings.matrixSoundEffects ? .on : .off
+        characterColorWell?.color = settings.matrixCharacterColor
+        animationSpeedSlider?.doubleValue = settings.matrixAnimationSpeed
+        densitySlider?.doubleValue = settings.matrixDensity
+        soundEffectsSwitch?.state = settings.matrixSoundEffects ? .on : .off
         
         // Security
-        automaticLockSwitch.state = settings.enableAutomaticLock ? .on : .off
-        timeoutSlider.doubleValue = settings.inactivityTimeout
-        passwordProtectionSwitch.state = settings.enablePasswordProtection ? .on : .off
-        maxAttemptsStepper.integerValue = settings.maxFailedAttempts
-        lockoutDurationSlider.doubleValue = settings.lockoutDuration
+        automaticLockSwitch?.state = settings.enableAutomaticLock ? .on : .off
+        timeoutSlider?.doubleValue = settings.inactivityTimeout
+        passwordProtectionSwitch?.state = settings.enablePasswordProtection ? .on : .off
+        maxAttemptsStepper?.integerValue = settings.maxFailedAttempts
+        lockoutDurationSlider?.doubleValue = settings.lockoutDuration
     }
     
     private func updateUIState() {
 
         // Matrix Labels
-        animationSpeedLabel.stringValue = String(format: "%.1fx", animationSpeedSlider.doubleValue)
-        densityLabel.stringValue = "\(Int(densitySlider.doubleValue * 100))%"
+        animationSpeedLabel?.stringValue = String(format: "%.1fx", animationSpeedSlider?.doubleValue ?? 1.0)
+        densityLabel?.stringValue = "\(Int((densitySlider?.doubleValue ?? 0.7) * 100))%"
         
         // Security Labels & Controls
-        timeoutLabel.stringValue = "Lock after \(Int(timeoutSlider.doubleValue)) seconds"
-        maxAttemptsLabel.stringValue = "\(maxAttemptsStepper.integerValue) attempts"
-        updateLockoutLabel(duration: lockoutDurationSlider.doubleValue)
+        timeoutLabel?.stringValue = "Lock after \(Int(timeoutSlider?.doubleValue ?? 60)) seconds"
+        maxAttemptsLabel?.stringValue = "\(maxAttemptsStepper?.integerValue ?? 5) attempts"
+        updateLockoutLabel(duration: lockoutDurationSlider?.doubleValue ?? 300)
         
-        let autoLockEnabled = automaticLockSwitch.state == .on
-        timeoutSlider.isEnabled = autoLockEnabled
+        let autoLockEnabled = automaticLockSwitch?.state == .on
+        timeoutSlider?.isEnabled = autoLockEnabled
         
-        let passwordProtectionEnabled = passwordProtectionSwitch.state == .on
-        passwordField.isEnabled = passwordProtectionEnabled
-        setPasswordButton.isEnabled = passwordProtectionEnabled
-        maxAttemptsStepper.isEnabled = passwordProtectionEnabled
-        lockoutDurationSlider.isEnabled = passwordProtectionEnabled
+        let passwordProtectionEnabled = passwordProtectionSwitch?.state == .on
+        passwordField?.isEnabled = passwordProtectionEnabled
+        setPasswordButton?.isEnabled = passwordProtectionEnabled
+        maxAttemptsStepper?.isEnabled = passwordProtectionEnabled
+        lockoutDurationSlider?.isEnabled = passwordProtectionEnabled
     }
     
     // MARK: - Actions
@@ -90,37 +94,49 @@ class SettingsViewController: NSViewController {
             switch control {
             // General
             case launchAtLoginSwitch:
-                LaunchAtLogin.isEnabled = (launchAtLoginSwitch.state == .on)
+                LaunchAtLogin.isEnabled = (launchAtLoginSwitch?.state == .on)
             case hideFromDockSwitch:
-                settings.hideFromDock = (hideFromDockSwitch.state == .on)
+                settings.hideFromDock = (hideFromDockSwitch?.state == .on)
                 showRestartAlert()
             case startMinimizedSwitch:
-                settings.startMinimized = (startMinimizedSwitch.state == .on)
+                settings.startMinimized = (startMinimizedSwitch?.state == .on)
             
             // Matrix
             case characterColorWell:
-                settings.matrixCharacterColor = characterColorWell.color
+                if let colorWell = characterColorWell {
+                    settings.matrixCharacterColor = colorWell.color
+                }
             case animationSpeedSlider:
-                settings.matrixAnimationSpeed = animationSpeedSlider.doubleValue
+                if let slider = animationSpeedSlider {
+                    settings.matrixAnimationSpeed = slider.doubleValue
+                }
             case densitySlider:
-                settings.matrixDensity = densitySlider.doubleValue
+                if let slider = densitySlider {
+                    settings.matrixDensity = slider.doubleValue
+                }
             case soundEffectsSwitch:
-                settings.matrixSoundEffects = (soundEffectsSwitch.state == .on)
+                settings.matrixSoundEffects = (soundEffectsSwitch?.state == .on)
                 
             // Security
             case automaticLockSwitch:
-                settings.enableAutomaticLock = (automaticLockSwitch.state == .on)
+                settings.enableAutomaticLock = (automaticLockSwitch?.state == .on)
                 // Trigger monitoring start/stop
                 let notificationName = settings.enableAutomaticLock ? Notifications.startMonitoring : Notifications.stopMonitoring
                 NotificationCenter.default.post(name: notificationName, object: nil)
             case timeoutSlider:
-                settings.inactivityTimeout = timeoutSlider.doubleValue
+                if let slider = timeoutSlider {
+                    settings.inactivityTimeout = slider.doubleValue
+                }
             case passwordProtectionSwitch:
-                settings.enablePasswordProtection = (passwordProtectionSwitch.state == .on)
+                settings.enablePasswordProtection = (passwordProtectionSwitch?.state == .on)
             case maxAttemptsStepper:
-                settings.maxFailedAttempts = maxAttemptsStepper.integerValue
+                if let stepper = maxAttemptsStepper {
+                    settings.maxFailedAttempts = stepper.integerValue
+                }
             case lockoutDurationSlider:
-                settings.lockoutDuration = lockoutDurationSlider.doubleValue
+                if let slider = lockoutDurationSlider {
+                    settings.lockoutDuration = slider.doubleValue
+                }
             default:
                 break
             }
@@ -131,6 +147,7 @@ class SettingsViewController: NSViewController {
     }
 
     @IBAction func setPasswordClicked(_ sender: NSButton) {
+        guard let passwordField = passwordField else { return }
         let password = passwordField.stringValue
         if !password.isEmpty {
             UserSettings.shared.setPassword(password)
@@ -143,7 +160,7 @@ class SettingsViewController: NSViewController {
     
     private func updateLockoutLabel(duration: TimeInterval) {
         let minutes = Int(duration / 60)
-        lockoutDurationLabel.stringValue = "\(minutes) min lockout"
+        lockoutDurationLabel?.stringValue = "\(minutes) min lockout"
     }
     
     private func showRestartAlert() {
