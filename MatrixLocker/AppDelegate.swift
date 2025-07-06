@@ -76,9 +76,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Status Item
         let statusTitle = settings.enableAutomaticLock ? "Monitoring Active (\(Int(settings.inactivityTimeout))s)" : "Monitoring Disabled"
-        let statusItem = NSMenuItem(title: statusTitle, action: nil, keyEquivalent: "")
-        statusItem.isEnabled = false
-        menu.addItem(statusItem)
+        let statusMenuItem = NSMenuItem(title: statusTitle, action: nil, keyEquivalent: "")
+        statusMenuItem.isEnabled = false
+        menu.addItem(statusMenuItem)
         
         menu.addItem(NSMenuItem.separator())
 
@@ -100,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Quit
         menu.addItem(NSMenuItem(title: "Quit MatrixLocker", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
-        statusItem?.menu = menu
+        self.statusItem?.menu = menu
         updateStatusItemIcon()
     }
     
