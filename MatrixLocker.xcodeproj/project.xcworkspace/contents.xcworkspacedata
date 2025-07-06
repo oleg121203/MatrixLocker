@@ -7,4 +7,7 @@
    <FileRef
       location = "group:KeychainHelper.swift">
    </FileRef>
+   <FileRef
+      location = "group:SoundManager.swift">
+   </FileRef>
 </Workspace>

@@ -1,5 +1,12 @@
 import Foundation
 import Cocoa
 
-// Your existing code below (assuming originalFile content starts here)
-// Since the original file content is not provided, this is a template including the requested imports.
+/// Відповідає за моніторинг активності користувача та запуск блокування.
+final class ActivityMonitor {
+    func startMonitoring() {
+        // Реалізація моніторингу активності
+    }
+    func stopMonitoring() {
+        // Зупинка моніторингу
+    }
+}
