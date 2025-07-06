@@ -11,6 +11,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         print("🚀 MatrixLocker: Application starting...")
         
+        // CRITICAL: Set activation policy first
+        NSApp.setActivationPolicy(.accessory) // This hides from dock but keeps in menu bar
+        
         // Check system permissions first
         checkSystemPermissions()
         
@@ -18,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         activityMonitor = ActivityMonitor()
 
-        // Apply dock visibility setting
+        // Apply dock visibility setting AFTER initial setup
         updateDockVisibility()
 
         if UserSettings.shared.enableAutomaticLock {
@@ -36,7 +39,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         activityMonitor?.stopMonitoring()
+        
+        // Close all windows
+        if let settingsController = settingsWindowController {
+            settingsController.close()
+        }
+        if let lockController = lockScreenWindowController {
+            lockController.close()
+        }
+        
+        // Remove status item
+        if let statusItem = statusItem {
+            NSStatusBar.system.removeStatusItem(statusItem)
+        }
+        
         NotificationCenter.default.removeObserver(self)
+        print("🔚 MatrixLocker: Application terminating")
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -80,18 +98,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func setupSystemTray() {
         print("🔧 Setting up system tray...")
+        
+        // Create status item
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
-        if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "grid", accessibilityDescription: "MatrixLocker")
-            button.image?.isTemplate = true // Makes it adapt to dark/light mode
-            print("✅ Status item button configured")
-        } else {
-            print("❌ Failed to get status item button")
+        guard let statusItem = statusItem else {
+            print("❌ Failed to create status item")
+            return
         }
+        
+        guard let button = statusItem.button else {
+            print("❌ Failed to get status item button")
+            return
+        }
+        
+        // Set up button
+        button.image = NSImage(systemSymbolName: "grid", accessibilityDescription: "MatrixLocker")
+        button.image?.isTemplate = true // Makes it adapt to dark/light mode
+        button.imageScaling = .scaleProportionallyDown
+        
+        // Alternative fallback image if grid doesn't work
+        if button.image == nil {
+            button.title = "M"
+            button.font = NSFont.boldSystemFont(ofSize: 14)
+        }
+        
+        print("✅ Status item button configured with image: \(button.image != nil)")
         
         updateStatusMenu()
         print("✅ System tray setup complete")
+        
+        // Force menu bar to refresh
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.statusItem?.button?.needsDisplay = true
+        }
     }
     
     private func updateStatusMenu() {
@@ -202,21 +242,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc private func showSettings() {
-        if settingsWindowController == nil {
-            let storyboard = NSStoryboard(name: "Main", bundle: nil)
-            guard let vc = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? SettingsViewController else {
-                return
-            }
-            let window = NSWindow(contentViewController: vc)
-            window.title = "MatrixLocker Settings"
-            window.styleMask = [.titled, .closable, .miniaturizable]
-            window.setContentSize(NSSize(width: 600, height: 400))
-            window.center()
-            settingsWindowController = NSWindowController(window: window)
+        // Close existing settings window if it exists
+        if let existingController = settingsWindowController {
+            existingController.close()
+            settingsWindowController = nil
         }
         
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? SettingsViewController else {
+            print("❌ Could not find SettingsViewController")
+            return
+        }
+        
+        let window = NSWindow(contentViewController: vc)
+        window.title = "MatrixLocker Settings"
+        window.styleMask = [.titled, .closable, .miniaturizable]
+        window.setContentSize(NSSize(width: 600, height: 400))
+        window.center()
+        
+        // Make window closable
+        window.isReleasedWhenClosed = false
+        
+        settingsWindowController = NSWindowController(window: window)
         settingsWindowController?.showWindow(self)
+        
+        // Bring to front
         NSApp.activate(ignoringOtherApps: true)
+        window.makeKeyAndOrderFront(nil)
+        
+        print("✅ Settings window opened")
     }
     
     private func checkSystemPermissions() {
