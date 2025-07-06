@@ -124,7 +124,7 @@ final class LockScreenView: NSView {
         self.toolTip = NSLocalizedString("This area shows the Matrix rain animation.", comment: "")
         
         // Set an accessibility identifier for UI testing and accessibility.
-        self.accessibilityIdentifier = "matrixView"
+        self.setAccessibilityIdentifier("matrixView")
     }
     
     // MARK: - Layout
