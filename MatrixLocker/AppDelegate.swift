@@ -13,6 +13,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         activityMonitor = ActivityMonitor()
 
+        // Apply dock visibility setting
+        updateDockVisibility()
+
         if UserSettings.shared.enableAutomaticLock {
             NotificationCenter.default.post(name: Notifications.startMonitoring, object: nil)
         }
@@ -60,6 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @objc func settingsDidChange() {
         // Refresh the status item to reflect new settings
         updateStatusMenu()
+        updateDockVisibility()
     }
     
     // MARK: - System Tray Setup
@@ -111,6 +115,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    private func updateDockVisibility() {
+        let hideFromDock = UserSettings.shared.hideFromDock
+        if hideFromDock {
+            NSApp.setActivationPolicy(.accessory)
+        } else {
+            NSApp.setActivationPolicy(.regular)
+        }
+    }
+    
     // MARK: - Menu Actions
     
     @objc private func lockScreenNow() {
@@ -137,6 +150,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let window = NSWindow(contentViewController: vc)
             window.title = "MatrixLocker Settings"
             window.styleMask = [.titled, .closable, .miniaturizable]
+            window.setContentSize(NSSize(width: 600, height: 400))
+            window.center()
             settingsWindowController = NSWindowController(window: window)
         }
         
