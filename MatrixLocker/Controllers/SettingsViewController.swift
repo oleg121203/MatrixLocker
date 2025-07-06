@@ -58,7 +58,6 @@ class SettingsViewController: NSViewController {
     }
     
     private func updateUIState() {
-        let settings = UserSettings.shared
 
         // Matrix Labels
         animationSpeedLabel.stringValue = String(format: "%.1fx", animationSpeedSlider.doubleValue)
