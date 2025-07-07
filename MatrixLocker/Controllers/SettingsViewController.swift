@@ -268,15 +268,4 @@ class SettingsViewController: NSViewController {
     }
 }
 
-// Helper class for test delegate
-private class TestScreenDelegate: LockScreenDelegate {
-    private let onUnlock: () -> Void
-    
-    init(onUnlock: @escaping () -> Void) {
-        self.onUnlock = onUnlock
-    }
-    
-    func didUnlockScreen() {
-        onUnlock()
-    }
-}
+
