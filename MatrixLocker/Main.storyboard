@@ -64,7 +64,7 @@
                                             <rect key="frame" x="10" y="33" width="540" height="414"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="character-color-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="character-color-label">
                                                     <rect key="frame" x="20" y="360" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Character Color:" id="character-color-cell">
@@ -81,7 +81,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="color-action"/>
                                                     </connections>
                                                 </colorWell>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-title">
                                                     <rect key="frame" x="20" y="300" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Animation Speed:" id="animation-speed-title-cell">
@@ -98,7 +98,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="speed-action"/>
                                                     </connections>
                                                 </slider>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="animation-speed-label">
                                                     <rect key="frame" x="340" y="300" width="50" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="1.0x" id="animation-speed-label-cell">
@@ -107,7 +107,7 @@
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-title">
                                                     <rect key="frame" x="20" y="260" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Density:" id="density-title-cell">
@@ -124,7 +124,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="density-action"/>
                                                     </connections>
                                                 </slider>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="density-label">
                                                     <rect key="frame" x="340" y="260" width="50" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="70%" id="density-label-cell">
@@ -163,7 +163,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="auto-lock-action"/>
                                                     </connections>
                                                 </button>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-title">
                                                     <rect key="frame" x="20" y="320" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Timeout:" id="timeout-title-cell">
@@ -180,7 +180,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="timeout-action"/>
                                                     </connections>
                                                 </slider>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="timeout-label">
                                                     <rect key="frame" x="340" y="320" width="150" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lock after 60 seconds" id="timeout-label-cell">
@@ -200,7 +200,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="password-protection-action"/>
                                                     </connections>
                                                 </button>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="password-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="password-title">
                                                     <rect key="frame" x="20" y="240" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password:" id="password-title-cell">
@@ -209,7 +209,7 @@
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <secureTextField focusRingType="none" verticalHuggingPriority="750" id="password-field">
+                                                <secureTextField verticalHuggingPriority="750" id="password-field">
                                                     <rect key="frame" x="130" y="235" width="150" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Enter new password" id="password-field-cell">
@@ -232,7 +232,7 @@
                                                         <action selector="setPasswordClicked:" target="B2Y-hE-cKL" id="set-password-action"/>
                                                     </connections>
                                                 </button>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-title">
                                                     <rect key="frame" x="20" y="200" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max Attempts:" id="max-attempts-title-cell">
@@ -249,7 +249,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="max-attempts-action"/>
                                                     </connections>
                                                 </stepper>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="max-attempts-label">
                                                     <rect key="frame" x="160" y="200" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 attempts" id="max-attempts-label-cell">
@@ -258,7 +258,7 @@
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-title">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-title">
                                                     <rect key="frame" x="20" y="160" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Lockout Duration:" id="lockout-duration-title-cell">
@@ -275,7 +275,7 @@
                                                         <action selector="settingDidChange:" target="B2Y-hE-cKL" id="lockout-duration-action"/>
                                                     </connections>
                                                 </slider>
-                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-label">
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lockout-duration-label">
                                                     <rect key="frame" x="340" y="160" width="100" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="5 min lockout" id="lockout-duration-label-cell">
