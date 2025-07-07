@@ -11,6 +11,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         print("🚀 MatrixLocker: Application starting...")
         
+        // Test marker to verify code execution
+        let testFile = NSHomeDirectory() + "/Desktop/MatrixLocker_Debug.txt"
+        try? "Code executed at \(Date())\nXcode can see the changes!".write(toFile: testFile, atomically: true, encoding: .utf8)
+        
         // Check system permissions first
         checkSystemPermissions()
         
