@@ -1,0 +1,23 @@
+{
+    "swift.path": "/usr/bin/swift",
+    "swift.buildPath": "/usr/bin/swift-build",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "files.associations": {
+        "*.swift": "swift",
+        "*.storyboard": "xml",
+        "*.xib": "xml",
+        "*.plist": "xml"
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/build": true,
+        "**/DerivedData": true
+    }
+}
