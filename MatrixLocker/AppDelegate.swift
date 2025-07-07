@@ -135,7 +135,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func updateStatusMenu() {
+        // Clear existing menu to prevent duplicates
         let menu = NSMenu()
+        menu.removeAllItems() // Ensure clean slate
+        
         let settings = UserSettings.shared
         
         // Status Item
@@ -168,8 +171,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Quit
         menu.addItem(NSMenuItem(title: "Quit MatrixLocker", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
+        // Replace the entire menu to prevent duplicates
         self.statusItem?.menu = menu
         updateStatusItemIcon()
+        
+        print("🔄 Menu updated with \(menu.items.count) items")
     }
     
     private func updateStatusItemIcon() {
@@ -195,10 +201,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc private func toggleMonitoring() {
+        let wasEnabled = UserSettings.shared.enableAutomaticLock
         UserSettings.shared.enableAutomaticLock.toggle()
+        
         let notificationName = UserSettings.shared.enableAutomaticLock ? Notifications.startMonitoring : Notifications.stopMonitoring
         NotificationCenter.default.post(name: notificationName, object: nil)
-        updateStatusMenu()
+        
+        // Only update menu if state actually changed
+        if wasEnabled != UserSettings.shared.enableAutomaticLock {
+            updateStatusMenu()
+            print("🔄 Monitoring toggled: \(UserSettings.shared.enableAutomaticLock)")
+        }
     }
     
     @objc private func activateNow() {
@@ -242,10 +255,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc private func showSettings() {
-        // Close existing settings window if it exists
+        // Close and nullify existing settings window if it exists
         if let existingController = settingsWindowController {
             existingController.close()
             settingsWindowController = nil
+            print("🗑️ Closed existing settings window")
         }
         
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -260,10 +274,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setContentSize(NSSize(width: 600, height: 400))
         window.center()
         
-        // Make window closable
-        window.isReleasedWhenClosed = false
+        // Make window closable and properly managed
+        window.isReleasedWhenClosed = true
         
+        // Create new controller
         settingsWindowController = NSWindowController(window: window)
+        
+        // Set delegate to handle window closing
+        window.delegate = self
+        
         settingsWindowController?.showWindow(self)
         
         // Bring to front
@@ -325,6 +344,17 @@ extension AppDelegate: LockScreenDelegate {
         // Restart monitoring if it was enabled
         if UserSettings.shared.enableAutomaticLock {
             activityMonitor?.startMonitoring()
+        }
+    }
+}
+
+// MARK: - NSWindowDelegate
+extension AppDelegate: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        if let window = notification.object as? NSWindow,
+           window === settingsWindowController?.window {
+            settingsWindowController = nil
+            print("🗑️ Settings window controller nullified")
         }
     }
 }
