@@ -11,9 +11,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         print("🚀 MatrixLocker: Application starting...")
         
-        // CRITICAL: Set activation policy first
-        NSApp.setActivationPolicy(.accessory) // This hides from dock but keeps in menu bar
-        
         // Check system permissions first
         checkSystemPermissions()
         
@@ -21,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         activityMonitor = ActivityMonitor()
 
-        // Apply dock visibility setting AFTER initial setup
+        // Apply dock visibility setting - start with regular mode
         updateDockVisibility()
 
         if UserSettings.shared.enableAutomaticLock {
@@ -163,6 +160,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menu.addItem(NSMenuItem.separator())
         
+        // Dock visibility toggle
+        let dockTitle = UserSettings.shared.hideFromDock ? "📱 Show in Dock" : "🫥 Hide from Dock"
+        menu.addItem(NSMenuItem(title: dockTitle, action: #selector(toggleDockVisibility), keyEquivalent: ""))
+        
         // Settings
         menu.addItem(NSMenuItem(title: "Settings...", action: #selector(showSettings), keyEquivalent: ","))
         
@@ -187,10 +188,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func updateDockVisibility() {
         let hideFromDock = UserSettings.shared.hideFromDock
+        
         if hideFromDock {
             NSApp.setActivationPolicy(.accessory)
+            print("🫥 App hidden from dock (accessory mode)")
         } else {
             NSApp.setActivationPolicy(.regular)
+            print("👁️ App visible in dock (regular mode)")
         }
     }
     
@@ -216,6 +220,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc private func activateNow() {
         NotificationCenter.default.post(name: Notifications.activateNow, object: nil)
+    }
+    
+    @objc private func toggleDockVisibility() {
+        UserSettings.shared.hideFromDock.toggle()
+        updateDockVisibility()
+        updateStatusMenu()
+        print("🔄 Dock visibility toggled: hidden = \(UserSettings.shared.hideFromDock)")
     }
     
     @objc private func testMatrixScreensaver() {
@@ -262,6 +273,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print("🗑️ Closed existing settings window")
         }
         
+        // Temporarily switch to regular app to show window properly
+        NSApp.setActivationPolicy(.regular)
+        
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateController(withIdentifier: "SettingsViewController") as? SettingsViewController else {
             print("❌ Could not find SettingsViewController")
@@ -270,12 +284,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let window = NSWindow(contentViewController: vc)
         window.title = "MatrixLocker Settings"
-        window.styleMask = [.titled, .closable, .miniaturizable]
+        window.styleMask = [.titled, .closable, .miniaturizable, .resizable]
         window.setContentSize(NSSize(width: 600, height: 400))
         window.center()
         
-        // Make window closable and properly managed
+        // Make window properly visible
         window.isReleasedWhenClosed = true
+        window.level = .normal
+        window.collectionBehavior = [.managed, .participatesInCycle]
         
         // Create new controller
         settingsWindowController = NSWindowController(window: window)
@@ -283,13 +299,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Set delegate to handle window closing
         window.delegate = self
         
+        // Show window and activate app
         settingsWindowController?.showWindow(self)
-        
-        // Bring to front
         NSApp.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
         
-        print("✅ Settings window opened")
+        print("✅ Settings window opened with title: '\(window.title)'")
     }
     
     private func checkSystemPermissions() {
@@ -354,7 +369,26 @@ extension AppDelegate: NSWindowDelegate {
         if let window = notification.object as? NSWindow,
            window === settingsWindowController?.window {
             settingsWindowController = nil
-            print("🗑️ Settings window controller nullified")
+            
+            // Return to accessory mode when settings window closes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if UserSettings.shared.hideFromDock {
+                    NSApp.setActivationPolicy(.accessory)
+                } else {
+                    NSApp.setActivationPolicy(.regular)
+                }
+            }
+            
+            print("🗑️ Settings window controller nullified, returned to accessory mode")
+        }
+    }
+    
+    func windowDidBecomeKey(_ notification: Notification) {
+        if let window = notification.object as? NSWindow,
+           window === settingsWindowController?.window {
+            // Ensure app is fully active when settings window becomes key
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ Settings window became key")
         }
     }
 }
