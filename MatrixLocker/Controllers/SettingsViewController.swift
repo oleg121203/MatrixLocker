@@ -28,6 +28,11 @@ class SettingsViewController: NSViewController {
     @IBOutlet weak var maxAttemptsLabel: NSTextField?
     @IBOutlet weak var lockoutDurationSlider: NSSlider?
     @IBOutlet weak var lockoutDurationLabel: NSTextField?
+    
+    // Control Buttons
+    @IBOutlet weak var lockScreenNowButton: NSButton?
+    @IBOutlet weak var testMatrixButton: NSButton?
+    @IBOutlet weak var startStopButton: NSButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +64,9 @@ class SettingsViewController: NSViewController {
         passwordProtectionSwitch?.state = settings.enablePasswordProtection ? .on : .off
         maxAttemptsStepper?.integerValue = settings.maxFailedAttempts
         lockoutDurationSlider?.doubleValue = settings.lockoutDuration
+        
+        // Update control buttons
+        updateControlButtons()
     }
     
     private func updateUIState() {
@@ -80,6 +88,13 @@ class SettingsViewController: NSViewController {
         setPasswordButton?.isEnabled = passwordProtectionEnabled
         maxAttemptsStepper?.isEnabled = passwordProtectionEnabled
         lockoutDurationSlider?.isEnabled = passwordProtectionEnabled
+        
+        updateControlButtons()
+    }
+    
+    private func updateControlButtons() {
+        let isMonitoring = UserSettings.shared.enableAutomaticLock
+        startStopButton?.title = isMonitoring ? "⏸️ Stop Monitoring" : "▶️ Start Monitoring"
     }
     
     // MARK: - Actions
@@ -156,6 +171,34 @@ class SettingsViewController: NSViewController {
         }
     }
     
+    @IBAction func lockScreenNowClicked(_ sender: NSButton) {
+        // Trigger lock screen immediately
+        NotificationCenter.default.post(name: Notifications.userDidBecomeInactive, object: nil)
+    }
+    
+    @IBAction func testMatrixClicked(_ sender: NSButton) {
+        // Test matrix screensaver
+        testMatrixScreensaver()
+    }
+    
+    @IBAction func startStopClicked(_ sender: NSButton) {
+        // Toggle monitoring
+        let wasEnabled = UserSettings.shared.enableAutomaticLock
+        UserSettings.shared.enableAutomaticLock.toggle()
+        
+        let notificationName = UserSettings.shared.enableAutomaticLock ? Notifications.startMonitoring : Notifications.stopMonitoring
+        NotificationCenter.default.post(name: notificationName, object: nil)
+        
+        // Update UI to reflect changes
+        automaticLockSwitch?.state = UserSettings.shared.enableAutomaticLock ? .on : .off
+        updateUIState()
+        
+        // Notify other parts of the app
+        NotificationCenter.default.post(name: Notifications.settingsDidChange, object: nil)
+        
+        print("🔄 Monitoring toggled from settings: \(UserSettings.shared.enableAutomaticLock)")
+    }
+    
     // MARK: - Helper Methods
     
     private func updateLockoutLabel(duration: TimeInterval) {
@@ -178,5 +221,62 @@ class SettingsViewController: NSViewController {
         alert.alertStyle = .informational
         alert.addButton(withTitle: "OK")
         alert.runModal()
+    }
+    
+    private func testMatrixScreensaver() {
+        // Create test matrix screensaver window
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateController(withIdentifier: "LockScreenViewController") as? LockScreenViewController else {
+            print("❌ Could not find LockScreenViewController")
+            return
+        }
+        
+        // Create a test window that can be closed with Escape
+        let testWindow = NSWindow(contentViewController: vc)
+        testWindow.styleMask = [.borderless]
+        testWindow.isOpaque = true
+        testWindow.backgroundColor = .black
+        testWindow.level = .normal // Not screen saver level for testing
+        testWindow.setFrame(NSScreen.main!.frame, display: true, animate: false)
+        testWindow.title = "Matrix Screensaver Test (Press ESC to close)"
+        
+        let testWindowController = NSWindowController(window: testWindow)
+        
+        // Override delegate to close on test
+        let testDelegate = TestScreenDelegate { [weak testWindowController] in
+            testWindowController?.close()
+        }
+        vc.delegate = testDelegate
+        
+        testWindowController.showWindow(self)
+        
+        // Add escape key handler for easy exit
+        let monitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak testWindowController] event in
+            if event.keyCode == 53 { // Escape key
+                testWindowController?.close()
+                return nil
+            }
+            return event
+        }
+        
+        // Remove monitor when window closes
+        NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: testWindow, queue: .main) { _ in
+            if let monitor = monitor {
+                NSEvent.removeMonitor(monitor)
+            }
+        }
+    }
+}
+
+// Helper class for test delegate
+private class TestScreenDelegate: LockScreenDelegate {
+    private let onUnlock: () -> Void
+    
+    init(onUnlock: @escaping () -> Void) {
+        self.onUnlock = onUnlock
+    }
+    
+    func didUnlockScreen() {
+        onUnlock()
     }
 }

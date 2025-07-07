@@ -52,6 +52,16 @@ A NSTabView with three tabs:
   - NSSwitch (soundEffectsSwitch)
     - Label: "Enable Sound Effects"
     - Action: settingDidChange:
+  - **Control Buttons Section**:
+    - NSButton (lockScreenNowButton)
+      - Title: "🔒 Lock Screen Now"
+      - Action: lockScreenNowClicked:
+    - NSButton (testMatrixButton)
+      - Title: "🧪 Test Matrix Screensaver"
+      - Action: testMatrixClicked:
+    - NSButton (startStopButton)
+      - Title: "▶️ Start Monitoring" / "⏸️ Stop Monitoring"
+      - Action: startStopClicked:
 
 #### 3. Security Tab
 - **Title**: "Security"
@@ -139,6 +149,9 @@ A NSTabView with three tabs:
 @IBOutlet weak var maxAttemptsLabel: NSTextField!
 @IBOutlet weak var lockoutDurationSlider: NSSlider!
 @IBOutlet weak var lockoutDurationLabel: NSTextField!
+@IBOutlet weak var lockScreenNowButton: NSButton!
+@IBOutlet weak var testMatrixButton: NSButton!
+@IBOutlet weak var startStopButton: NSButton!
 ```
 
 ### Lock Screen View Controller Outlets
