@@ -1,7 +1,17 @@
 # Xcode
 *.xcuserstate
 *.xcuserdatad/
+xcuserdata/
+UserInterfaceState.xcuserstate
+*.xcscmblueprint
+*.xccheckout
 .DS_Store
+
+# Xcode User Data
+**/xcuserdata/
+project.xcworkspace/xcuserdata/
+MatrixLocker.xcodeproj/project.xcworkspace/xcuserdata/
+MatrixLocker.xcworkspace/xcuserdata/
 
 # Build directories
 DerivedData/
