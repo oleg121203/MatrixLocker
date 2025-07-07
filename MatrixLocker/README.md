@@ -1,205 +1,169 @@
-// MatrixLocker.swift
-// MatrixLocker - macOS screen protector with matrix effect and strong password support
+# MatrixLocker
 
-import Cocoa
-import LocalAuthentication
+![MatrixLocker Logo](https://img.shields.io/badge/MatrixLocker-1.0-green)
+![Platform](https://img.shields.io/badge/platform-macOS-blue)
+![Swift](https://img.shields.io/badge/Swift-6.2-orange)
 
-@main
-class AppDelegate: NSObject, NSApplicationDelegate {
-    var statusItem: NSStatusItem!
-    var lockWindowController: LockWindowController!
-    var inactivityTimer: Timer?
-    let inactivityTimeout: TimeInterval = 300 // 5 minutes default
-    let maxFailedAttempts = 5
-    var failedAttempts = 0
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        setupStatusItem()
-        setupLockWindow()
-        setupInactivityTimer()
-    }
-    
-    func setupStatusItem() {
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "lock.shield", accessibilityDescription: "Lock Screen")
-            button.action = #selector(statusItemClicked)
-        }
-        let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: NSLocalizedString("Lock Screen", comment: "Lock screen menu item"), action: #selector(lockScreen), keyEquivalent: "l"))
-        menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: NSLocalizedString("Quit", comment: "Quit menu item"), action: #selector(quit), keyEquivalent: "q"))
-        statusItem.menu = menu
-    }
-    
-    @objc func statusItemClicked() {
-        // Intentionally left empty for menu
-    }
-    
-    @objc func lockScreen() {
-        lockWindowController.showWindow(nil)
-        lockWindowController.window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-        resetFailedAttempts()
-    }
-    
-    @objc func quit() {
-        NSApp.terminate(nil)
-    }
-    
-    func setupLockWindow() {
-        lockWindowController = LockWindowController(windowNibName: "LockWindowController")
-        lockWindowController.delegate = self
-    }
-    
-    func setupInactivityTimer() {
-        inactivityTimer = Timer.scheduledTimer(timeInterval: inactivityTimeout, target: self, selector: #selector(inactivityTimeoutReached), userInfo: nil, repeats: true)
-        NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .mouseMoved]) { [weak self] _ in
-            self?.resetInactivityTimer()
-        }
-        NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .mouseMoved]) { [weak self] event in
-            self?.resetInactivityTimer()
-            return event
-        }
-    }
-    
-    @objc func inactivityTimeoutReached() {
-        lockScreen()
-    }
-    
-    func resetInactivityTimer() {
-        inactivityTimer?.invalidate()
-        inactivityTimer = Timer.scheduledTimer(timeInterval: inactivityTimeout, target: self, selector: #selector(inactivityTimeoutReached), userInfo: nil, repeats: false)
-    }
-    
-    func incrementFailedAttempts() {
-        failedAttempts += 1
-        if failedAttempts >= maxFailedAttempts {
-            lockWindowController.lockOut()
-        }
-    }
-    
-    func resetFailedAttempts() {
-        failedAttempts = 0
-    }
-}
+**MatrixLocker** - це розвинений додаток для macOS, який забезпечує автоматичне блокування екрану з ефектом "Матриці" та надійним захистом паролем.
 
-extension AppDelegate: LockWindowControllerDelegate {
-    func didEnterPassword(_ password: String) {
-        if authenticate(password: password) {
-            lockWindowController.close()
-            resetFailedAttempts()
-        } else {
-            incrementFailedAttempts()
-            lockWindowController.clearPasswordField()
-        }
-    }
-    
-    func authenticate(password: String) -> Bool {
-        guard let storedPassword = KeychainHelper.shared.getPassword() else { return false }
-        return password == storedPassword
-    }
-}
+## ✨ Основні функції
 
-// MARK: - LockWindowControllerDelegate Protocol
+### 🔒 Безпека
+- **Автоматичне блокування** після періоду неактивності
+- **Захист паролем** з підтримкою Touch ID/Face ID
+- **Обмеження спроб** з тимчасовим блокуванням
+- **Шифроване зберігання** паролів у Keychain
 
-protocol LockWindowControllerDelegate: AnyObject {
-    func didEnterPassword(_ password: String)
-}
+### 🎨 Візуальні ефекти
+- **Matrix-стиль анімація** з падаючими символами
+- **Налаштування кольорів** символів
+- **Регулювання швидкості** анімації
+- **Контроль щільності** символів
+- **Звукові ефекти** для дій
 
-// MARK: - LockWindowController
+### 🛠 Управління
+- **Системний трей** з швидким доступом
+- **Гарячі клавіші** для швидкого блокування
+- **Тестування ефектів** без блокування
+- **Гнучкі налаштування** через зручний інтерфейс
 
-class LockWindowController: NSWindowController, NSWindowDelegate {
-    @IBOutlet weak var passwordField: NSSecureTextField!
-    @IBOutlet weak var messageLabel: NSTextField!
-    
-    weak var delegate: LockWindowControllerDelegate?
-    
-    private var lockoutTimer: Timer?
-    private var lockoutDuration: TimeInterval = 30 // seconds
-    
-    override func windowDidLoad() {
-        super.windowDidLoad()
-        window?.level = .mainMenu + 1
-        window?.makeKeyAndOrderFront(nil)
-        window?.isOpaque = false
-        window?.backgroundColor = .black
-        window?.delegate = self
-        passwordField.stringValue = ""
-        messageLabel.stringValue = NSLocalizedString("Enter Password", comment: "Prompt to enter password")
-        setupMatrixEffect()
-    }
-    
-    func setupMatrixEffect() {
-        // Add matrix effect visual here (e.g., CAEmitterLayer or custom animation)
-        // TODO: Implement matrix animation
-    }
-    
-    @IBAction func unlockButtonPressed(_ sender: Any) {
-        let password = passwordField.stringValue
-        delegate?.didEnterPassword(password)
-    }
-    
-    func clearPasswordField() {
-        passwordField.stringValue = ""
-        messageLabel.stringValue = NSLocalizedString("Incorrect Password. Try again.", comment: "Incorrect password message")
-    }
-    
-    func lockOut() {
-        messageLabel.stringValue = NSLocalizedString("Too many attempts. Locked out.", comment: "Lockout message")
-        passwordField.isEnabled = false
-        lockoutTimer = Timer.scheduledTimer(withTimeInterval: lockoutDuration, repeats: false) { [weak self] _ in
-            self?.passwordField.isEnabled = true
-            self?.messageLabel.stringValue = NSLocalizedString("Enter Password", comment: "Prompt to enter password")
-            self?.clearPasswordField()
-        }
-    }
-    
-    func windowShouldClose(_ sender: NSWindow) -> Bool {
-        return false
-    }
-}
- 
-// MARK: - Keychain Helper
+## 🚀 Встановлення
 
-class KeychainHelper {
-    static let shared = KeychainHelper()
-    private init() {}
-    
-    func getPassword() -> String? {
-        let service = "com.example.MatrixLocker"
-        let account = "userPassword"
-        var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                    kSecAttrService as String: service,
-                                    kSecAttrAccount as String: account,
-                                    kSecReturnData as String: true]
-        var item: CFTypeRef?
-        let status = SecItemCopyMatching(query as CFDictionary, &item)
-        
-        if status == errSecSuccess, let data = item as? Data, let password = String(data: data, encoding: .utf8) {
-            return password
-        }
-        return nil
-    }
-    
-    func savePassword(_ password: String) -> Bool {
-        let service = "com.example.MatrixLocker"
-        let account = "userPassword"
-        let data = password.data(using: .utf8)!
-        
-        var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                    kSecAttrService as String: service,
-                                    kSecAttrAccount as String: account]
-        
-        let status = SecItemCopyMatching(query as CFDictionary, nil)
-        if status == errSecSuccess {
-            let attributesToUpdate = [kSecValueData as String: data]
-            let updateStatus = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
-            return updateStatus == errSecSuccess
-        } else {
-            query[kSecValueData as String] = data
-            let addStatus = SecItemAdd(query as CFDictionary, nil)
-            return addStatus == errSecSuccess
-        }
-    }
-}
+### Вимоги
+- macOS 11.0 або новіша
+- Xcode 15.0+ (для збірки з джерельного коду)
+
+### Збірка з джерельного коду
+
+1. **Клонуйте репозиторій:**
+   ```bash
+   git clone https://github.com/oleg121203/MatrixLocker.git
+   cd MatrixLocker
+   ```
+
+2. **Відкрийте проект в Xcode:**
+   ```bash
+   open MatrixLocker.xcodeproj
+   ```
+
+3. **Налаштуйте Interface Builder:**
+   - Прочитайте `SETUP_INSTRUCTIONS.md` для підключення нових кнопок
+   - Підключіть outlets та actions для нових функцій
+
+4. **Зберіть та запустіть:**
+   - Натисніть `Cmd+R` або виберіть Product → Run
+
+## 📱 Використання
+
+### Перший запуск
+1. Надайте дозвіл на доступність (Accessibility) у Системних налаштуваннях
+2. Налаштуйте пароль у вікні Settings
+3. Увімкніть автоматичне моніторування
+
+### Основні дії
+- **Заблокувати зараз:** Клік на іконку в трею → "Lock Screen Now"
+- **Тестувати ефект:** Settings → Matrix → "Test Matrix Screensaver"
+- **Налаштування:** Клік на іконку в трею → "Settings..."
+
+### Нові функції управління (v1.1)
+- **🔒 Lock Screen Now** - миттєве блокування
+- **🧪 Test Matrix Screensaver** - перегляд ефектів (ESC для виходу)
+- **▶️/⏸️ Start/Stop Monitoring** - перемикання моніторування
+
+## ⚙️ Налаштування
+
+### Загальні
+- ✅ Запуск при вході в систему
+- 🫥 Приховати з Dock
+- 📱 Запуск у згорнутому вигляді
+
+### Matrix ефекти
+- 🎨 Колір символів
+- ⚡ Швидкість анімації (0.1x - 2.0x)
+- 📏 Щільність символів (10% - 100%)
+- 🔊 Звукові ефекти
+
+### Безпека
+- 🔄 Автоматичне блокування
+- ⏰ Таймаут неактивності (10-300 сек)
+- 🔐 Захист паролем
+- 🚫 Максимум спроб (3-10)
+- ⏱️ Тривалість блокування (1-60 хв)
+
+## 🛠 Розробка
+
+### Структура проекту
+```
+MatrixLocker/
+├── AppDelegate.swift          # Головний додаток
+├── Controllers/
+│   ├── LockScreenViewController.swift
+│   └── SettingsViewController.swift
+├── Models/
+│   └── UserSettings.swift
+├── Utils/
+│   ├── ActivityMonitor.swift
+│   ├── KeychainHelper.swift
+│   ├── LaunchAtLogin.swift
+│   ├── NotificationNames.swift
+│   └── SoundManager.swift
+├── Views/
+│   └── LockScreenView.swift
+└── Assets.xcassets/
+```
+
+### Ключові компоненти
+- **AppDelegate:** Головна логіка додатка та системний трей
+- **LockScreenViewController:** Управління екраном блокування
+- **SettingsViewController:** Інтерфейс налаштувань з новими кнопками
+- **LockScreenView:** Canvas для Matrix ефектів
+- **ActivityMonitor:** Відстеження активності користувача
+
+## 🔧 Налагодження
+
+### Загальні проблеми
+1. **Кнопки не працюють:** Перевірте підключення outlets у Storyboard
+2. **Відсутні дозволи:** Надайте доступ у Privacy & Security
+3. **Тест не закривається:** Натисніть ESC для виходу
+
+### Логи
+Дивіться Console.app для повідомлень з тегами:
+- `🚀` - Запуск додатка
+- `🔄` - Зміни налаштувань
+- `🔒/🔓` - Блокування/розблокування
+- `❌` - Помилки
+
+## 📋 Історія версій
+
+### v1.1 (Поточна)
+- ➕ Додано кнопки управління в налаштуваннях
+- 🧪 Режим тестування Matrix ефектів
+- ⚡ Покращене управління моніторуванням
+- 📚 Детальна документація
+
+### v1.0
+- 🎉 Перший реліз
+- 🔒 Базове блокування екрану
+- 🎨 Matrix ефекти
+- ⚙️ Система налаштувань
+
+## 🤝 Участь у розробці
+
+Ми вітаємо внески! Будь ласка:
+1. Fork репозиторію
+2. Створіть feature branch
+3. Зробіть ваші зміни
+4. Напишіть тести
+5. Відправте Pull Request
+
+## 📄 Ліцензія
+
+Цей проект доступний під [MIT License](LICENSE).
+
+## 👨‍💻 Автор
+
+**Олег** - [oleg121203](https://github.com/oleg121203)
+
+---
+
+⭐ Поставте зірку, якщо проект вам сподобався!
